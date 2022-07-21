@@ -6,10 +6,24 @@ import TabNavigator from "./TabNavigator";
 import GetRideScreen from "../screens/GetRideScreen";
 import { headerStyle } from "../style/Style";
 import SuggessionScreen from "../screens/SuggessionScreen";
+import LandingScreen from "../screens/LandingScreen";
+import SignInScreen from "../screens/SignInScreen";
+import OTPScreen from "../screens/OTPScreen";
+import { CarState } from "../context/CarContext";
 
-const StackNavigator = () => {
-  const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 
+const authStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="Sign In" component={SignInScreen} />
+      <Stack.Screen name="OTP" component={OTPScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const appStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Group screenOptions={{ headerShown: false }}>
@@ -41,6 +55,12 @@ const StackNavigator = () => {
       </Stack.Group>
     </Stack.Navigator>
   );
+};
+
+const StackNavigator = () => {
+  const { user } = CarState();
+
+  return user ? appStack() : authStack();
 };
 
 export default StackNavigator;

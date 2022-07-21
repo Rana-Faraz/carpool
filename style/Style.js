@@ -1,5 +1,9 @@
 import { lightModColor } from "../style/Color";
 
+export const center = {
+  justifyContent: "center",
+  alignItems: "center",
+};
 export const btn = {
   padding: 20,
   width: "60%",
