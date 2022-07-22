@@ -28,8 +28,9 @@ const GlobalChatScreen = () => {
   const { height, width } = Dimensions.get("window");
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, width: "100%" }}
-      behavior={"padding"}
+      style={{ flex: 1 }}
+      behavior={"height"}
+      keyboardVerticalOffset={90}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={{ flex: 1, width: "100%" }}>
