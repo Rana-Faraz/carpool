@@ -5,7 +5,7 @@ const CarContext = React.createContext();
 
 //create a provider for user context
 export function UserProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(true);
 
   return (
     <CarContext.Provider value={{ user, setUser }}>

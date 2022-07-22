@@ -32,6 +32,7 @@ const SignInScreen = () => {
             text: "Yes",
             onPress: () => {
               sendSmsVerification(formattedValue)
+                .then(setIsLoading(true))
                 .then((sent) => {
                   console.log(sent);
                   Navigation.navigate("OTP", { phone: formattedValue });
@@ -64,6 +65,7 @@ const SignInScreen = () => {
         >
           <Text>Enter Phone Number</Text>
           <PhoneInput
+            disabled={isLoading}
             containerStyle={{ width: "100%" }}
             ref={phoneInput}
             defaultValue={value}
@@ -83,7 +85,10 @@ const SignInScreen = () => {
         <View style={center}>
           <TouchableOpacity
             disabled={!formattedValue}
-            style={[btn, { opacity: formattedValue ? 1 : 0.5 }]}
+            style={[
+              btn,
+              { opacity: formattedValue ? 1 : 0.5 || isLoading ? 0.5 : 1 },
+            ]}
             onPress={sendOTP}
           >
             <Text style={btnText}>Send Code</Text>

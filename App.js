@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import StackNavigator from "./navigations/StackNavigator";
 import "react-native-gesture-handler";
 import { UserProvider } from "./context/CarContext";
+import OTPScreen from "./screens/OTPScreen";
 
 export default function App() {
   return (
