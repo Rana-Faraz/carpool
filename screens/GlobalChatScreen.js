@@ -26,7 +26,6 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import { useKeyboard } from "@react-native-community/hooks";
 import { lightModColor } from "../style/Color";
 import ChatBubble from "../components/ChatBubble";
 import { db } from "../api/firebase";
@@ -38,7 +37,6 @@ import LoadingScreen from "./LoadingScreen";
 const GlobalChatScreen = () => {
   const _scrollView = React.useRef(null);
   const { user, userDoc } = CarState();
-  const keyboard = useKeyboard();
   const { height, width } = Dimensions.get("window");
 
   const [text, setText] = React.useState("");

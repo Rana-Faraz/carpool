@@ -33,12 +33,12 @@ const Home = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[btn, { marginTop: 20, backgroundColor: "#FFff" }]}
+        onPress={() => Navigation.navigate("offerRide")}
       >
         <Text
           style={
             ([btnText], { color: "#000", textAlign: "center", fontSize: 20 })
           }
-          onPress={() => Navigation.navigate("offerRide")}
         >
           Offer Ride
         </Text>
