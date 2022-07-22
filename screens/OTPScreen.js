@@ -25,6 +25,8 @@ import { CarState } from "../context/CarContext";
 import { btn, btnText, center } from "../style/Style";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../api/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { lightModColor } from "../style/Color";
 
 const OTPScreen = ({ route, navigation }) => {
   const Navigation = useNavigation();
@@ -32,7 +34,7 @@ const OTPScreen = ({ route, navigation }) => {
   const { phone } = route.params;
   const [invalidCode, setInvalidCode] = React.useState(false);
 
-  function createDocument() {
+  const createDocument = async () => {
     const myDoc = doc(db, "Users-Data", phone);
     const docData = {
       phone: phone,
@@ -45,7 +47,12 @@ const OTPScreen = ({ route, navigation }) => {
     setDoc(myDoc, docData).catch((error) => {
       console.log(error.message);
     });
-  }
+    try {
+      await AsyncStorage.setItem("user", JSON.stringify(phone));
+    } catch {
+      (err) => console.log(err.message);
+    }
+  };
 
   function verifyOTP(phone, code) {
     checkVerification(phone, code)
@@ -111,6 +118,6 @@ const styles = StyleSheet.create({
   },
 
   underlineStyleHighLighted: {
-    borderColor: "#03DAC6",
+    borderColor: lightModColor.themeBackground,
   },
 });

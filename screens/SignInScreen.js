@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Keyboard,
   StyleSheet,
@@ -19,6 +20,7 @@ const SignInScreen = () => {
   const phoneInput = useRef(null);
   const [value, setValue] = useState("");
   const [formattedValue, setFormattedValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendOTP = () => {
     const isValid = phoneInput.current?.isValidNumber(value);
@@ -31,8 +33,8 @@ const SignInScreen = () => {
           {
             text: "Yes",
             onPress: () => {
+              setIsLoading(true);
               sendSmsVerification(formattedValue)
-                .then(setIsLoading(true))
                 .then((sent) => {
                   console.log(sent);
                   Navigation.navigate("OTP", { phone: formattedValue });
@@ -84,14 +86,29 @@ const SignInScreen = () => {
         </View>
         <View style={center}>
           <TouchableOpacity
-            disabled={!formattedValue}
+            disabled={!formattedValue || isLoading}
             style={[
               btn,
               { opacity: formattedValue ? 1 : 0.5 || isLoading ? 0.5 : 1 },
             ]}
             onPress={sendOTP}
           >
-            <Text style={btnText}>Send Code</Text>
+            {isLoading ? (
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ActivityIndicator
+                  style={btnText}
+                  size={"small"}
+                  color="white"
+                />
+              </View>
+            ) : (
+              <Text style={btnText}>Send Code</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

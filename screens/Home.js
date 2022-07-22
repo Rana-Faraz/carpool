@@ -1,15 +1,26 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { db } from "../api/firebase";
+import { CarState } from "../context/CarContext";
+import { lightModColor } from "../style/Color";
 import { btn, btnText } from "../style/Style";
 
 const Home = () => {
   const Navigation = useNavigation();
+  const { user, setUser, setUserDoc, userDoc } = CarState();
+  const [data, setData] = React.useState(null);
+
+  useEffect(() => {
+    if (userDoc.name == "") {
+      Navigation.navigate("UserInfo");
+    }
+  }, [userDoc]);
 
   return (
     <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
-      <StatusBar style="light" />
       <TouchableOpacity
         style={btn}
         onPress={() =>
@@ -32,6 +43,8 @@ const Home = () => {
           Offer Ride
         </Text>
       </TouchableOpacity>
+
+      <StatusBar style="light" animated />
     </View>
   );
 };
