@@ -53,3 +53,17 @@ export const availableRideHeading = {
   marginBottom: 10,
   fontStyle: "normal",
 };
+
+export const dropDownStyle = {
+  width: "100%",
+  height: 43,
+  borderColor: "#4444",
+  borderWidth: 0.5,
+  borderRadius: 5,
+  backgroundColor: "#ffff",
+  shadowColor: "black",
+  shadowOpacity: 0.1,
+  shadowOffset: { width: 0, height: 0 },
+  shadowRadius: 3,
+  elevation: 5,
+};
