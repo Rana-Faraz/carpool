@@ -16,7 +16,8 @@ const AvailableRideItems = () => {
       style={{
         backgroundColor: "#ffff",
         margin: 10,
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 15,
         borderRadius: 10,
       }}
     >
@@ -42,31 +43,33 @@ const AvailableRideItems = () => {
           <Text style={{ fontSize: 15, fontWeight: "bold" }}>Rs.9000</Text>
         </View>
       </View>
-      <View
-        style={[row, { justifyContent: "flex-start", alignItems: "center" }]}
-      >
-        <View style={{ marginTop: 6 }}>
+      <View style={{ paddingVertical: 10 }}>
+        <View style={[row, { justifyContent: "flex-start" }]}>
           <Octicons
             name="dot-fill"
             size={40}
             color={lightModColor.themeBackground}
+            // style={{ paddingTop: 4 }}
           />
+          <Text style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}>
+            Wabdha Town, Thokar, Lahore
+          </Text>
+        </View>
+        <View>
           <Entypo
             name="dots-three-vertical"
             size={20}
             color={lightModColor.themeBackground}
           />
+        </View>
+        <View style={[row, { justifyContent: "flex-start" }]}>
           <Octicons
             name="dot-fill"
             size={40}
             color={lightModColor.themeBackground}
+            // style={{ paddingTop: 4 }}
           />
-        </View>
-        <View style={{ paddingLeft: 15 }}>
-          <Text style={{ marginBottom: 33, fontSize: 18 }}>
-            Wabdha Town, Thokar, Lahore
-          </Text>
-          <Text style={{ fontSize: 18 }}>
+          <Text style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}>
             Sirinagar Highway, F-9, Islamabad
           </Text>
         </View>
@@ -110,7 +113,7 @@ const AvailableRideItems = () => {
           3PM
         </Text>
       </View>
-      <View style={[itemCenter, { marginVertical: 15 }]}>
+      <View style={[itemCenter, { marginVertical: 10 }]}>
         <TouchableOpacity style={[btn, { padding: 8, width: "100%" }]}>
           <Text style={[btnText]}>Book Now</Text>
         </TouchableOpacity>

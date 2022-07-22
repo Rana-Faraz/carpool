@@ -1,8 +1,7 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { lightModColor } from "../style/Color";
-import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { btn, btnText } from "../style/Style";
 
 const Home = () => {
@@ -13,7 +12,11 @@ const Home = () => {
       <StatusBar style="light" />
       <TouchableOpacity
         style={btn}
-        onPress={() => Navigation.navigate("getRide")}
+        onPress={() =>
+          Navigation.navigate("getRide", {
+            id: "get",
+          })
+        }
       >
         <Text style={btnText}>Get Ride</Text>
       </TouchableOpacity>
@@ -24,6 +27,7 @@ const Home = () => {
           style={
             ([btnText], { color: "#000", textAlign: "center", fontSize: 20 })
           }
+          onPress={() => Navigation.navigate("offerRide")}
         >
           Offer Ride
         </Text>

@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { btn, btnText, center } from "../style/Style";
 import PhoneInput from "react-native-phone-number-input";
 import { useNavigation } from "@react-navigation/native";
@@ -17,9 +17,8 @@ const SignInScreen = () => {
   const Navigation = useNavigation();
 
   const phoneInput = useRef(null);
-  const [value, setValue] = React.useState("");
-  const [formattedValue, setFormattedValue] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [value, setValue] = useState("");
+  const [formattedValue, setFormattedValue] = useState("");
 
   const sendOTP = () => {
     const isValid = phoneInput.current?.isValidNumber(value);

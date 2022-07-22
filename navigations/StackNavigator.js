@@ -6,6 +6,7 @@ import TabNavigator from "./TabNavigator";
 import GetRideScreen from "../screens/GetRideScreen";
 import { headerStyle } from "../style/Style";
 import SuggessionScreen from "../screens/SuggessionScreen";
+import OfferRideScreen from "../screens/OfferRideScreen";
 import LandingScreen from "../screens/LandingScreen";
 import SignInScreen from "../screens/SignInScreen";
 import OTPScreen from "../screens/OTPScreen";
@@ -46,10 +47,16 @@ const appStack = () => {
             headerTitle: "Available Ride",
             headerStyle: headerStyle,
             headerTintColor: "#ffff",
-            // headerTitleStyle: {
-            //   fontSize: 17,
-            // },
             headerTitleAlign: "center",
+          }}
+        />
+        <Stack.Screen
+          name="offerRide"
+          component={OfferRideScreen}
+          options={{
+            headerTitle: "Offer Ride",
+            headerStyle: headerStyle,
+            headerTintColor: "#ffff",
           }}
         />
       </Stack.Group>

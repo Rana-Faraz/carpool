@@ -20,6 +20,7 @@ const TabNavigator = () => {
         headerTitleAlign: "center",
         // headerTitle: "Share Ride",
         headerShadowVisible: true,
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tab.Screen

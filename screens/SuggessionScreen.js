@@ -1,34 +1,22 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { FontAwesome } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { Zocial } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import AvailableRideItems from "../components/AvailableRideItems";
+import PickandDropForm from "../components/PickandDropForm";
+import { lightModColor } from "../style/Color";
 import {
   availableRideHeading,
   availableRideLocaBox,
-  btn,
-  btnText,
-  itemCenter,
   row,
 } from "../style/Style";
-import { MaterialIcons } from "@expo/vector-icons";
-import { lightModColor } from "../style/Color";
-import { Octicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import AvailableRideItems from "../components/AvailableRideItems";
-import { ScrollView } from "react-native-gesture-handler";
 
 const SuggessionScreen = () => {
   //Navigation Properties
   const route = useRoute();
   const { pickUpLoca, dropLoca } = route.params;
   const Navigation = useNavigation();
-
-  //   //Dynamic Header title
-  //   Navigation.setOptions({
-  //     headerTitle: "Available Ride",
-  //   });
 
   //Data object
   let date = new Date();
@@ -40,26 +28,11 @@ const SuggessionScreen = () => {
           <Text style={[availableRideHeading]}>
             {"From " + date.getDate() + " " + "Jul" + " " + date.getFullYear()}
           </Text>
-          <View style={[row, availableRideLocaBox]}>
-            <MaterialIcons
-              name="my-location"
-              size={20}
-              color={lightModColor.themeBackground}
-            />
-            <Text style={{ marginLeft: 10, textTransform: "capitalize" }}>
-              {pickUpLoca}
-            </Text>
-          </View>
-          <View style={[row, availableRideLocaBox]}>
-            <MaterialIcons
-              name="location-on"
-              size={20}
-              color={lightModColor.themeBackground}
-            />
-            <Text style={{ marginLeft: 10, textTransform: "capitalize" }}>
-              {dropLoca}
-            </Text>
-          </View>
+          <PickandDropForm
+            pickUpLoca={pickUpLoca}
+            dropLoca={dropLoca}
+            route={"get"}
+          />
         </View>
 
         <View style={[row, { paddingVertical: 10, paddingHorizontal: 20 }]}>
@@ -80,10 +53,6 @@ const SuggessionScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <AvailableRideItems />
-        <AvailableRideItems />
-        <AvailableRideItems />
-        <AvailableRideItems />
         <AvailableRideItems />
       </View>
     </ScrollView>

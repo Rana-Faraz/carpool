@@ -1,13 +1,15 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { lightModColor } from "../style/Color";
 import { btn, btnText, itemCenter } from "../style/Style";
 
 const GetRideScreen = () => {
   const Navigation = useNavigation();
+  const route = useRoute();
+  const { id } = route.params;
 
   const [pickUp, setPickUp] = useState();
   const [dropIn, setDropIn] = useState();
@@ -86,10 +88,15 @@ const GetRideScreen = () => {
         <TouchableOpacity
           style={btn}
           onPress={() =>
-            Navigation.navigate("suggession", {
-              pickUpLoca: pickUp,
-              dropLoca: dropIn,
-            })
+            id === "get"
+              ? Navigation.navigate("suggession", {
+                  pickUpLoca: pickUp,
+                  dropLoca: dropIn,
+                })
+              : Navigation.navigate("offerRide", {
+                  pickUpLoca: pickUp,
+                  dropLoca: dropIn,
+                })
           }
           disabled={!pickUp || !dropIn}
         >
@@ -101,5 +108,3 @@ const GetRideScreen = () => {
 };
 
 export default GetRideScreen;
-
-const styles = StyleSheet.create({});
