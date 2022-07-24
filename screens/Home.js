@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     if (userDoc.name == "") {
-      Navigation.navigate("UserInfo");
+      Navigation.replace("UserInfo");
     }
   }, [userDoc]);
 
