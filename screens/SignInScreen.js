@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Dimensions,
   Keyboard,
   StyleSheet,
   Text,
@@ -18,6 +19,7 @@ import { btn, btnText, heading } from "../style/Style";
 
 const SignInScreen = () => {
   const Navigation = useNavigation();
+  const { height, width } = Dimensions.get("window");
 
   const phoneInput = useRef(null);
   const [value, setValue] = useState("");
@@ -61,13 +63,9 @@ const SignInScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      {/* <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      > */}
       <View
         style={{
-          position: "relative",
-          height: "100%",
+          height,
           backgroundColor: lightModColor.themeBackground,
         }}
       >

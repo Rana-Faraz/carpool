@@ -8,7 +8,9 @@ import {
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import {
+  Button,
   KeyboardAvoidingView,
+  Modal,
   Platform,
   ScrollView,
   StyleSheet,
@@ -43,6 +45,7 @@ const OfferRideScreen = () => {
   const [drop, setDrop] = useState("");
   const [pickupDetail, setPickupDetail] = useState("");
   const [dropDetail, setDropDetail] = useState("");
+  const [currDate, setCurrDate] = useState(new Date());
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [carDeatails, setCarDeatails] = useState("");
@@ -67,9 +70,8 @@ const OfferRideScreen = () => {
   let currentTime = current.getHours() + " : " + current.getMinutes();
 
   const onChangeDate = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || currDate;
     setShow(Platform.OS === "ios");
-
     let temDate = new Date(currentDate);
     let fDate =
       temDate.getDate() +
@@ -77,7 +79,12 @@ const OfferRideScreen = () => {
       (temDate.getMonth() + 1) +
       "-" +
       temDate.getFullYear();
+
+    setCurrDate(currentDate);
+    console.log(currDate);
+
     setDate(fDate);
+    console.log(date);
   };
   const onChangeTime = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -212,6 +219,45 @@ const OfferRideScreen = () => {
           Date & Time
         </Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Button onPress={() => setShow(true)} title="MODAL" />
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={show}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setShow(!show);
+            }}
+          >
+            <View
+              style={[
+                styles.centeredView,
+                {
+                  backgroundColor: lightModColor.themeBackground,
+                  height: "40%",
+                  position: "absolute",
+                  width: "100%",
+                  right: 0,
+                  bottom: 0,
+                },
+              ]}
+            >
+              <RNDateTimePicker
+                accentColor="red"
+                display="spinner"
+                style={{
+                  width: "100%",
+                  backgroundColor: lightModColor.themeBackground,
+                }}
+                value={currDate}
+                mode={mode}
+                onChange={mode == "date" ? onChangeDate : onChangeTime}
+                // style={{ backgroundColor: lightModColor.themeBackground }}
+                themeVariant={"dark"}
+              />
+              <Button onPress={() => setShow(false)} title="close" />
+            </View>
+          </Modal>
           {show && (
             <RNDateTimePicker
               value={new Date()}

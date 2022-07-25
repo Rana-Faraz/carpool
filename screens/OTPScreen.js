@@ -1,5 +1,6 @@
 import {
   Alert,
+  Dimensions,
   Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
@@ -36,6 +37,8 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 const OTPScreen = ({ route, navigation }) => {
   const Navigation = useNavigation();
+  const { height, width } = Dimensions.get("window");
+
   const { setUser } = CarState();
   const { phone } = route.params;
   const [invalidCode, setInvalidCode] = React.useState(false);
@@ -93,7 +96,7 @@ const OTPScreen = ({ route, navigation }) => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View
         style={{
-          height: "100%",
+          height,
           backgroundColor: lightModColor.themeBackground,
         }}
       >
@@ -101,7 +104,7 @@ const OTPScreen = ({ route, navigation }) => {
           <TouchableOpacity
             style={{
               position: "absolute",
-              top: 40,
+              top: 60,
               paddingLeft: 5,
               left: -10,
             }}

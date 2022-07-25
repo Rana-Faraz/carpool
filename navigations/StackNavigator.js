@@ -151,10 +151,18 @@ const appStack = () => {
   );
 };
 
-const StackNavigator = () => {
-  const { user } = CarState();
+const LoadingStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Loading" component={LoadingScreen} />
+    </Stack.Navigator>
+  );
+};
 
-  return user ? appStack() : authStack();
+const StackNavigator = () => {
+  const { user, isLoading } = CarState();
+
+  return isLoading ? LoadingStack() : user ? appStack() : authStack();
 };
 
 export default StackNavigator;

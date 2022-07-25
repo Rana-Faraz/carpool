@@ -7,7 +7,7 @@ export const center = {
 export const heading = {
   color: lightModColor.headerFontColor,
   textAlign: "left",
-  fontSize: 34,
+  fontSize: 30,
   fontWeight: "bold",
   fontFamily: "MonBold",
 };

@@ -50,7 +50,7 @@ const GlobalChatScreen = () => {
   useEffect(() => {
     setIsLoading(true);
     const collectionRef = collection(db, "messages");
-    const q = query(collectionRef, orderBy("createdAt", "desc"));
+    const q = query(collectionRef, orderBy("createdAt", "asc"));
 
     const unsub = onSnapshot(q, (snapshot) => {
       console.log("snapshot");
@@ -76,9 +76,14 @@ const GlobalChatScreen = () => {
       // });
       setIsLoading(false);
     });
+
     // console.log(messages);
     return unsub;
   }, []);
+
+  useEffect(() => {
+    _scrollView.current.scrollToEnd({ animated: true });
+  }, [messages]);
 
   const onSend = () => {
     var date = new Date();
@@ -97,7 +102,7 @@ const GlobalChatScreen = () => {
       Alert.alert("Error", error.message);
     });
     setText("");
-    _scrollView.current.scrollTo({ y: 0, animated: true });
+    _scrollView.current.scrollToEnd({ animated: true });
   };
   return (
     <>
@@ -138,6 +143,9 @@ const GlobalChatScreen = () => {
                   </Text>
                 </View>
                 <ScrollView
+                  onLayout={() =>
+                    _scrollView.current.scrollToEnd({ animated: false })
+                  }
                   ref={_scrollView}
                   style={{
                     marginBottom: 100,

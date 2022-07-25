@@ -8,6 +8,7 @@ const CarContext = React.createContext();
 
 //create a provider for user context
 export function UserProvider({ children }) {
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState();
   const [userDoc, setUserDoc] = useState(null);
 
@@ -33,12 +34,15 @@ export function UserProvider({ children }) {
   const asyncUser = () => {
     AsyncStorage.getItem("user")
       .then((v) => (v ? setUser(JSON.parse(v)) : setUser("")))
+      .then(() => setIsLoading(false))
       .catch((e) => console.log(e));
   };
 
   console.log(user);
   return (
-    <CarContext.Provider value={{ user, setUser, userDoc, setUserDoc }}>
+    <CarContext.Provider
+      value={{ user, setUser, userDoc, setUserDoc, isLoading }}
+    >
       {children}
     </CarContext.Provider>
   );
