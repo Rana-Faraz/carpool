@@ -16,6 +16,15 @@ import { sendSmsVerification } from "../api/verify";
 
 const SignInScreen = () => {
   const Navigation = useNavigation();
+  // const [loaded] = useFonts({
+  //   MonLight: require("../assets/fonts/Montserrat-Light.ttf"),
+  //   MonRegular: require("../assets/fonts/Montserrat-Regular.ttf"),
+  //   MonMedium: require("../assets/fonts/Montserrat-Medium.ttf"),
+  //   MonBold: require("../assets/fonts/Montserrat-Bold.ttf"),
+  // });
+  // if (!loaded) {
+  //   return null;
+  // }
 
   const phoneInput = useRef(null);
   const [value, setValue] = useState("");
@@ -65,7 +74,7 @@ const SignInScreen = () => {
         <View
           style={[center, { height: "50%", justifyContent: "space-evenly" }]}
         >
-          <Text>Enter Phone Number</Text>
+          <Text style={{ fontFamily: "MonRegular" }}>Enter Phone Number</Text>
           <PhoneInput
             disabled={isLoading}
             containerStyle={{ width: "100%" }}
