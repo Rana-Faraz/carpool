@@ -32,7 +32,6 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../api/firebase";
 import { CarState } from "../context/CarContext";
 import { useNavigation } from "@react-navigation/native";
-import DatePicker from "react-native-date-picker";
 
 // import { MaterialIcons } from "@expo/vector-icons";
 
@@ -44,7 +43,7 @@ const OfferRideScreen = () => {
   const [drop, setDrop] = useState("");
   const [pickupDetail, setPickupDetail] = useState("");
   const [dropDetail, setDropDetail] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [carDeatails, setCarDeatails] = useState("");
   const [seats, setSeats] = useState(1);
@@ -221,13 +220,12 @@ const OfferRideScreen = () => {
               color={lightModColor.themeBackground}
             />
           </Text>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={[availableRideLocaBox, { width: "41%" }]}
             onPress={() => showMode("date")}
           >
             <Text>{date ? date : currenDate}</Text>
-          </TouchableOpacity> */}
-          <DatePicker date={date} onDateChange={setDate} />
+          </TouchableOpacity>
           <Text style={{ marginHorizontal: 5 }}>
             <Ionicons
               name="time-outline"
