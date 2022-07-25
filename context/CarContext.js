@@ -1,7 +1,7 @@
 //create a context api for user
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { doc, getDoc } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { db } from "../api/firebase";
 
 const CarContext = React.createContext();
@@ -27,12 +27,16 @@ export function UserProvider({ children }) {
         });
     }
   }, [user]);
+  useLayoutEffect(() => {
+    asyncUser();
+  }, []);
   const asyncUser = () => {
     AsyncStorage.getItem("user")
-      .then((v) => (v ? setUser(v) : setUser("")))
+      .then((v) => (v ? setUser(JSON.parse(v)) : setUser("")))
       .catch((e) => console.log(e));
   };
 
+  console.log(user);
   return (
     <CarContext.Provider value={{ user, setUser, userDoc, setUserDoc }}>
       {children}

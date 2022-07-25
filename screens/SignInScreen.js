@@ -20,8 +20,8 @@ const SignInScreen = () => {
   const Navigation = useNavigation();
 
   const phoneInput = useRef(null);
-  const [value, setValue] = useState("3464626166");
-  const [formattedValue, setFormattedValue] = useState("+923464626166");
+  const [value, setValue] = useState("");
+  const [formattedValue, setFormattedValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const sendOTP = () => {
@@ -38,7 +38,9 @@ const SignInScreen = () => {
               setIsLoading(true);
               sendSmsVerification(formattedValue)
                 .then((sent) => {
-                  Navigation.navigate("OTP", { phone: formattedValue });
+                  if (sent) {
+                    Navigation.navigate("OTP", { phone: formattedValue });
+                  }
                   console.log(sent);
                 })
                 .catch((err) => {
