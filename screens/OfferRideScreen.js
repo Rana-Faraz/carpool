@@ -74,9 +74,14 @@ const OfferRideScreen = () => {
     setMode(currentMode);
   };
 
+  console.log(pickup);
+
   return (
     <ScrollView>
-      <KeyboardAvoidingView style={{ padding: 10 }}>
+      <KeyboardAvoidingView
+        style={{ padding: 10 }}
+        // behavior={Platform.OS === "android" ? "height" : "padding"}
+      >
         <Text
           style={[availableRideHeading, { textAlign: "left", marginBottom: 5 }]}
         >
@@ -96,7 +101,7 @@ const OfferRideScreen = () => {
           <TextInput
             style={{ marginLeft: 5, width: "90%" }}
             placeholder="Pick up Location"
-            onChange={setPickup}
+            onChangeText={(value) => setPickup(value)}
           />
         </View>
         <View
@@ -118,7 +123,7 @@ const OfferRideScreen = () => {
           <TextInput
             style={{ marginLeft: 5, width: "90%" }}
             placeholder="Drop Location"
-            onChange={(value) => setDrop(value)}
+            onChangeText={(value) => setDrop(value)}
           />
         </View>
         <Text
@@ -135,13 +140,13 @@ const OfferRideScreen = () => {
             <TextInput
               style={[availableRideLocaBox, { marginBottom: 5, height: 43 }]}
               placeholder="Detailed Pickup Location"
-              onChange={(value) => setPickupDetail(value)}
+              onChangeText={(value) => setPickupDetail(value)}
             />
             <Text>To</Text>
             <TextInput
               style={[availableRideLocaBox, { height: 43 }]}
               placeholder="Detailed Drop Location"
-              onChange={(value) => setDropDetail(value)}
+              onChangeText={(value) => setDropDetail(value)}
             />
           </View>
         </View>
@@ -211,7 +216,7 @@ const OfferRideScreen = () => {
               { height: 43, width: "92%", marginLeft: 5 },
             ]}
             placeholder="Make/Model/Year"
-            onChange={(value) => setCarDeatails(value)}
+            onChangeText={(value) => setCarDeatails(value)}
           />
         </View>
         <View
@@ -314,20 +319,40 @@ const OfferRideScreen = () => {
         <TextInput
           style={[availableRideLocaBox, { height: 70 }]}
           placeholder="Add some additional details"
-          onChange={(value) => setComments(value)}
+          onChangeText={(value) => setComments(value)}
         />
         <TouchableOpacity
-          style={[btn, { width: "100%", padding: 10, marginTop: 15 }]}
+          style={[
+            btn,
+            {
+              width: "100%",
+              padding: 10,
+              marginTop: 15,
+              opacity:
+                pickup === "" ||
+                drop === "" ||
+                pickupDetail === "" ||
+                dropDetail === "" ||
+                date === "" ||
+                time === "" ||
+                carDeatails === "" ||
+                luggage === "" ||
+                seats === "" ||
+                price === ""
+                  ? 0.5
+                  : 1,
+            },
+          ]}
           disabled={
-            pickup === "" &&
-            drop === "" &&
-            pickupDetail === "" &&
-            dropDetail === "" &&
-            date === "" &&
-            time === "" &&
-            carDeatails === "" &&
-            luggage === "" &&
-            seats === "" &&
+            pickup === "" ||
+            drop === "" ||
+            pickupDetail === "" ||
+            dropDetail === "" ||
+            date === "" ||
+            time === "" ||
+            carDeatails === "" ||
+            luggage === "" ||
+            seats === "" ||
             price === ""
           }
         >

@@ -175,7 +175,7 @@ const GlobalChatScreen = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  marginBottom: Platform.OS === "ios" ? 10 : 0,
+                  marginVertical: 5,
                   marginHorizontal: 10,
                 }}
               >
