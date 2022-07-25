@@ -4,6 +4,13 @@ export const center = {
   justifyContent: "center",
   alignItems: "center",
 };
+export const heading = {
+  color: lightModColor.headerFontColor,
+  textAlign: "left",
+  fontSize: 34,
+  fontWeight: "bold",
+  fontFamily: "MonBold",
+};
 export const btn = {
   padding: 20,
   width: "60%",
