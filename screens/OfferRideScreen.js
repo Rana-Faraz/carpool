@@ -53,10 +53,20 @@ const OfferRideScreen = () => {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
-  // *********** Context Api Objects *************************8
+  // *********** Context Api Objects *************************
   const { userDoc } = CarState();
 
-  const onChange = (event, selectedDate) => {
+  // *************** Date n Time Logics **********************
+  let current = new Date();
+  let currenDate =
+    current.getDate() +
+    "-" +
+    (current.getMonth() + 1) +
+    "-" +
+    current.getFullYear();
+  let currentTime = current.getHours() + " : " + current.getMinutes();
+
+  const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
 
@@ -67,19 +77,18 @@ const OfferRideScreen = () => {
       (temDate.getMonth() + 1) +
       "-" +
       temDate.getFullYear();
-    let ftime = temDate.getHours() + " : " + temDate.getMinutes();
     setDate(fDate);
-    setTime(ftime);
   };
+  const onChangeTime = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
 
-  let current = new Date();
-  let currenDate =
-    current.getDate() +
-    "-" +
-    (current.getMonth() + 1) +
-    "-" +
-    current.getFullYear();
-  let currentTime = current.getHours() + " : " + current.getMinutes("00");
+    let temDate = new Date(currentDate);
+    let ftime = temDate.getHours() + " : " + temDate.getMinutes();
+    let fZone =
+      temDate.getHours() < 12 || temDate.getHours() == 24 ? "AM" : "PM";
+    setTime(ftime + " " + fZone);
+  };
 
   const showMode = (currentMode) => {
     setShow(true);
@@ -207,9 +216,11 @@ const OfferRideScreen = () => {
             <RNDateTimePicker
               value={new Date()}
               mode={mode}
-              onChange={onChange}
+              onChange={mode === "date" ? onChangeDate : onChangeTime}
               // style={{ backgroundColor: lightModColor.themeBackground }}
               themeVariant={"dark"}
+              accentColor="#ffff"
+              minimumDate={new Date()}
             />
           )}
           {/* {showDate && <RNDateTimePicker value={new Date()} mode={"date"} />} */}
