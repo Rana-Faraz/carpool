@@ -35,7 +35,6 @@ const UserInfoScreen = () => {
     } else {
       Alert.alert("Error", "Please enter your name");
     }
-    Navigation.goBack();
   };
 
   return (

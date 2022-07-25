@@ -61,6 +61,22 @@ const appStack = () => {
           component={LoadingScreen}
           options={{ headerShown: false }}
         />
+      ) : userDoc.name == "" ? (
+        <Stack.Group
+          screenOptions={{
+            presentation: "transparentModal",
+            gestureEnabled: true,
+            ...TransitionPresets.ModalPresentationIOS,
+          }}
+        >
+          <Stack.Screen
+            name="UserInfo"
+            component={UserInfoScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack.Group>
       ) : (
         <>
           <Stack.Group screenOptions={{ headerShown: false }}>
@@ -124,21 +140,6 @@ const appStack = () => {
             <Stack.Screen
               name="Chat"
               component={GlobalChatScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-          </Stack.Group>
-          <Stack.Group
-            screenOptions={{
-              presentation: "modal",
-              gestureEnabled: true,
-              ...TransitionPresets.ModalPresentationIOS,
-            }}
-          >
-            <Stack.Screen
-              name="UserInfo"
-              component={UserInfoScreen}
               options={{
                 headerShown: false,
               }}

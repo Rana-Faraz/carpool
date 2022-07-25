@@ -33,8 +33,11 @@ import { CarState } from "../context/CarContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import LoadingScreen from "./LoadingScreen";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const GlobalChatScreen = () => {
+  const Navigation = useNavigation();
   const _scrollView = React.useRef(null);
   const { user, userDoc } = CarState();
   const { height, width } = Dimensions.get("window");
@@ -55,6 +58,7 @@ const GlobalChatScreen = () => {
         snapshot.docs.map((doc) => ({
           createdAt: doc.data().createdAt,
           text: doc.data().text,
+          name: doc.data().name,
           user: doc.data().sentBy,
           time: doc.data().sentTime,
         }))
@@ -73,7 +77,6 @@ const GlobalChatScreen = () => {
       setIsLoading(false);
     });
     // console.log(messages);
-
     return unsub;
   }, []);
 
@@ -103,6 +106,17 @@ const GlobalChatScreen = () => {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              paddingLeft: 5,
+              opacity: 0.5,
+              zIndex: 999,
+            }}
+            onPress={() => Navigation.goBack()}
+          >
+            <Ionicons name="ios-chevron-back-outline" size={35} color="black" />
+          </TouchableOpacity>
           <View
             style={{
               height: "100%",
@@ -135,23 +149,15 @@ const GlobalChatScreen = () => {
                         message={item.text}
                         sentTime={item.time}
                         backgroundColor={
-                          item.user == user || userDoc.name == item.name
+                          item.user == user
                             ? lightModColor.themeBackground
                             : "white"
                         }
-                        flex={
-                          item.user == user || userDoc.name == item.name
-                            ? "flex-end"
-                            : "flex-start"
-                        }
+                        flex={item.user == user ? "flex-end" : "flex-start"}
                         nameColor={"orange"}
-                        fontColor={
-                          item.user == user || userDoc.name == item.name
-                            ? "white"
-                            : "black"
-                        }
+                        fontColor={item.user == user ? "white" : "black"}
                         name={
-                          item.user == user
+                          item.user === user
                             ? null
                             : item.name
                             ? item.name
