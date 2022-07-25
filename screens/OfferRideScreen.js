@@ -27,14 +27,24 @@ import {
   dropDownStyle,
   row,
 } from "../style/Style";
+import uuid from "react-native-uuid";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db } from "../api/firebase";
+import { CarState } from "../context/CarContext";
+import { useNavigation } from "@react-navigation/native";
+import DatePicker from "react-native-date-picker";
+
 // import { MaterialIcons } from "@expo/vector-icons";
 
 const OfferRideScreen = () => {
+  const Navigation = useNavigation();
+
+  // ******** Use States for all the input fields ********
   const [pickup, setPickup] = useState("");
   const [drop, setDrop] = useState("");
   const [pickupDetail, setPickupDetail] = useState("");
   const [dropDetail, setDropDetail] = useState("");
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(new Date());
   const [time, setTime] = useState();
   const [carDeatails, setCarDeatails] = useState("");
   const [seats, setSeats] = useState(1);
@@ -43,6 +53,9 @@ const OfferRideScreen = () => {
   const [comments, setComments] = useState("");
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+
+  // *********** Context Api Objects *************************8
+  const { userDoc } = CarState();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -74,7 +87,35 @@ const OfferRideScreen = () => {
     setMode(currentMode);
   };
 
-  console.log(pickup);
+  // ********************* DataBase Logics ****************************
+
+  const create = () => {
+    const docId = uuid.v4().toString();
+    const collectionRef = doc(db, "Rides", docId);
+
+    const docData = {
+      id: docId,
+      pickup: pickup,
+      drop: drop,
+      pickupDetail: pickupDetail,
+      dropDetail: dropDetail,
+      date: date,
+      time: time,
+      carDeatails: carDeatails,
+      luggage: luggage,
+      seats: seats,
+      price: price,
+      comments: comments,
+      createBy: userDoc,
+      createDate: serverTimestamp(),
+    };
+
+    setDoc(collectionRef, docData)
+      .then(console.log("succesfully added"))
+      .catch((err) => console.log(err));
+
+    Navigation.goBack();
+  };
 
   return (
     <ScrollView>
@@ -102,6 +143,7 @@ const OfferRideScreen = () => {
             style={{ marginLeft: 5, width: "90%" }}
             placeholder="Pick up Location"
             onChangeText={(value) => setPickup(value)}
+            value={pickup}
           />
         </View>
         <View
@@ -124,6 +166,7 @@ const OfferRideScreen = () => {
             style={{ marginLeft: 5, width: "90%" }}
             placeholder="Drop Location"
             onChangeText={(value) => setDrop(value)}
+            value={drop}
           />
         </View>
         <Text
@@ -141,12 +184,14 @@ const OfferRideScreen = () => {
               style={[availableRideLocaBox, { marginBottom: 5, height: 43 }]}
               placeholder="Detailed Pickup Location"
               onChangeText={(value) => setPickupDetail(value)}
+              value={pickupDetail}
             />
             <Text>To</Text>
             <TextInput
               style={[availableRideLocaBox, { height: 43 }]}
               placeholder="Detailed Drop Location"
               onChangeText={(value) => setDropDetail(value)}
+              value={dropDetail}
             />
           </View>
         </View>
@@ -176,12 +221,13 @@ const OfferRideScreen = () => {
               color={lightModColor.themeBackground}
             />
           </Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[availableRideLocaBox, { width: "41%" }]}
             onPress={() => showMode("date")}
           >
             <Text>{date ? date : currenDate}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <DatePicker date={date} onDateChange={setDate} />
           <Text style={{ marginHorizontal: 5 }}>
             <Ionicons
               name="time-outline"
@@ -217,6 +263,7 @@ const OfferRideScreen = () => {
             ]}
             placeholder="Make/Model/Year"
             onChangeText={(value) => setCarDeatails(value)}
+            value={carDeatails}
           />
         </View>
         <View
@@ -320,8 +367,10 @@ const OfferRideScreen = () => {
           style={[availableRideLocaBox, { height: 70 }]}
           placeholder="Add some additional details"
           onChangeText={(value) => setComments(value)}
+          value={comments}
         />
         <TouchableOpacity
+          onPress={create}
           style={[
             btn,
             {

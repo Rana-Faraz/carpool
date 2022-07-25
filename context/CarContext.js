@@ -8,7 +8,7 @@ const CarContext = React.createContext();
 
 //create a provider for user context
 export function UserProvider({ children }) {
-  const [user, setUser] = useState("+923030010959");
+  const [user, setUser] = useState();
   const [userDoc, setUserDoc] = useState(null);
 
   useEffect(() => {

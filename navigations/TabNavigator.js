@@ -9,6 +9,8 @@ import { headerStyle } from "../style/Style";
 import GlobalChatScreen from "../screens/GlobalChatScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome5 } from "@expo/vector-icons";
+import TopTabNavigator from "./TopTabNavigator";
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -81,6 +83,28 @@ const TabNavigator = () => {
                 }
               />
             );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="MyTrip"
+        component={TopTabNavigator}
+        options={{
+          tabBarIcon: (tabInfo) => {
+            return (
+              <FontAwesome5
+                name="car"
+                size={24}
+                color={
+                  tabInfo.focused ? lightModColor.themeBackground : "#4444"
+                }
+              />
+            );
+          },
+          headerStyle: {
+            backgroundColor: lightModColor.themeBackground,
+            elevation: 0,
+            shadowOpacity: 0,
           },
         }}
       />
