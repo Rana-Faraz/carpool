@@ -27,6 +27,7 @@ import { useNavigation } from "@react-navigation/native";
 import { db } from "../api/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { lightModColor } from "../style/Color";
+import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 const OTPScreen = ({ route, navigation }) => {
   const Navigation = useNavigation();
@@ -43,10 +44,18 @@ const OTPScreen = ({ route, navigation }) => {
       email: "",
       image: "",
     };
+    getDoc(myDoc)
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          console.log("Document data:", snapshot.data());
+        } else {
+          addDoc(myDoc, docData);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
 
-    setDoc(myDoc, docData).catch((error) => {
-      console.log(error.message);
-    });
     try {
       await AsyncStorage.setItem("user", JSON.stringify(phone));
     } catch {
@@ -61,7 +70,6 @@ const OTPScreen = ({ route, navigation }) => {
         else {
           createDocument();
           setUser(phone);
-          navigation.navigate("root");
         }
       })
       .catch((err) => {
