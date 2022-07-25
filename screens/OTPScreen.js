@@ -1,11 +1,16 @@
 import {
   Alert,
+  Keyboard,
+  KeyboardAvoidingView,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
 import {
   addDoc,
   collection,
@@ -22,7 +27,7 @@ import React, { useContext, useEffect, useState } from "react";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import { checkVerification } from "../api/verify";
 import { CarState } from "../context/CarContext";
-import { btn, btnText, center } from "../style/Style";
+import { btn, btnText, center, heading } from "../style/Style";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../api/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -34,6 +39,7 @@ const OTPScreen = ({ route, navigation }) => {
   const { setUser } = CarState();
   const { phone } = route.params;
   const [invalidCode, setInvalidCode] = React.useState(false);
+  const [code, setCode] = React.useState();
 
   const createDocument = async () => {
     const myDoc = doc(db, "Users-Data", phone);
@@ -84,32 +90,110 @@ const OTPScreen = ({ route, navigation }) => {
   }, [invalidCode]);
 
   return (
-    <SafeAreaView>
-      <View style={center}>
-        <Text>Enter Code</Text>
-        <OTPInputView
-          style={{ width: "80%", height: 200 }}
-          pinCount={6}
-          autoFocusOnLoad
-          codeInputFieldStyle={styles.underlineStyleBase}
-          codeInputHighlightStyle={styles.underlineStyleHighLighted}
-          onCodeFilled={(code) => {
-            verifyOTP(phone, code);
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View
+        style={{
+          height: "100%",
+          backgroundColor: lightModColor.themeBackground,
+        }}
+      >
+        <View style={{ height: "25%", marginHorizontal: "10%" }}>
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              top: 40,
+              paddingLeft: 5,
+              left: -10,
+            }}
+            onPress={() => Navigation.goBack()}
+          >
+            <Ionicons
+              name="ios-arrow-back-outline"
+              size={35}
+              color={lightModColor.headerFontColor}
+            />
+          </TouchableOpacity>
+          <Text style={[heading, { marginTop: "35%" }]}>
+            Enter verification code
+          </Text>
+        </View>
+        <View
+          style={{
+            height: "80%",
+            backgroundColor: lightModColor.background,
+            borderTopRightRadius: 16,
+            borderTopLeftRadius: 16,
+            paddingHorizontal: "10%",
           }}
-        />
+        >
+          <View style={{ marginVertical: 30 }}>
+            <Text
+              style={[
+                heading,
+                { color: lightModColor.fontColor, fontSize: 30 },
+              ]}
+            >
+              Whats's the code?
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: "MonMedium",
+                opacity: 0.5,
+              }}
+            >
+              We have sent a code to {phone}
+            </Text>
+            <OTPInputView
+              style={{ width: "100%", height: 200 }}
+              pinCount={6}
+              autoFocusOnLoad
+              codeInputFieldStyle={styles.underlineStyleBase}
+              codeInputHighlightStyle={styles.underlineStyleHighLighted}
+              onCodeFilled={(code) => setCode(code)}
+            />
+          </View>
+          <View
+            style={{
+              alignItems: "flex-end",
+              marginTop: -60,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => verifyOTP(phone, code)}
+              style={{
+                backgroundColor: lightModColor.themeBackground,
+                padding: 15,
+                borderRadius: 50,
+              }}
+            >
+              <Ionicons
+                name="arrow-forward"
+                size={24}
+                color={lightModColor.headerFontColor}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-      <View style={center}>
-        <Text>
-          A verificaiton code was just sent to {phone}. if this is not your
-          number please click the button bellow to change your number.
-        </Text>
-      </View>
-      <View style={[center, { marginTop: 20 }]}>
-        <TouchableOpacity style={btn} onPress={() => Navigation.goBack()}>
-          <Text style={btnText}>Change Number</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    </TouchableWithoutFeedback>
+    // <SafeAreaView>
+    //   <View style={center}>
+    //     <Text>Enter Code</Text>
+
+    //   </View>
+    //   <View style={center}>
+    //     <Text>
+    //       A verificaiton code was just sent to {phone}. if this is not your
+    //       number please click the button bellow to change your number.
+    //     </Text>
+    //   </View>
+    //   <View style={[center, { marginTop: 20 }]}>
+    //     <TouchableOpacity style={btn} onPress={() => Navigation.goBack()}>
+    //       <Text style={btnText}>Change Number</Text>
+    //     </TouchableOpacity>
+    //   </View>
+    // </SafeAreaView>
   );
 };
 
@@ -117,12 +201,13 @@ export default OTPScreen;
 
 const styles = StyleSheet.create({
   underlineStyleBase: {
-    width: 30,
+    width: 45,
     height: 45,
-    borderWidth: 0,
-    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
     color: "black",
     fontSize: 20,
+    backgroundColor: "#e5e5e5",
   },
 
   underlineStyleHighLighted: {
