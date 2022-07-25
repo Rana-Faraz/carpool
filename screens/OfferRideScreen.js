@@ -1,7 +1,12 @@
-import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
+import {
+  AntDesign,
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,9 +17,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import PickandDropForm from "../components/PickandDropForm";
+import SelectDropdown from "react-native-select-dropdown";
 import { lightModColor } from "../style/Color";
-import { FontAwesome5 } from "@expo/vector-icons";
 import {
   availableRideHeading,
   availableRideLocaBox,
@@ -23,17 +27,20 @@ import {
   dropDownStyle,
   row,
 } from "../style/Style";
-import SelectDropdown from "react-native-select-dropdown";
 // import { MaterialIcons } from "@expo/vector-icons";
 
 const OfferRideScreen = () => {
-  // const route = useRoute();
-  // const { pickUpLoca, dropLoca } = route.params;
+  const [pickup, setPickup] = useState("");
+  const [drop, setDrop] = useState("");
+  const [pickupDetail, setPickupDetail] = useState("");
+  const [dropDetail, setDropDetail] = useState("");
   const [date, setDate] = useState();
   const [time, setTime] = useState();
+  const [carDeatails, setCarDeatails] = useState("");
   const [seats, setSeats] = useState(1);
   const [luggage, setLuggage] = useState("Hand Bag");
   const [price, setPrice] = useState(1000);
+  const [comments, setComments] = useState("");
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
@@ -53,13 +60,20 @@ const OfferRideScreen = () => {
     setTime(ftime);
   };
 
+  let current = new Date();
+  let currenDate =
+    current.getDate() +
+    "-" +
+    (current.getMonth() + 1) +
+    "-" +
+    current.getFullYear();
+  let currentTime = current.getHours() + " : " + current.getMinutes("00");
+
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
-    // setShow(false);
   };
 
-  console.log(price);
   return (
     <ScrollView>
       <KeyboardAvoidingView style={{ padding: 10 }}>
@@ -68,11 +82,45 @@ const OfferRideScreen = () => {
         >
           Route
         </Text>
-        <PickandDropForm
-          pickUpLoca={"Pick Up Location"}
-          dropLoca={"Drop Location"}
-          route={"offer"}
-        />
+        <View
+          style={[
+            availableRideLocaBox,
+            { flexDirection: "row", alignItems: "center", height: 41 },
+          ]}
+        >
+          <MaterialIcons
+            name="my-location"
+            size={20}
+            color={lightModColor.themeBackground}
+          />
+          <TextInput
+            style={{ marginLeft: 5, width: "90%" }}
+            placeholder="Pick up Location"
+            onChange={setPickup}
+          />
+        </View>
+        <View
+          style={[
+            availableRideLocaBox,
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 5,
+              height: 41,
+            },
+          ]}
+        >
+          <MaterialIcons
+            name="location-on"
+            size={20}
+            color={lightModColor.themeBackground}
+          />
+          <TextInput
+            style={{ marginLeft: 5, width: "90%" }}
+            placeholder="Drop Location"
+            onChange={(value) => setDrop(value)}
+          />
+        </View>
         <Text
           style={[
             availableRideHeading,
@@ -87,11 +135,13 @@ const OfferRideScreen = () => {
             <TextInput
               style={[availableRideLocaBox, { marginBottom: 5, height: 43 }]}
               placeholder="Detailed Pickup Location"
+              onChange={(value) => setPickupDetail(value)}
             />
             <Text>To</Text>
             <TextInput
               style={[availableRideLocaBox, { height: 43 }]}
               placeholder="Detailed Drop Location"
+              onChange={(value) => setDropDetail(value)}
             />
           </View>
         </View>
@@ -125,7 +175,7 @@ const OfferRideScreen = () => {
             style={[availableRideLocaBox, { width: "41%" }]}
             onPress={() => showMode("date")}
           >
-            <Text>{date}</Text>
+            <Text>{date ? date : currenDate}</Text>
           </TouchableOpacity>
           <Text style={{ marginHorizontal: 5 }}>
             <Ionicons
@@ -138,7 +188,7 @@ const OfferRideScreen = () => {
             style={[availableRideLocaBox, { width: "41%" }]}
             onPress={() => showMode("time")}
           >
-            <Text>{time}</Text>
+            <Text>{time ? time : currentTime}</Text>
           </TouchableOpacity>
         </View>
         <Text
@@ -161,6 +211,7 @@ const OfferRideScreen = () => {
               { height: 43, width: "92%", marginLeft: 5 },
             ]}
             placeholder="Make/Model/Year"
+            onChange={(value) => setCarDeatails(value)}
           />
         </View>
         <View
@@ -252,8 +303,33 @@ const OfferRideScreen = () => {
             />
           </TouchableOpacity>
         </View>
+        <Text
+          style={[
+            availableRideHeading,
+            { textAlign: "left", marginVertical: 10 },
+          ]}
+        >
+          Comments
+        </Text>
+        <TextInput
+          style={[availableRideLocaBox, { height: 70 }]}
+          placeholder="Add some additional details"
+          onChange={(value) => setComments(value)}
+        />
         <TouchableOpacity
           style={[btn, { width: "100%", padding: 10, marginTop: 15 }]}
+          disabled={
+            pickup === "" &&
+            drop === "" &&
+            pickupDetail === "" &&
+            dropDetail === "" &&
+            date === "" &&
+            time === "" &&
+            carDeatails === "" &&
+            luggage === "" &&
+            seats === "" &&
+            price === ""
+          }
         >
           <Text style={[btnText, { fontSize: 18 }]}>Post Offer</Text>
         </TouchableOpacity>

@@ -1,12 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import StackNavigator from "./navigations/StackNavigator";
+import { StyleSheet } from "react-native";
 import "react-native-gesture-handler";
-import { CarState, UserProvider } from "./context/CarContext";
-import OTPScreen from "./screens/OTPScreen";
-import UserInfoScreen from "./screens/UserInfoScreen";
-import { useState } from "react";
+import { UserProvider } from "./context/CarContext";
+import StackNavigator from "./navigations/StackNavigator";
 
 export default function App() {
   return (
