@@ -19,8 +19,6 @@ export const btn = {
 };
 export const headerStyle = {
   backgroundColor: lightModColor.themeBackground,
-  borderBottomEndRadius: 20,
-  borderBottomStartRadius: 20,
 };
 export const btnText = {
   color: "#ffff",
