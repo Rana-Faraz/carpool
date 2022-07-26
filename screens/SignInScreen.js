@@ -162,6 +162,8 @@ const SignInScreen = () => {
                 </View>
                 <View>
                   <TextInput
+                    maxLength={10}
+                    keyboardType="phone-pad"
                     autoFocus={true}
                     style={{
                       fontSize: 16,
