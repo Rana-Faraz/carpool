@@ -62,7 +62,7 @@ const TabNavigator = () => {
                 name="home"
                 size={24}
                 color={
-                  tabInfo.focused ? lightModColor.headerBackground : "#4444"
+                  tabInfo.focused ? lightModColor.themeBackground : "#4444"
                 }
               />
             );
