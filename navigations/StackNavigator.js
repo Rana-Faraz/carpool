@@ -109,6 +109,8 @@ const appStack = () => {
                   </View>
                 );
               },
+              gestureEnabled: true,
+              ...TransitionPresets.SlideFromRightIOS,
             }}
           >
             <Stack.Screen
