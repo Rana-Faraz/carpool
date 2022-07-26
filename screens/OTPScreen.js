@@ -39,7 +39,7 @@ const OTPScreen = ({ route, navigation }) => {
   const Navigation = useNavigation();
   const { height, width } = Dimensions.get("window");
 
-  const { setUser } = CarState();
+  const { setUser, setUserDoc } = CarState();
   const { phone } = route.params;
   const [invalidCode, setInvalidCode] = React.useState(false);
   const [code, setCode] = React.useState();
@@ -55,10 +55,15 @@ const OTPScreen = ({ route, navigation }) => {
     };
     getDoc(myDoc)
       .then((snapshot) => {
-        if (snapshot.exists) {
-          console.log("Document data:", snapshot.data());
+        if (snapshot.data() == null) {
+          setDoc(myDoc, docData);
+          getDoc(myDoc).then((snapshot) => {
+            setUserDoc(snapshot.data());
+          });
+          console.log("Documnet Created");
         } else {
-          addDoc(myDoc, docData);
+          setUserDoc(snapshot.data());
+          console.log("Document data:", snapshot.data());
         }
       })
       .catch((error) => {

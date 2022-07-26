@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   Modal,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -87,13 +88,21 @@ const OfferRideScreen = () => {
     console.log(date);
   };
   const onChangeTime = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || currDate;
     setShow(Platform.OS === "ios");
 
     let temDate = new Date(currentDate);
-    let ftime = temDate.getHours() + " : " + temDate.getMinutes();
+    let fhours =
+      temDate.getHours() > 12 ? temDate.getHours() - 12 : temDate.getHours();
+    let formHours = fhours < 10 ? "0" + fhours : fhours;
+    let fMinutes =
+      temDate.getMinutes() < 10
+        ? "0" + temDate.getMinutes()
+        : temDate.getMinutes();
+    let ftime = formHours + " : " + fMinutes;
     let fZone =
       temDate.getHours() < 12 || temDate.getHours() == 24 ? "AM" : "PM";
+    setCurrDate(currentDate);
     setTime(ftime + " " + fZone);
   };
 
@@ -102,7 +111,7 @@ const OfferRideScreen = () => {
     setMode(currentMode);
   };
 
-  // ********************* DataBase Logics ****************************
+  // ******* DataBase Logics **********
 
   const create = () => {
     const docId = uuid.v4().toString();
@@ -110,8 +119,8 @@ const OfferRideScreen = () => {
 
     const docData = {
       id: docId,
-      pickup: pickup,
-      drop: drop,
+      pickup: pickup.replace(/\s/g, ""),
+      drop: drop.replace(/\s/g, ""),
       pickupDetail: pickupDetail,
       dropDetail: dropDetail,
       date: date,
@@ -219,46 +228,76 @@ const OfferRideScreen = () => {
           Date & Time
         </Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Button onPress={() => setShow(true)} title="MODAL" />
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={show}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-              setShow(!show);
-            }}
-          >
-            <View
-              style={[
-                styles.centeredView,
-                {
-                  backgroundColor: lightModColor.themeBackground,
-                  height: "40%",
-                  position: "absolute",
-                  width: "100%",
-                  right: 0,
-                  bottom: 0,
-                },
-              ]}
+          {/* <Button onPress={() => setShow(true)} title="MODAL" /> */}
+          {Platform.OS === "ios" ? (
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={show}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setShow(!show);
+              }}
             >
-              <RNDateTimePicker
-                accentColor="red"
-                display="spinner"
-                style={{
-                  width: "100%",
-                  backgroundColor: lightModColor.themeBackground,
+              <Pressable
+                style={{ flex: 1, backgroundColor: "black", opacity: 0.5 }}
+                onPress={() => {
+                  setShow(!show);
                 }}
+              />
+              <View
+                style={[
+                  styles.centeredView,
+                  {
+                    backgroundColor: "#9d9d9d",
+                    height: "40%",
+                    position: "absolute",
+                    width: "100%",
+                    right: 0,
+                    bottom: 0,
+                  },
+                ]}
+              >
+                <RNDateTimePicker
+                  display="spinner"
+                  style={{
+                    width: "100%",
+                  }}
+                  value={currDate}
+                  mode={mode}
+                  onChange={mode == "date" ? onChangeDate : onChangeTime}
+                  // style={{ backgroundColor: lightModColor.themeBackground }}
+                  themeVariant={"dark"}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    setShow(!show);
+                  }}
+                  style={{
+                    width: "80%",
+                    backgroundColor: "#cccccc",
+                    padding: 10,
+                    borderRadius: 8,
+                    alignSelf: "center",
+                  }}
+                >
+                  <Text style={{ textAlign: "center" }}>Confirm</Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
+          ) : (
+            show && (
+              <RNDateTimePicker
                 value={currDate}
                 mode={mode}
-                onChange={mode == "date" ? onChangeDate : onChangeTime}
+                onChange={mode === "date" ? onChangeDate : onChangeTime}
                 // style={{ backgroundColor: lightModColor.themeBackground }}
                 themeVariant={"dark"}
+                minimumDate={new Date()}
               />
-              <Button onPress={() => setShow(false)} title="close" />
-            </View>
-          </Modal>
-          {show && (
+            )
+          )}
+          {/* {show && (
             <RNDateTimePicker
               value={new Date()}
               mode={mode}
@@ -267,7 +306,7 @@ const OfferRideScreen = () => {
               themeVariant={"dark"}
               minimumDate={new Date()}
             />
-          )}
+          )} */}
           {/* {showDate && <RNDateTimePicker value={new Date()} mode={"date"} />} */}
           <Text style={{ marginRight: 5 }}>
             <MaterialIcons
