@@ -4,13 +4,14 @@ import {
   Ionicons,
   Octicons,
   Zocial,
+  FontAwesome5,
 } from "@expo/vector-icons";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { lightModColor } from "../style/Color";
 import { btn, btnText, itemCenter, row } from "../style/Style";
 
-const AvailableRideItems = () => {
+const AvailableRideItems = (props) => {
   return (
     <View
       style={{
@@ -28,19 +29,21 @@ const AvailableRideItems = () => {
             style={{ height: 50, width: 50 }}
           />
           <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-            <Text style={{ fontSize: 15 }}>M Talha Farrukh</Text>
+            <Text style={{ fontSize: 15 }}>{props.user.name}</Text>
             <Text style={{ fontSize: 15 }}>
-              <FontAwesome
+              <FontAwesome5
                 name="car"
                 size={15}
                 color={lightModColor.themeBackground}
               />{" "}
-              Honda/Civic/2020
+              {props.carDetails}
             </Text>
           </View>
         </View>
         <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 15, fontWeight: "bold" }}>Rs.9000</Text>
+          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Rs.{props.price}
+          </Text>
         </View>
       </View>
       <View style={{ paddingVertical: 10 }}>
@@ -52,7 +55,7 @@ const AvailableRideItems = () => {
             // style={{ paddingTop: 4 }}
           />
           <Text style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}>
-            Wabdha Town, Thokar, Lahore
+            {props.pickupDetail}
           </Text>
         </View>
         <View>
@@ -70,7 +73,7 @@ const AvailableRideItems = () => {
             // style={{ paddingTop: 4 }}
           />
           <Text style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}>
-            Sirinagar Highway, F-9, Islamabad
+            {props.dropDetail}
           </Text>
         </View>
       </View>
@@ -87,31 +90,49 @@ const AvailableRideItems = () => {
           },
         ]}
       >
-        <Text style={{ fontSize: 15 }}>
+        <View style={[row, { alignItems: "center" }]}>
           <FontAwesome
             name="user-circle"
             size={15}
-            color={lightModColor.themeBackground}
-          />{" "}
+            color={props.seats >= 1 ? lightModColor.themeBackground : "gray"}
+            style={{ marginRight: 3 }}
+          />
           <FontAwesome
             name="user-circle"
             size={15}
+            color={props.seats >= 2 ? lightModColor.themeBackground : "gray"}
+            style={{ marginRight: 3 }}
+          />
+          <FontAwesome
+            name="user-circle"
+            size={15}
+            color={
+              props.seats > 2 && props.seats === 3
+                ? lightModColor.themeBackground
+                : "gray"
+            }
+            style={{ marginRight: 3 }}
+          />
+          <Text style={{ fontSize: 15 }}>{props.seats} Seats</Text>
+        </View>
+        <View style={[row, { alignItems: "center" }]}>
+          <Zocial
+            name="cal"
+            size={15}
             color={lightModColor.themeBackground}
-          />{" "}
-          <FontAwesome name="user-circle" size={15} color="gray" /> 2 Seats
-        </Text>
-        <Text>
-          <Zocial name="cal" size={15} color={lightModColor.themeBackground} />{" "}
-          20/6/22
-        </Text>
-        <Text>
+            // style={{ alignSelf: "center" }}
+          />
+          <Text>{" " + props.date}</Text>
+        </View>
+        <View style={[row, { alignItems: "center" }]}>
           <Ionicons
             name="md-time-outline"
             size={15}
             color={lightModColor.themeBackground}
-          />{" "}
-          3PM
-        </Text>
+            // style={{ alignSelf: "center" }}
+          />
+          <Text>{" " + props.time}</Text>
+        </View>
       </View>
       <View style={[itemCenter, { marginVertical: 10 }]}>
         <TouchableOpacity style={[btn, { padding: 8, width: "100%" }]}>

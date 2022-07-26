@@ -154,6 +154,7 @@ const GlobalChatScreen = () => {
                   {messages &&
                     messages.map((item) => (
                       <ChatBubble
+                        key={item.createdAt}
                         message={item.text}
                         sentTime={item.time}
                         backgroundColor={

@@ -4,6 +4,7 @@ import React from "react";
 const ChatBubble = (props) => {
   return (
     <View
+      key={props.key}
       style={{
         backgroundColor: props.backgroundColor,
         borderRadius: 12,

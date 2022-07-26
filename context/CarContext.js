@@ -34,7 +34,6 @@ export function UserProvider({ children }) {
   const asyncUser = () => {
     AsyncStorage.getItem("user")
       .then((v) => (v ? setUser(JSON.parse(v)) : setUser("")))
-      .then(() => setIsLoading(false))
       .catch((e) => console.log(e));
   };
 
