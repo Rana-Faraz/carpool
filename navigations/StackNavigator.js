@@ -31,7 +31,13 @@ const Stack = createStackNavigator();
 
 const authStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: true,
+        ...TransitionPresets.SlideFromRightIOS,
+      }}
+    >
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Sign In" component={SignInScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
@@ -97,7 +103,7 @@ const appStack = () => {
                 return (
                   <View>
                     <TouchableOpacity
-                      onPress={() => Navigation.navigate("ChatCat")}
+                      onPress={() => Navigation.navigate("Chat")}
                       style={{ paddingHorizontal: 20 }}
                     >
                       <Ionicons

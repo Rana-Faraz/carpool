@@ -8,6 +8,7 @@ import {
   Keyboard,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -25,7 +26,6 @@ const SignInScreen = () => {
 
   const phoneInput = useRef(null);
   const [value, setValue] = useState("");
-  const [formattedValue, setFormattedValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -33,23 +33,32 @@ const SignInScreen = () => {
   }, []);
 
   const sendOTP = () => {
-    const isValid = phoneInput.current?.isValidNumber(value);
-
-    if (isValid) {
+    if (value.length < 10) {
+      Alert.alert("Invalid Phone Number", "Please enter a valid phone number");
+      return;
+    } else if (value.length > 10) {
+      Alert.alert("Invalid Phone Number", "Please enter a valid phone number");
+      return;
+    } else {
       Alert.alert(
         "Confirm",
-        `Are you sure ${formattedValue} is your phone number?`,
+        `Are you sure ${"+92" + value} is your phone number?`,
         [
           {
             text: "Yes",
             onPress: () => {
               setIsLoading(true);
-              sendSmsVerification(formattedValue)
-                .then((sent) => {
+              sendSmsVerification("+92" + value)
+                .then((sent, err) => {
                   if (sent) {
                     Navigation.navigate("OTP", { phone: formattedValue });
+                  } else {
+                    Alert.alert(
+                      "Error",
+                      "Something went wrong. Please try again later"
+                    );
+                    setIsLoading(false);
                   }
-                  console.log(sent);
                 })
                 .catch((err) => {
                   console.log("Error: ", err);
@@ -62,8 +71,6 @@ const SignInScreen = () => {
           },
         ]
       );
-    } else {
-      Alert.alert("Error", "Enter a valid phone number");
     }
   };
 
@@ -126,31 +133,63 @@ const SignInScreen = () => {
             </Text>
           </View>
           <View style={{ marginBottom: 20 }}>
-            <PhoneInput
-              disabled={isLoading}
-              containerStyle={{ width: "100%" }}
-              ref={phoneInput}
-              defaultValue={value}
-              defaultCode="PK"
-              layout="first"
-              disableArrowIcon
-              onChangeText={(text) => {
-                setValue(text);
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+                backgroundColor: "#f2f2f2",
               }}
-              onChangeFormattedText={(text) => {
-                setFormattedValue(text);
-              }}
-              countryPickerProps={{ withAlphaFilter: true }}
-              autoFocus
-            />
+            >
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                }}
+              >
+                <Text style={{ fontSize: 35 }}>🇵🇰</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <View style={{ paddingHorizontal: 13 }}>
+                  <Text style={{ fontSize: 16, fontWeight: "500" }}>+92</Text>
+                </View>
+                <View>
+                  <TextInput
+                    autoFocus={true}
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "500",
+                      paddingVertical: 15,
+                      paddingRight: 75,
+                    }}
+                    disabled={isLoading}
+                    value={value}
+                    onChangeText={(text) => {
+                      setValue(text);
+                    }}
+                    placeholder="Phone Number"
+                  />
+                </View>
+              </View>
+            </View>
           </View>
           <View>
             <TouchableOpacity
-              disabled={!formattedValue || isLoading}
+              disabled={value.length > 10 || value.length < 10 || isLoading}
               style={[
                 btn,
                 {
-                  opacity: formattedValue ? 1 : 0.5 || isLoading ? 0.5 : 1,
+                  opacity:
+                    value.length > 10 || value.length < 10 || isLoading
+                      ? 0.5
+                      : 1,
                   alignSelf: "center",
                   marginVertical: 10,
                 },

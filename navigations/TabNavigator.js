@@ -23,7 +23,7 @@ const TabNavigator = () => {
           return (
             <View>
               <TouchableOpacity
-                onPress={() => Navigation.navigate("ChatCat")}
+                onPress={() => Navigation.navigate("Chat")}
                 style={{ paddingHorizontal: 20 }}
               >
                 <Ionicons name="chatbubbles-outline" size={24} color="white" />
