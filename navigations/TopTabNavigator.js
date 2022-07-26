@@ -14,31 +14,14 @@ export default function TopTabNavigator() {
         tabBarLabelStyle: {
           color: "#ffff",
         },
+        tabBarIndicatorStyle: {
+          backgroundColor: "#ffff",
+        },
       }}
     >
       <Tab.Group>
-        <Tab.Screen
-          name="ActiveTrip"
-          component={ActiveTripScreen}
-          options={{
-            tabBarIndicatorStyle: {
-              marginLeft: 17,
-              backgroundColor: "#ffff",
-              width: "45%",
-            },
-          }}
-        />
-        <Tab.Screen
-          name="History"
-          component={HistoryScreen}
-          options={{
-            tabBarIndicatorStyle: {
-              marginRight: 15,
-              backgroundColor: "#ffff",
-              width: "45%",
-            },
-          }}
-        />
+        <Tab.Screen name="ActiveTrip" component={ActiveTripScreen} />
+        <Tab.Screen name="History" component={HistoryScreen} />
       </Tab.Group>
     </Tab.Navigator>
   );

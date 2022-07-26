@@ -19,8 +19,6 @@ export const btn = {
 };
 export const headerStyle = {
   backgroundColor: lightModColor.themeBackground,
-  borderBottomEndRadius: 20,
-  borderBottomStartRadius: 20,
 };
 export const btnText = {
   color: "#ffff",
@@ -63,7 +61,7 @@ export const availableRideHeading = {
 
 export const dropDownStyle = {
   width: "100%",
-  height: 43,
+  height: 41,
   borderColor: "#4444",
   borderWidth: 0.5,
   borderRadius: 5,
