@@ -6,6 +6,7 @@ import {
   Alert,
   Dimensions,
   Keyboard,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -51,7 +52,7 @@ const SignInScreen = () => {
               sendSmsVerification("+92" + value)
                 .then((sent, err) => {
                   if (sent) {
-                    Navigation.navigate("OTP", { phone: formattedValue });
+                    Navigation.navigate("OTP", { phone: value });
                   } else {
                     Alert.alert(
                       "Error",
@@ -148,7 +149,9 @@ const SignInScreen = () => {
                   paddingVertical: 5,
                 }}
               >
-                <Text style={{ fontSize: 35 }}>🇵🇰</Text>
+                <Text style={{ fontSize: Platform.OS === "ios" ? 35 : 25 }}>
+                  🇵🇰
+                </Text>
               </View>
               <View
                 style={{
