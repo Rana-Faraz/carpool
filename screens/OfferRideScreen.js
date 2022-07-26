@@ -304,7 +304,6 @@ const OfferRideScreen = () => {
               onChange={mode === "date" ? onChangeDate : onChangeTime}
               // style={{ backgroundColor: lightModColor.themeBackground }}
               themeVariant={"dark"}
-              accentColor="#ffff"
               minimumDate={new Date()}
             />
           )} */}
