@@ -184,7 +184,7 @@ const LoadingStack = () => {
 const StackNavigator = () => {
   const { user, isLoading } = CarState();
 
-  return user ? appStack() : authStack();
+  return isLoading ? LoadingStack() : user ? appStack() : authStack();
 };
 
 export default StackNavigator;
