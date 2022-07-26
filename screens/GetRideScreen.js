@@ -15,12 +15,12 @@ const GetRideScreen = () => {
   const [dropIn, setDropIn] = useState();
 
   const Data = [
-    { label: "Lahore", value: "lahore" },
-    { label: "Islamabad", value: "islamabad" },
-    { label: "Karachi", value: "karachi" },
-    { label: "Faisalabad", value: "faisalabad" },
-    { label: "Multan", value: "multan" },
-    { label: "Quetta", value: "quetta" },
+    { label: "Lahore", value: "Lahore" },
+    { label: "Islamabad", value: "Islamabad" },
+    { label: "Karachi", value: "Karachi" },
+    { label: "Faisalabad", value: "Faisalabad" },
+    { label: "Multan", value: "Multan" },
+    { label: "Quetta", value: "Quetta" },
   ];
 
   return (
@@ -86,7 +86,7 @@ const GetRideScreen = () => {
           </View>
         </View>
         <TouchableOpacity
-          style={btn}
+          style={[btn, { opacity: !pickUp || !dropIn ? 0.5 : 1 }]}
           onPress={() =>
             id === "get"
               ? Navigation.navigate("suggession", {

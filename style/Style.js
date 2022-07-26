@@ -68,9 +68,19 @@ export const dropDownStyle = {
   borderWidth: 0.5,
   borderRadius: 5,
   backgroundColor: "#ffff",
-  // shadowColor: "black",
-  // shadowOpacity: 0.1,
-  // shadowOffset: { width: 0, height: 0 },
-  // shadowRadius: 3,
-  // elevation: 5,
 };
+
+export const Months = [
+  { name: "January", short: "Jan" },
+  { name: "February", short: "Feb" },
+  { name: "March", short: "Mar" },
+  { name: "April", short: "Apr" },
+  { name: "May", short: "May" },
+  { name: "June", short: "Jun" },
+  { name: "July", short: "Jul" },
+  { name: "August", short: "Aug" },
+  { name: "September", short: "Sep" },
+  { name: "October", short: "Oct" },
+  { name: "November", short: "Nov" },
+  { name: "December", short: "Dec" },
+];

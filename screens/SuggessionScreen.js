@@ -1,32 +1,81 @@
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import React, { useLayoutEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { db } from "../api/firebase";
 import AvailableRideItems from "../components/AvailableRideItems";
 import PickandDropForm from "../components/PickandDropForm";
 import { lightModColor } from "../style/Color";
-import {
-  availableRideHeading,
-  availableRideLocaBox,
-  row,
-} from "../style/Style";
+import { availableRideHeading, itemCenter, Months, row } from "../style/Style";
 
 const SuggessionScreen = () => {
   //Navigation Properties
   const route = useRoute();
   const { pickUpLoca, dropLoca } = route.params;
   const Navigation = useNavigation();
+  const [ridesDoc, setRidesDoc] = useState();
 
   //Data object
   let date = new Date();
+
+  /// ********************* DataBase Logics **************************
+  useLayoutEffect(() => {
+    const collectionRef = collection(db, "Rides");
+    const q = query(
+      collectionRef,
+      where("pickup", "==", pickUpLoca),
+      where("drop", "==", dropLoca)
+      // orderBy("date", "desc")
+    );
+
+    const Subscribe = onSnapshot(q, (snapshot) => {
+      setRidesDoc(
+        snapshot.docs.map((doc) => ({
+          id: doc.data().id,
+          pickup: doc.data().pickup,
+          drop: doc.data().drop,
+          pickupDetail: doc.data().pickupDetail,
+          dropDetail: doc.data().dropDetail,
+          date: doc.data().date,
+          time: doc.data().time,
+          carDetails: doc.data().carDeatails,
+          luggage: doc.data().luggage,
+          seats: doc.data().seats,
+          price: doc.data().price,
+          comments: doc.data().comments,
+          user: doc.data().createBy,
+        }))
+      );
+    });
+
+    return Subscribe;
+  }, []);
 
   return (
     <ScrollView>
       <View>
         <View style={[{ padding: 13, marginTop: 5 }]}>
           <Text style={[availableRideHeading]}>
-            {"From " + date.getDate() + " " + "Jul" + " " + date.getFullYear()}
+            {"From " +
+              date.getDate() +
+              " " +
+              Months[date.getMonth()].short +
+              " " +
+              date.getFullYear()}
           </Text>
           <PickandDropForm
             pickUpLoca={pickUpLoca}
@@ -42,6 +91,7 @@ const SuggessionScreen = () => {
               name="sort"
               size={25}
               color={lightModColor.themeBackground}
+              style={{ alignItems: "center" }}
             />
             <Text
               style={[
@@ -53,7 +103,42 @@ const SuggessionScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <AvailableRideItems />
+        {ridesDoc ? (
+          ridesDoc.length === 0 ? (
+            <View style={[itemCenter, { height: 350 }]}>
+              <Text
+                style={{
+                  color: lightModColor.themeBackground,
+                  textAlign: "center",
+                  fontSize: 18,
+                }}
+              >
+                No Rides Available
+              </Text>
+            </View>
+          ) : (
+            ridesDoc.map((doc) => (
+              <AvailableRideItems
+                key={doc.id}
+                user={doc.user}
+                carDetails={doc.carDetails}
+                price={doc.price}
+                pickupDetail={doc.pickupDetail}
+                dropDetail={doc.dropDetail}
+                seats={doc.seats}
+                date={doc.date}
+                time={doc.time}
+              />
+            ))
+          )
+        ) : (
+          <View style={[itemCenter, { height: 350 }]}>
+            <ActivityIndicator
+              color={lightModColor.themeBackground}
+              size="large"
+            />
+          </View>
+        )}
       </View>
     </ScrollView>
   );

@@ -9,9 +9,7 @@ const Profile = () => {
   const { user, setUser, userDoc, setUserDoc } = CarState();
   const deleteItem = () => {
     AsyncStorage.removeItem("user")
-      .then(() => {
-        setUser(null);
-      })
+      .then(() => setUser(null))
       .catch((e) => console.log(e));
   };
   return (
