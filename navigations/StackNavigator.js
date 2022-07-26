@@ -25,6 +25,7 @@ import GlobalChatScreen from "../screens/GlobalChatScreen";
 import { useNavigation } from "@react-navigation/native";
 import UserInfoScreen from "../screens/UserInfoScreen";
 import LoadingScreen from "../screens/LoadingScreen";
+import ChatCatogery from "../screens/ChatCatogery";
 
 const Stack = createStackNavigator();
 
@@ -54,7 +55,11 @@ const appStack = () => {
   }, [userDoc]);
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerBackTitleVisible: false,
+      }}
+    >
       {isLoading ? (
         <Stack.Screen
           name="Loading"
@@ -79,7 +84,11 @@ const appStack = () => {
         </Stack.Group>
       ) : (
         <>
-          <Stack.Group screenOptions={{ headerShown: false }}>
+          <Stack.Group
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
             <Stack.Screen name="root" component={TabNavigator} />
           </Stack.Group>
           <Stack.Group
@@ -88,7 +97,7 @@ const appStack = () => {
                 return (
                   <View>
                     <TouchableOpacity
-                      onPress={() => Navigation.navigate("Chat")}
+                      onPress={() => Navigation.navigate("ChatCat")}
                       style={{ paddingHorizontal: 20 }}
                     >
                       <Ionicons
@@ -102,6 +111,15 @@ const appStack = () => {
               },
             }}
           >
+            <Stack.Screen
+              name="ChatCat"
+              component={ChatCatogery}
+              options={{
+                headerTitle: "Chats",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
             <Stack.Screen
               name="getRide"
               component={GetRideScreen}
@@ -121,10 +139,12 @@ const appStack = () => {
                 headerTitleAlign: "center",
               }}
             />
+
             <Stack.Screen
               name="offerRide"
               component={OfferRideScreen}
               options={{
+                headerBackTitleVisible: false,
                 headerTitle: "Offer Ride",
                 headerStyle: headerStyle,
                 headerTintColor: "#ffff",
@@ -162,7 +182,7 @@ const LoadingStack = () => {
 const StackNavigator = () => {
   const { user, isLoading } = CarState();
 
-  return isLoading ? LoadingStack() : user ? appStack() : authStack();
+  return user ? appStack() : authStack();
 };
 
 export default StackNavigator;

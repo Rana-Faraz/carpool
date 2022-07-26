@@ -6,10 +6,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { btn, btnText } from "../style/Style";
 
 const Profile = () => {
-  const { user, setUser, userDoc } = CarState();
+  const { user, setUser, userDoc, setUserDoc } = CarState();
   const deleteItem = () => {
     AsyncStorage.removeItem("user")
-      .then(setUser(null))
+      .then(() => {
+        setUser(null);
+      })
       .catch((e) => console.log(e));
   };
   return (

@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -14,17 +14,23 @@ import {
 } from "react-native";
 import PhoneInput from "react-native-phone-number-input";
 import { sendSmsVerification } from "../api/verify";
+import { CarState } from "../context/CarContext";
 import { lightModColor } from "../style/Color";
 import { btn, btnText, heading } from "../style/Style";
 
 const SignInScreen = () => {
   const Navigation = useNavigation();
   const { height, width } = Dimensions.get("window");
+  const { setUserDoc } = CarState();
 
   const phoneInput = useRef(null);
   const [value, setValue] = useState("");
   const [formattedValue, setFormattedValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setUserDoc(null);
+  }, []);
 
   const sendOTP = () => {
     const isValid = phoneInput.current?.isValidNumber(value);
