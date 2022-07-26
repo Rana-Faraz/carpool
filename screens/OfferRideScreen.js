@@ -41,6 +41,25 @@ import { useNavigation } from "@react-navigation/native";
 const OfferRideScreen = () => {
   const Navigation = useNavigation();
 
+  // ******************** Drop Down Data *******************
+
+  const citiesData = [
+    "Lahore",
+    "Islamabad",
+    "Rawalpindi",
+    "Karachi",
+    "Faisalabad",
+    "Gujranwala",
+    "Sialkot",
+    "Sheikhupura",
+    "Okara",
+    "Pattoki",
+    "Kasur",
+    "Multan",
+    "Peshawar",
+    "Quetta",
+  ];
+
   // ******** Use States for all the input fields ********
   const [pickup, setPickup] = useState("");
   const [drop, setDrop] = useState("");
@@ -145,52 +164,51 @@ const OfferRideScreen = () => {
     <ScrollView>
       <KeyboardAvoidingView
         style={{ padding: 10 }}
-        // behavior={Platform.OS === "android" ? "height" : "padding"}
+        behavior={Platform.OS === "android" ? "height" : "padding"}
       >
         <Text
           style={[availableRideHeading, { textAlign: "left", marginBottom: 5 }]}
         >
           Route
         </Text>
-        <View
-          style={[
-            availableRideLocaBox,
-            { flexDirection: "row", alignItems: "center", height: 41 },
-          ]}
-        >
-          <MaterialIcons
-            name="my-location"
-            size={20}
-            color={lightModColor.themeBackground}
-          />
-          <TextInput
-            style={{ marginLeft: 5, width: "90%" }}
-            placeholder="Pick up Location"
-            onChangeText={(value) => setPickup(value)}
-            value={pickup}
+        <View>
+          <SelectDropdown
+            data={citiesData}
+            buttonStyle={dropDownStyle}
+            buttonTextStyle={{ fontSize: 15 }}
+            dropdownStyle={{ height: "70%" }}
+            dropdownIconPosition="left"
+            defaultValue={pickup}
+            renderDropdownIcon={() => (
+              <MaterialIcons
+                name="my-location"
+                size={20}
+                color={lightModColor.themeBackground}
+              />
+            )}
+            onSelect={(text) => setPickup(text)}
           />
         </View>
         <View
-          style={[
-            availableRideLocaBox,
-            {
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 5,
-              height: 41,
-            },
-          ]}
+          style={{
+            marginTop: 5,
+          }}
         >
-          <MaterialIcons
-            name="location-on"
-            size={20}
-            color={lightModColor.themeBackground}
-          />
-          <TextInput
-            style={{ marginLeft: 5, width: "90%" }}
-            placeholder="Drop Location"
-            onChangeText={(value) => setDrop(value)}
-            value={drop}
+          <SelectDropdown
+            data={citiesData}
+            buttonStyle={dropDownStyle}
+            buttonTextStyle={{ fontSize: 15 }}
+            dropdownIconPosition="left"
+            dropdownStyle={{ height: "70%" }}
+            defaultValue={drop}
+            renderDropdownIcon={() => (
+              <MaterialIcons
+                name="location-on"
+                size={20}
+                color={lightModColor.themeBackground}
+              />
+            )}
+            onSelect={(text) => setDrop(text)}
           />
         </View>
         <Text
@@ -297,17 +315,6 @@ const OfferRideScreen = () => {
               />
             )
           )}
-          {/* {show && (
-            <RNDateTimePicker
-              value={new Date()}
-              mode={mode}
-              onChange={mode === "date" ? onChangeDate : onChangeTime}
-              // style={{ backgroundColor: lightModColor.themeBackground }}
-              themeVariant={"dark"}
-              minimumDate={new Date()}
-            />
-          )} */}
-          {/* {showDate && <RNDateTimePicker value={new Date()} mode={"date"} />} */}
           <Text style={{ marginRight: 5 }}>
             <MaterialIcons
               name="date-range"

@@ -61,7 +61,7 @@ export const availableRideHeading = {
 
 export const dropDownStyle = {
   width: "100%",
-  height: 43,
+  height: 41,
   borderColor: "#4444",
   borderWidth: 0.5,
   borderRadius: 5,
