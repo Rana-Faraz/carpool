@@ -1,6 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useLayoutEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -33,6 +39,7 @@ const SuggessionScreen = () => {
       collectionRef,
       where("pickup", "==", pickUpLoca),
       where("drop", "==", dropLoca)
+      // orderBy("date", "desc")
     );
 
     const Subscribe = onSnapshot(q, (snapshot) => {
@@ -84,6 +91,7 @@ const SuggessionScreen = () => {
               name="sort"
               size={25}
               color={lightModColor.themeBackground}
+              style={{ alignItems: "center" }}
             />
             <Text
               style={[

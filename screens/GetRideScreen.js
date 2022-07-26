@@ -86,7 +86,7 @@ const GetRideScreen = () => {
           </View>
         </View>
         <TouchableOpacity
-          style={btn}
+          style={[btn, { opacity: !pickUp || !dropIn ? 0.5 : 1 }]}
           onPress={() =>
             id === "get"
               ? Navigation.navigate("suggession", {
