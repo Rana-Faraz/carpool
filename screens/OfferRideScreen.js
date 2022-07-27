@@ -6,7 +6,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   Button,
   KeyboardAvoidingView,
@@ -206,7 +206,7 @@ const OfferRideScreen = () => {
         </Text>
         <View>
           <SelectDropdown
-            data={citiesData}
+            data={pickDropValue}
             buttonStyle={dropDownStyle}
             buttonTextStyle={{ fontSize: 15 }}
             dropdownStyle={{ height: "70%" }}
@@ -228,8 +228,8 @@ const OfferRideScreen = () => {
           }}
         >
           <SelectDropdown
-            data={citiesData}
-            buttonStyle={dropDownStyle}
+            data={dropDropValue}
+            buttonStyle={dropDropValue}
             buttonTextStyle={{ fontSize: 15 }}
             dropdownIconPosition="left"
             dropdownStyle={{ height: "70%" }}
