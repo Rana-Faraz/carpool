@@ -56,6 +56,7 @@ const GlobalChatScreen = () => {
       console.log("snapshot");
       setMessages(
         snapshot.docs.map((doc) => ({
+          id: doc.id,
           createdAt: doc.data().createdAt,
           text: doc.data().text,
           name: doc.data().name,
@@ -92,7 +93,8 @@ const GlobalChatScreen = () => {
     var h = H % 12 || 12;
     var ampm = H < 12 || H === 24 ? " AM" : " PM";
     time = h + time.substr(2, 3) + ampm;
-    addDoc(collection(db, "messages"), {
+
+    const id = addDoc(collection(db, "messages"), {
       text: text,
       sentBy: user,
       name: userDoc.name,
@@ -154,7 +156,7 @@ const GlobalChatScreen = () => {
                   {messages &&
                     messages.map((item) => (
                       <ChatBubble
-                        key={item.createdAt}
+                        key={item.id}
                         message={item.text}
                         sentTime={item.time}
                         backgroundColor={
