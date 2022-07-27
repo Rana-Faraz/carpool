@@ -194,9 +194,12 @@ const OfferRideScreen = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView
+      automaticallyAdjustKeyboardInsets={true}
+      automaticallyAdjustsScrollIndicatorInsets={false}
+    >
       <KeyboardAvoidingView
-        style={{ padding: 10 }}
+        style={{ padding: 10, height: Platform.OS === "ios" && 800 }}
         behavior={Platform.OS === "android" ? null : "padding"}
       >
         <Text
