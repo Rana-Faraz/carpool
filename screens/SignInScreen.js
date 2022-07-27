@@ -33,11 +33,11 @@ const SignInScreen = () => {
     setUserDoc(null);
   }, []);
 
-  const sendOTP = () => {
-    if (value.length < 10) {
+  const handleSubmit = () => {
+    if (value.length > 10) {
       Alert.alert("Invalid Phone Number", "Please enter a valid phone number");
       return;
-    } else if (value.length > 10) {
+    } else if (value.length < 10) {
       Alert.alert("Invalid Phone Number", "Please enter a valid phone number");
       return;
     } else {
@@ -74,6 +74,7 @@ const SignInScreen = () => {
       );
     }
   };
+  const sendOTP = () => {};
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -179,7 +180,7 @@ const SignInScreen = () => {
                     onChangeText={(text) => {
                       setValue(text);
                     }}
-                    placeholder="Phone Number"
+                    placeholder="3xxxxxxxxx"
                   />
                 </View>
               </View>
@@ -187,19 +188,18 @@ const SignInScreen = () => {
           </View>
           <View>
             <TouchableOpacity
-              disabled={value.length > 10 || value.length < 10 || isLoading}
+              disabled={value.length < 10 || isLoading}
               style={[
                 btn,
                 {
-                  opacity:
-                    value.length > 10 || value.length < 10 || isLoading
-                      ? 0.5
-                      : 1,
+                  opacity: value.length < 10 || isLoading ? 0.5 : 1,
                   alignSelf: "center",
                   marginVertical: 10,
                 },
               ]}
-              onPress={sendOTP}
+              onPress={() => {
+                handleSubmit();
+              }}
             >
               {isLoading ? (
                 <View
