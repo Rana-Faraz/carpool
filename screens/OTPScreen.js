@@ -45,9 +45,9 @@ const OTPScreen = ({ route, navigation }) => {
   const [code, setCode] = React.useState();
 
   const createDocument = async () => {
-    const myDoc = doc(db, "Users-Data", phone);
+    const myDoc = doc(db, "Users-Data", `${"+92" + phone}`);
     const docData = {
-      phone: phone,
+      phone: `${"+92" + phone}`,
       createdAt: serverTimestamp(),
       name: "",
       email: "",
@@ -57,9 +57,13 @@ const OTPScreen = ({ route, navigation }) => {
       .then((snapshot) => {
         if (snapshot.data() == null) {
           setDoc(myDoc, docData);
-          getDoc(myDoc).then((snapshot) => {
-            setUserDoc(snapshot.data());
-          });
+          getDoc(myDoc)
+            .then((snapshot) => {
+              setUserDoc(snapshot.data());
+            })
+            .catch((err) => {
+              console.log(err);
+            });
           console.log("Documnet Created");
         } else {
           setUserDoc(snapshot.data());
@@ -78,12 +82,18 @@ const OTPScreen = ({ route, navigation }) => {
   };
 
   function verifyOTP(phone, code) {
-    checkVerification(phone, code)
+    const phoneNumber = `+92${phone}`;
+    checkVerification(phoneNumber, code)
       .then((success) => {
-        if (!success) setInvalidCode(true);
+        if (!success)
+          Alert.alert(
+            "Invalid Code",
+            "Enter the OTP sent to your phone number"
+          );
         else {
+          console.log(phone);
           createDocument();
-          setUser(phone);
+          setUser("+92" + phone);
         }
       })
       .catch((err) => {
@@ -93,7 +103,6 @@ const OTPScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (invalidCode) {
-      Alert.alert("Invalid Code", "Enter the OTP sent to your phone number");
     }
   }, [invalidCode]);
 
@@ -150,7 +159,7 @@ const OTPScreen = ({ route, navigation }) => {
                 opacity: 0.5,
               }}
             >
-              We have sent a code to {phone}
+              We have sent a code to {"+92" + phone}
             </Text>
             <OTPInputView
               style={{ width: "100%", height: 200 }}
