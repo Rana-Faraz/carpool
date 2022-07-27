@@ -45,9 +45,9 @@ const OTPScreen = ({ route, navigation }) => {
   const [code, setCode] = React.useState();
 
   const createDocument = async () => {
-    const myDoc = doc(db, "Users-Data", `${"+92" + phone}`);
+    const myDoc = doc(db, "Users-Data", phone);
     const docData = {
-      phone: `${"+92" + phone}`,
+      phone: phone,
       createdAt: serverTimestamp(),
       name: "",
       email: "",
@@ -82,8 +82,7 @@ const OTPScreen = ({ route, navigation }) => {
   };
 
   function verifyOTP(phone, code) {
-    const phoneNumber = `+92${phone}`;
-    checkVerification(phoneNumber, code)
+    checkVerification(phone, code)
       .then((success) => {
         if (!success)
           Alert.alert(
@@ -93,7 +92,7 @@ const OTPScreen = ({ route, navigation }) => {
         else {
           console.log(phone);
           createDocument();
-          setUser("+92" + phone);
+          setUser(phone);
         }
       })
       .catch((err) => {
@@ -159,7 +158,7 @@ const OTPScreen = ({ route, navigation }) => {
                 opacity: 0.5,
               }}
             >
-              We have sent a code to {"+92" + phone}
+              We have sent a code to {phone}
             </Text>
             <OTPInputView
               style={{ width: "100%", height: 200 }}

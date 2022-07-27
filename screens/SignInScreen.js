@@ -41,40 +41,36 @@ const SignInScreen = () => {
       Alert.alert("Invalid Phone Number", "Please enter a valid phone number");
       return;
     } else {
-      Alert.alert(
-        "Confirm",
-        `Are you sure ${"+92" + value} is your phone number?`,
-        [
-          {
-            text: "Yes",
-            onPress: () => {
-              setIsLoading(true);
-              sendSmsVerification("+92" + value)
-                .then((sent, err) => {
-                  if (sent) {
-                    Navigation.navigate("OTP", { phone: value });
-                  } else {
-                    Alert.alert(
-                      "Error",
-                      "Something went wrong. Please try again later"
-                    );
-                    setIsLoading(false);
-                  }
-                })
-                .catch((err) => {
-                  console.log("Error: ", err);
-                });
-            },
+      const phone = "+92" + value;
+      Alert.alert("Confirm", `Are you sure ${phone} is your phone number?`, [
+        {
+          text: "Yes",
+          onPress: () => {
+            setIsLoading(true);
+            sendSmsVerification(phone)
+              .then((sent) => {
+                if (sent) {
+                  Navigation.navigate("OTP", { phone: phone });
+                } else {
+                  Alert.alert(
+                    "Error",
+                    "Something went wrong. Please try again later"
+                  );
+                  setIsLoading(false);
+                }
+              })
+              .catch((err) => {
+                console.log("Error: ", err);
+              });
           },
-          {
-            text: "No",
-            onPress: () => console.log("No"),
-          },
-        ]
-      );
+        },
+        {
+          text: "No",
+          onPress: () => console.log("No"),
+        },
+      ]);
     }
   };
-  const sendOTP = () => {};
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
