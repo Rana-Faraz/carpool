@@ -61,12 +61,10 @@ const GetRideScreen = () => {
 
   useLayoutEffect(() => {
     setPickDropValue(handlePickup);
-    console.log("pick" + pickDropValue);
   }, [dropIn]);
 
   useLayoutEffect(() => {
     setDropDropValue(handleDropin);
-    console.log("drop" + dropDropValue);
   }, [pickUp]);
 
   return (
@@ -86,7 +84,7 @@ const GetRideScreen = () => {
               buttonTextStyle={{ fontSize: 15 }}
               // dropdownStyle={{ height: "70%" }}
               dropdownIconPosition="left"
-              defaultValue={pickUp}
+              // defaultValue={pickUp}
               renderDropdownIcon={() => (
                 <MaterialIcons
                   name="my-location"

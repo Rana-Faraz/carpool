@@ -41,58 +41,6 @@ import { useNavigation } from "@react-navigation/native";
 const OfferRideScreen = () => {
   const Navigation = useNavigation();
 
-  // ************** Casecading Drop Down Logic ***************
-
-  const pickupDropDown = [
-    "Lahore",
-    "Islamabad",
-    "Rawalpindi",
-    "Karachi",
-    "Faisalabad",
-    "Gujranwala",
-    "Sialkot",
-    "Sheikhupura",
-    "Okara",
-    "Pattoki",
-    "Kasur",
-    "Multan",
-    "Peshawar",
-    "Quetta",
-  ];
-  const dropinDropDown = [
-    "Lahore",
-    "Islamabad",
-    "Rawalpindi",
-    "Karachi",
-    "Faisalabad",
-    "Gujranwala",
-    "Sialkot",
-    "Sheikhupura",
-    "Okara",
-    "Pattoki",
-    "Kasur",
-    "Multan",
-    "Peshawar",
-    "Quetta",
-  ];
-  const [pickDropValue, setPickDropValue] = useState(pickupDropDown);
-  const [dropDropValue, setDropDropValue] = useState(dropinDropDown);
-
-  const handlePickup = () => {
-    return pickupDropDown.filter((loc) => loc !== drop);
-  };
-  const handleDropin = () => {
-    return dropinDropDown.filter((loc) => loc !== pickup);
-  };
-
-  useLayoutEffect(() => {
-    setPickDropValue(handlePickup);
-  }, [drop]);
-
-  useLayoutEffect(() => {
-    setDropDropValue(handleDropin);
-  }, [pickup]);
-
   // ******** Use States for all the input fields ********
   const [pickup, setPickup] = useState("");
   const [drop, setDrop] = useState("");
@@ -163,6 +111,58 @@ const OfferRideScreen = () => {
     setMode(currentMode);
   };
 
+  // ************** Casecading Drop Down Logic ***************
+
+  const pickupDropDown = [
+    "Lahore",
+    "Islamabad",
+    "Rawalpindi",
+    "Karachi",
+    "Faisalabad",
+    "Gujranwala",
+    "Sialkot",
+    "Sheikhupura",
+    "Okara",
+    "Pattoki",
+    "Kasur",
+    "Multan",
+    "Peshawar",
+    "Quetta",
+  ];
+  const dropinDropDown = [
+    "Lahore",
+    "Islamabad",
+    "Rawalpindi",
+    "Karachi",
+    "Faisalabad",
+    "Gujranwala",
+    "Sialkot",
+    "Sheikhupura",
+    "Okara",
+    "Pattoki",
+    "Kasur",
+    "Multan",
+    "Peshawar",
+    "Quetta",
+  ];
+  const [pickDropValue, setPickDropValue] = useState(pickupDropDown);
+  const [dropDropValue, setDropDropValue] = useState(dropinDropDown);
+
+  const handlePickup = () => {
+    return pickupDropDown.filter((loc) => loc !== drop);
+  };
+  const handleDropin = () => {
+    return dropinDropDown.filter((loc) => loc !== pickup);
+  };
+
+  useLayoutEffect(() => {
+    setPickDropValue(handlePickup);
+  }, [drop]);
+
+  useLayoutEffect(() => {
+    setDropDropValue(handleDropin);
+  }, [pickup]);
+
   // ******* DataBase Logics **********
 
   const create = () => {
@@ -197,7 +197,7 @@ const OfferRideScreen = () => {
     <ScrollView>
       <KeyboardAvoidingView
         style={{ padding: 10 }}
-        behavior={Platform.OS === "android" ? "height" : "padding"}
+        behavior={Platform.OS === "android" ? null : "padding"}
       >
         <Text
           style={[availableRideHeading, { textAlign: "left", marginBottom: 5 }]}
@@ -211,7 +211,7 @@ const OfferRideScreen = () => {
             buttonTextStyle={{ fontSize: 15 }}
             dropdownStyle={{ height: "70%" }}
             dropdownIconPosition="left"
-            defaultValue={pickup}
+            // defaultValue={pickup}
             renderDropdownIcon={() => (
               <MaterialIcons
                 name="my-location"
@@ -229,11 +229,11 @@ const OfferRideScreen = () => {
         >
           <SelectDropdown
             data={dropDropValue}
-            buttonStyle={dropDropValue}
+            buttonStyle={dropDownStyle}
             buttonTextStyle={{ fontSize: 15 }}
             dropdownIconPosition="left"
             dropdownStyle={{ height: "70%" }}
-            defaultValue={drop}
+            // defaultValue={drop}
             renderDropdownIcon={() => (
               <MaterialIcons
                 name="location-on"
@@ -359,7 +359,7 @@ const OfferRideScreen = () => {
             style={[availableRideLocaBox, { width: "41%" }]}
             onPress={() => showMode("date")}
           >
-            <Text>{date ? date : currenDate}</Text>
+            <Text>{date ? date : setDate(currenDate)}</Text>
           </TouchableOpacity>
           <Text style={{ marginHorizontal: 5 }}>
             <Ionicons
@@ -372,7 +372,7 @@ const OfferRideScreen = () => {
             style={[availableRideLocaBox, { width: "41%" }]}
             onPress={() => showMode("time")}
           >
-            <Text>{time ? time : currentTime}</Text>
+            <Text>{time ? time : setTime(currentTime)}</Text>
           </TouchableOpacity>
         </View>
         <Text
