@@ -41,9 +41,9 @@ import { useNavigation } from "@react-navigation/native";
 const OfferRideScreen = () => {
   const Navigation = useNavigation();
 
-  // ******************** Drop Down Data *******************
+  // ************** Casecading Drop Down Logic ***************
 
-  const citiesData = [
+  const pickupDropDown = [
     "Lahore",
     "Islamabad",
     "Rawalpindi",
@@ -59,6 +59,39 @@ const OfferRideScreen = () => {
     "Peshawar",
     "Quetta",
   ];
+  const dropinDropDown = [
+    "Lahore",
+    "Islamabad",
+    "Rawalpindi",
+    "Karachi",
+    "Faisalabad",
+    "Gujranwala",
+    "Sialkot",
+    "Sheikhupura",
+    "Okara",
+    "Pattoki",
+    "Kasur",
+    "Multan",
+    "Peshawar",
+    "Quetta",
+  ];
+  const [pickDropValue, setPickDropValue] = useState(pickupDropDown);
+  const [dropDropValue, setDropDropValue] = useState(dropinDropDown);
+
+  const handlePickup = () => {
+    return pickupDropDown.filter((loc) => loc !== drop);
+  };
+  const handleDropin = () => {
+    return dropinDropDown.filter((loc) => loc !== pickup);
+  };
+
+  useLayoutEffect(() => {
+    setPickDropValue(handlePickup);
+  }, [drop]);
+
+  useLayoutEffect(() => {
+    setDropDropValue(handleDropin);
+  }, [pickup]);
 
   // ******** Use States for all the input fields ********
   const [pickup, setPickup] = useState("");
