@@ -7,6 +7,7 @@ import { Divider } from "react-native-paper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 import { CarState } from "../context/CarContext";
+import PrivateChats from "./PrivateChats";
 
 const ChatCatogery = ({ navigation }) => {
   const { userDoc } = CarState();
@@ -55,7 +56,7 @@ const ChatCatogery = ({ navigation }) => {
         </View>
         <Ionicons name="caret-forward" size={24} color="black" />
       </TouchableOpacity>
-      <Divider
+      {/* <Divider
         style={{
           width: "80%",
           alignSelf: "center",
@@ -105,7 +106,7 @@ const ChatCatogery = ({ navigation }) => {
           </Text>
         </View>
         <Ionicons name="caret-forward" size={24} color="black" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {userDoc.gender === "Female" && (
         <>
           <Divider
@@ -166,6 +167,15 @@ const ChatCatogery = ({ navigation }) => {
           </TouchableOpacity>
         </>
       )}
+      <Divider
+        style={{
+          width: "80%",
+          alignSelf: "center",
+          height: 1,
+          borderRadius: 50,
+        }}
+      />
+      <PrivateChats />
     </View>
   );
 };
