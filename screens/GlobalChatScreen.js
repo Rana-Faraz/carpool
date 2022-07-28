@@ -147,28 +147,28 @@ const GlobalChatScreen = () => {
     const chatId = user > number ? user + number : number + user;
     const docRef2 = doc(db, "Users-Data", user, "messages", chatId);
     const infoData = {
-      name: name,
+      senderName: userDoc.name,
+      recieverName: name,
       senderNumber: user,
       recieverNumber: number,
-      latest: serverTimestamp(),
+      sentAt: serverTimestamp(),
+      time: time,
     };
-    setDoc(docRef2, infoData);
+    setDoc(docRef2, infoData, { merge: true });
     const docRef3 = doc(db, "Users-Data", number, "messages", chatId);
-    setDoc(docRef3, infoData);
+    setDoc(docRef3, infoData, { merge: true });
     const docRef = collection(db, "messages", chatId, "privateChats");
     const docData = {
-      name: userDoc.name,
-      setToName: name,
-      chatId: chatId,
-      sentBy: user,
-      sentTo: number,
-      message: "Hi!",
+      senderName: userDoc.name,
+      recieverName: name,
+      senderNumber: user,
+      recieverNumber: number,
       sentAt: serverTimestamp(),
       time: time,
     };
     getDoc(docRef2).then((doc) => {
       if (doc.data() === undefined) {
-        addDoc(docRef, docData);
+        addDoc(docRef, docData, { merge: true });
       }
     });
   };

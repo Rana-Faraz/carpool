@@ -51,7 +51,7 @@ const OneToOneChat = ({ route, navigation }) => {
 
   useEffect(() => {
     setIsLoading(true);
-    const collectionRef = collection(db, "messages", id, "privateChats");
+    const collectionRef = collection(db, "messages", chatId, "privateChats");
     const q = query(collectionRef, orderBy("sentAt", "asc"));
 
     const formatDate = (date) => {
@@ -145,15 +145,19 @@ const OneToOneChat = ({ route, navigation }) => {
       },
       { merge: true }
     );
-    addDoc(collectionRef, {
-      text: text,
-      sentBy: user,
-      name: userDoc.name,
-      sentTime: time,
-      sentAt: new Date(),
+    addDoc(
+      collectionRef,
+      {
+        text: text,
+        sentBy: user,
+        name: userDoc.name,
+        sentTime: time,
+        sentAt: new Date(),
 
-      time: time,
-    }).catch((error) => {
+        time: time,
+      },
+      { merge: true }
+    ).catch((error) => {
       Alert.alert("Error", error.message);
     });
     setText("");
