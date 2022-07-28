@@ -14,6 +14,7 @@ import { btn, btnText, itemCenter, row } from "../style/Style";
 const AvailableRideItems = (props) => {
   return (
     <View
+      key={props.id}
       style={{
         backgroundColor: "#ffff",
         margin: 10,
@@ -134,8 +135,16 @@ const AvailableRideItems = (props) => {
           <Text>{" " + props.time}</Text>
         </View>
       </View>
-      <View style={[itemCenter, { marginVertical: 10 }]}>
-        <TouchableOpacity style={[btn, { padding: 8, width: "100%" }]}>
+      <View style={[itemCenter, row, { marginVertical: 10 }]}>
+        <TouchableOpacity
+          style={[
+            btn,
+            { padding: 8, width: "49%", backgroundColor: "#6d7483" },
+          ]}
+        >
+          <Text style={[btnText]}>Details</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[btn, { padding: 8, width: "49%" }]}>
           <Text style={[btnText]}>Book Now</Text>
         </TouchableOpacity>
       </View>
