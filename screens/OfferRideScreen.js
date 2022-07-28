@@ -28,10 +28,17 @@ import {
   btn,
   btnText,
   dropDownStyle,
+  itemCenter,
   row,
 } from "../style/Style";
-import uuid from "react-native-uuid";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+// import uuid from "react-native-uuid";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../api/firebase";
 import { CarState } from "../context/CarContext";
 import { useNavigation } from "@react-navigation/native";
@@ -47,6 +54,7 @@ const OfferRideScreen = () => {
   const [pickupDetail, setPickupDetail] = useState("");
   const [dropDetail, setDropDetail] = useState("");
   const [currDate, setCurrDate] = useState(new Date());
+  const [formatedDate, setFormatedDate] = useState(new Date());
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [carDeatails, setCarDeatails] = useState("");
@@ -74,6 +82,7 @@ const OfferRideScreen = () => {
     const currentDate = selectedDate || currDate;
     setShow(Platform.OS === "ios");
     let temDate = new Date(currentDate);
+    setFormatedDate(temDate);
     let fDate =
       temDate.getDate() +
       "-" +
@@ -82,10 +91,7 @@ const OfferRideScreen = () => {
       temDate.getFullYear();
 
     setCurrDate(currentDate);
-    console.log(currDate);
-
     setDate(fDate);
-    console.log(date);
   };
   const onChangeTime = (event, selectedDate) => {
     const currentDate = selectedDate || currDate;
@@ -166,11 +172,9 @@ const OfferRideScreen = () => {
   // ******* DataBase Logics **********
 
   const create = () => {
-    const docId = uuid.v4().toString();
-    const collectionRef = doc(db, "Rides", docId);
+    const collectionRef = collection(db, "Rides");
 
     const docData = {
-      id: docId,
       pickup: pickup.replace(/\s/g, ""),
       drop: drop.replace(/\s/g, ""),
       pickupDetail: pickupDetail,
@@ -184,9 +188,10 @@ const OfferRideScreen = () => {
       comments: comments,
       createBy: userDoc,
       createDate: serverTimestamp(),
+      formatedDate: formatedDate,
     };
 
-    setDoc(collectionRef, docData)
+    addDoc(collectionRef, docData)
       .then(console.log("succesfully added"))
       .catch((err) => console.log(err));
 
@@ -195,11 +200,11 @@ const OfferRideScreen = () => {
 
   return (
     <ScrollView
-      automaticallyAdjustKeyboardInsets={true}
-      automaticallyAdjustsScrollIndicatorInsets={false}
+    // automaticallyAdjustKeyboardInsets={true}
+    // automaticallyAdjustsScrollIndicatorInsets={false}
     >
       <KeyboardAvoidingView
-        style={{ padding: 10, height: Platform.OS === "ios" && 800 }}
+        style={{ padding: 10, height: Platform.OS === "ios" ? 800 : null }}
         behavior={Platform.OS === "android" ? null : "padding"}
       >
         <Text
@@ -461,9 +466,12 @@ const OfferRideScreen = () => {
             { textAlign: "left", marginVertical: 10 },
           ]}
         >
-          Trip Options
+          Trip Options{" "}
+          <Text style={{ fontSize: 12, fontWeight: "200" }}>
+            (Price per Passengers)
+          </Text>
         </Text>
-        <Text>Price per Passengers</Text>
+
         <View style={[row, { alignItems: "center" }]}>
           <TouchableOpacity
             style={[availableRideLocaBox, { opacity: price <= 400 ? 0.5 : 1 }]}
@@ -476,8 +484,18 @@ const OfferRideScreen = () => {
               color={lightModColor.themeBackground}
             />
           </TouchableOpacity>
-          <View style={[availableRideLocaBox, { width: "74%" }]}>
-            <Text style={{ textAlign: "center" }}>{price}</Text>
+          <View
+            style={[
+              availableRideLocaBox,
+              {
+                width: "74%",
+                height: "100%",
+                alignItems: "center",
+                // justifyContent: "center",
+              },
+            ]}
+          >
+            <Text style={{ paddingVertical: 3 }}>{price}</Text>
           </View>
           <TouchableOpacity
             style={[availableRideLocaBox, { opacity: price >= 4000 ? 0.5 : 1 }]}

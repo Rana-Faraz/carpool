@@ -2,9 +2,11 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   collection,
+  limit,
   onSnapshot,
   orderBy,
   query,
+  queryEqual,
   where,
 } from "firebase/firestore";
 import React, { useLayoutEffect, useState } from "react";
@@ -38,14 +40,14 @@ const SuggessionScreen = () => {
     const q = query(
       collectionRef,
       where("pickup", "==", pickUpLoca),
-      where("drop", "==", dropLoca)
-      // orderBy("date", "desc")
+      where("drop", "==", dropLoca),
+      orderBy("formatedDate")
     );
 
     const Subscribe = onSnapshot(q, (snapshot) => {
       setRidesDoc(
         snapshot.docs.map((doc) => ({
-          id: doc.data().id,
+          id: doc.id,
           pickup: doc.data().pickup,
           drop: doc.data().drop,
           pickupDetail: doc.data().pickupDetail,
@@ -58,6 +60,7 @@ const SuggessionScreen = () => {
           price: doc.data().price,
           comments: doc.data().comments,
           user: doc.data().createBy,
+          formatedDate: doc.data().formatedDate.toDate(),
         }))
       );
     });
@@ -120,6 +123,7 @@ const SuggessionScreen = () => {
             ridesDoc.map((doc) => (
               <AvailableRideItems
                 key={doc.id}
+                id={doc.id}
                 user={doc.user}
                 carDetails={doc.carDetails}
                 price={doc.price}
