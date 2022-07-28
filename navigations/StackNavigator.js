@@ -26,6 +26,8 @@ import { useNavigation } from "@react-navigation/native";
 import UserInfoScreen from "../screens/UserInfoScreen";
 import LoadingScreen from "../screens/LoadingScreen";
 import ChatCatogery from "../screens/ChatCatogery";
+import PrivateChats from "../screens/PrivateChats";
+import OneToOneChat from "../screens/OneToOneChat";
 
 const Stack = createStackNavigator();
 
@@ -124,6 +126,22 @@ const appStack = () => {
               component={ChatCatogery}
               options={{
                 headerTitle: "Chats",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="Private Chats"
+              component={PrivateChats}
+              options={{
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="One To One"
+              component={OneToOneChat}
+              options={{
                 headerStyle: headerStyle,
                 headerTintColor: "#ffff",
               }}
