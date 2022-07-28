@@ -40,6 +40,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const GlobalChatScreen = () => {
   const Navigation = useNavigation();
+  const dates = new Set();
+
   const _scrollView = React.useRef(null);
   const { user, userDoc } = CarState();
   const { height, width } = Dimensions.get("window");
@@ -54,17 +56,36 @@ const GlobalChatScreen = () => {
     setIsLoading(true);
     const collectionRef = collection(db, "messages");
     const q = query(collectionRef, orderBy("createdAt", "asc"));
+    const formatDate = (date) => {
+      const td = new Date();
+      const dateNow = td.getDate();
+      const monthNow = td.getMonth() + 1;
+      const yearNow = td.getFullYear();
+      const d = new Date(date);
+      const h = d.getDate();
+      const m = d.getMonth() + 1;
+      const s = d.getFullYear();
+      if (!date) {
+        return null;
+      } else if (dateNow == h + 1 && monthNow == m && yearNow == s) {
+        return "Yesterday";
+      } else if (dateNow == h && monthNow == m && yearNow == s) {
+        return "Today";
+      } else {
+        return `${h}/${m}/${s}`;
+      }
+    };
 
     const unsub = onSnapshot(q, (snapshot) => {
       console.log("snapshot");
       setMessages(
         snapshot.docs.map((doc) => ({
           id: doc.id,
-          createdAt: doc.data().createdAt,
-          text: doc.data().text,
+          message: doc.data().text,
           name: doc.data().name,
           user: doc.data().sentBy,
           time: doc.data().sentTime,
+          createdAt: formatDate(doc.data().createdAt?.toDate()),
         }))
       );
       setIsLoading(false);
@@ -73,6 +94,28 @@ const GlobalChatScreen = () => {
     // console.log(messages);
     return unsub;
   }, []);
+
+  const renderDate = (chat, dateNum) => {
+    dates.add(dateNum);
+
+    return (
+      <>
+        {dateNum == null ? null : (
+          <View
+            style={{
+              backgroundColor: "#d4d7db",
+              alignSelf: "center",
+              padding: 5,
+              borderRadius: 5,
+              marginTop: 5,
+            }}
+          >
+            <Text>{chat.createdAt}</Text>
+          </View>
+        )}
+      </>
+    );
+  };
 
   const onLongPress = (name, id, number) => {
     Alert.alert("Message", "Do you want to message " + name + "?", [
@@ -188,9 +231,9 @@ const GlobalChatScreen = () => {
                   </Text>
                 </View>
                 <ScrollView
-                  onLayout={() =>
-                    _scrollView.current.scrollToEnd({ animated: false })
-                  }
+                  onContentSizeChange={(contentWidth, contentHeight) => {
+                    _scrollView.current.scrollToEnd({ animated: false });
+                  }}
                   ref={_scrollView}
                   style={{
                     marginBottom: 100,
@@ -198,33 +241,40 @@ const GlobalChatScreen = () => {
                 >
                   {messages &&
                     messages.map((item) => (
-                      <Pressable
-                        key={item.id}
-                        onLongPress={() =>
-                          onLongPress(item.name, item.id, item.user)
-                        }
-                      >
-                        <ChatBubble
+                      <React.Fragment key={item.id}>
+                        {dates.has(item.createdAt)
+                          ? null
+                          : renderDate(item, item.createdAt)}
+                        <Pressable
                           key={item.id}
-                          message={item.text}
-                          sentTime={item.time}
-                          backgroundColor={
+                          onLongPress={
                             item.user == user
-                              ? lightModColor.themeBackground
-                              : "white"
-                          }
-                          flex={item.user == user ? "flex-end" : "flex-start"}
-                          nameColor={"orange"}
-                          fontColor={item.user == user ? "white" : "black"}
-                          name={
-                            item.user === user
                               ? null
-                              : item.name
-                              ? item.name
-                              : item.user
+                              : () => onLongPress(item.name, item.id, item.user)
                           }
-                        />
-                      </Pressable>
+                        >
+                          <ChatBubble
+                            key={item.id}
+                            message={item.message}
+                            sentTime={item.time}
+                            backgroundColor={
+                              item.user == user
+                                ? lightModColor.themeBackground
+                                : "white"
+                            }
+                            flex={item.user == user ? "flex-end" : "flex-start"}
+                            nameColor={"orange"}
+                            fontColor={item.user == user ? "white" : "black"}
+                            name={
+                              item.user === user
+                                ? null
+                                : item.name
+                                ? item.name
+                                : item.user
+                            }
+                          />
+                        </Pressable>
+                      </React.Fragment>
                     ))}
                 </ScrollView>
               </View>
