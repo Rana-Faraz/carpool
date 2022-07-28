@@ -130,13 +130,17 @@ const OneToOneChat = ({ route, navigation }) => {
       lastMsg: text,
       lastMsgTime: time,
       lastMsgBy: user,
+      recieverName: name,
       senderName: userDoc.name,
+      latest: serverTimestamp(),
     });
     setDoc(collectionRef2, {
       lastMsg: text,
       lastMsgTime: time,
       lastMsgBy: user,
+      recieverName: name,
       senderName: userDoc.name,
+      latest: serverTimestamp(),
     });
     addDoc(collectionRef, {
       text: text,

@@ -16,7 +16,7 @@ import LoadingScreen from "./LoadingScreen";
 const PrivateChats = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState([]);
-  const { user } = CarState();
+  const { user, userDoc } = CarState();
   useEffect(() => {
     setIsLoading(true);
     const collectionRef = collection(db, "Users-Data", user, "messages");
@@ -26,7 +26,7 @@ const PrivateChats = ({ navigation }) => {
       setChats(
         snapshot.docs.map((doc) => ({
           id: doc.id,
-          name: doc.data().name,
+          recieverName: doc.data().recieverName,
           senderName: doc.data().senderName,
           number: doc.data().recieverNumber,
           lastMsg: doc.data().lastMsg,
@@ -57,7 +57,11 @@ const PrivateChats = ({ navigation }) => {
             }
           >
             <ChatList
-              name={chat.sentBy}
+              name={
+                chat.recieverName == userDoc.name
+                  ? chat.senderName
+                  : chat.recieverName
+              }
               lastMsg={chat.lastMsg}
               lastMsgTime={chat.lastMsgTime}
               lastMsgBy={chat.lastMsgBy}
