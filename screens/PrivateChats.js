@@ -27,6 +27,7 @@ const PrivateChats = ({ navigation }) => {
         snapshot.docs.map((doc) => ({
           id: doc.id,
           name: doc.data().name,
+          senderName: doc.data().senderName,
           number: doc.data().recieverNumber,
           lastMsg: doc.data().lastMsg,
           lastMsgTime: doc.data().lastMsgTime,
@@ -56,7 +57,7 @@ const PrivateChats = ({ navigation }) => {
             }
           >
             <ChatList
-              name={chat.name}
+              name={chat.sentBy}
               lastMsg={chat.lastMsg}
               lastMsgTime={chat.lastMsgTime}
               lastMsgBy={chat.lastMsgBy}
