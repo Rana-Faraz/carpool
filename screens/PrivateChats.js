@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import ChatList from "../components/ChatList";
 import {
@@ -45,7 +51,7 @@ const PrivateChats = () => {
     return unsub;
   }, []);
   return (
-    <>
+    <ScrollView>
       {isLoading ? (
         <View style={{ marginTop: 30 }}>
           <ActivityIndicator
@@ -85,7 +91,7 @@ const PrivateChats = () => {
           </TouchableOpacity>
         ))
       )}
-    </>
+    </ScrollView>
   );
 };
 
