@@ -123,10 +123,9 @@ const OneToOneChat = ({ route, navigation }) => {
     var h = H % 12 || 12;
     var ampm = H < 12 || H === 24 ? " AM" : " PM";
     time = h + time.substr(2, 3) + ampm;
-
-    const collectionRef = collection(db, "messages", id, "privateChats");
-    const collectionRef2 = doc(db, "Users-Data", user, "messages", id);
-    const collectionRef3 = doc(db, "Users-Data", number, "messages", id);
+    const collectionRef = collection(db, "messages", chatId, "privateChats");
+    const collectionRef2 = doc(db, "Users-Data", user, "messages", chatId);
+    const collectionRef3 = doc(db, "Users-Data", number, "messages", chatId);
     setDoc(collectionRef3, {
       lastMsg: text,
       lastMsgTime: time,

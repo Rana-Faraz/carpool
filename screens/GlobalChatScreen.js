@@ -137,7 +137,7 @@ const GlobalChatScreen = () => {
     var ampm = H < 12 || H === 24 ? " AM" : " PM";
     time = h + time.substr(2, 3) + ampm;
 
-    const id = addDoc(collection(db, "messages"), {
+    addDoc(collection(db, "messages"), {
       text: text,
       sentBy: user,
       name: userDoc.name,
