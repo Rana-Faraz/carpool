@@ -54,9 +54,9 @@ const PrivateChats = ({ navigation }) => {
               navigation.navigate("One To One", {
                 name: chat.recieverName,
                 number:
-                  chat.senderNumber == userDoc.number
-                    ? chat.senderNumber
-                    : chat.recieverNumber,
+                  chat.senderNumber == userDoc.phone
+                    ? chat.recieverNumber
+                    : chat.senderNumber,
                 id: chat.id,
               })
             }
