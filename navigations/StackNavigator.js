@@ -28,6 +28,7 @@ import LoadingScreen from "../screens/LoadingScreen";
 import ChatCatogery from "../screens/ChatCatogery";
 import PrivateChats from "../screens/PrivateChats";
 import OneToOneChat from "../screens/OneToOneChat";
+import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -160,6 +161,16 @@ const appStack = () => {
               component={SuggessionScreen}
               options={{
                 headerTitle: "Available Ride",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+                headerTitleAlign: "center",
+              }}
+            />
+            <Stack.Screen
+              name="RideDetails"
+              component={RideDetailsScreen}
+              options={{
+                headerTitle: "Ride Details",
                 headerStyle: headerStyle,
                 headerTintColor: "#ffff",
                 headerTitleAlign: "center",
