@@ -60,6 +60,7 @@ const SuggessionScreen = () => {
           price: doc.data().price,
           comments: doc.data().comments,
           user: doc.data().createBy,
+          createDate: doc.data().createDate,
           formatedDate: doc.data().formatedDate.toDate(),
         }))
       );
@@ -132,6 +133,8 @@ const SuggessionScreen = () => {
                 seats={doc.seats}
                 date={doc.date}
                 time={doc.time}
+                comments={doc.comments}
+                createDate={doc.createDate}
               />
             ))
           )

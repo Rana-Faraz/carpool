@@ -6,12 +6,15 @@ import {
   Zocial,
   FontAwesome5,
 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { lightModColor } from "../style/Color";
 import { btn, btnText, itemCenter, row } from "../style/Style";
 
 const AvailableRideItems = (props) => {
+  const Navigation = useNavigation();
+
   return (
     <View
       key={props.id}
@@ -141,6 +144,21 @@ const AvailableRideItems = (props) => {
             btn,
             { padding: 8, width: "49%", backgroundColor: "#6d7483" },
           ]}
+          onPress={() =>
+            Navigation.navigate("RideDetails", {
+              id: props.id,
+              user: props.user,
+              carDetails: props.carDetails,
+              price: props.price,
+              pickupDetail: props.pickupDetail,
+              dropDetail: props.dropDetail,
+              seats: props.seats,
+              date: props.date,
+              time: props.time,
+              comments: props.comments,
+              createDate: props.createDate,
+            })
+          }
         >
           <Text style={[btnText]}>Details</Text>
         </TouchableOpacity>
