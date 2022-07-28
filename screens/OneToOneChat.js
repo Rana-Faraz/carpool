@@ -13,10 +13,12 @@ import {
 } from "firebase/firestore";
 import React, { useEffect } from "react";
 import {
+  FlatList,
   KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
+  SectionList,
   Text,
   TextInput,
   TouchableOpacity,
@@ -131,12 +133,12 @@ const OneToOneChat = ({ route, navigation }) => {
     const collectionRef = collection(db, "messages", id, "privateChats");
     const collectionRef2 = doc(db, "Users-Data", user, "messages", id);
     const collectionRef3 = doc(db, "Users-Data", number, "messages", id);
-    updateDoc(collectionRef3, {
+    setDoc(collectionRef3, {
       lastMsg: text,
       lastMsgTime: time,
       lastMsgBy: user,
     });
-    updateDoc(collectionRef2, {
+    setDoc(collectionRef2, {
       lastMsg: text,
       lastMsgTime: time,
       lastMsgBy: user,
@@ -170,44 +172,43 @@ const OneToOneChat = ({ route, navigation }) => {
         >
           <View style={{ flex: 1, width: "100%" }}>
             <View>
-              <ScrollView
-                onLayout={() =>
-                  _scrollView.current.scrollToEnd({ animated: false })
-                }
-                ref={_scrollView}
-                style={{
-                  marginBottom: 80,
-                }}
-              >
-                {messages &&
-                  messages.map((item) => (
-                    <React.Fragment key={item.id}>
-                      {dates.has(item.sentAt)
-                        ? null
-                        : renderDate(item, item.sentAt)}
-                      <ChatBubble
-                        key={item.id}
-                        message={item.message}
-                        sentTime={item.time}
-                        backgroundColor={
-                          item.user == user
-                            ? lightModColor.themeBackground
-                            : "white"
-                        }
-                        flex={item.user == user ? "flex-end" : "flex-start"}
-                        nameColor={"orange"}
-                        fontColor={item.user == user ? "white" : "black"}
-                        name={
-                          item.user === user
+              {messages && (
+                <SectionList
+                  style={{ marginBottom: 80 }}
+                  sections={[
+                    {
+                      data: messages,
+                      renderItem: ({ item }) => (
+                        <React.Fragment key={item.id}>
+                          {dates.has(item.sentAt)
                             ? null
-                            : item.name
-                            ? item.name
-                            : item.user
-                        }
-                      />
-                    </React.Fragment>
-                  ))}
-              </ScrollView>
+                            : renderDate(item, item.sentAt)}
+                          <ChatBubble
+                            key={item.id}
+                            message={item.message}
+                            sentTime={item.time}
+                            backgroundColor={
+                              item.user == user
+                                ? lightModColor.themeBackground
+                                : "white"
+                            }
+                            flex={item.user == user ? "flex-end" : "flex-start"}
+                            nameColor={"orange"}
+                            fontColor={item.user == user ? "white" : "black"}
+                            name={
+                              item.user === user
+                                ? null
+                                : item.name
+                                ? item.name
+                                : item.user
+                            }
+                          />
+                        </React.Fragment>
+                      ),
+                    },
+                  ]}
+                />
+              )}
             </View>
             <View
               style={{

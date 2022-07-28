@@ -44,11 +44,6 @@ const ChatList = (props) => {
           <Text style={{ fontSize: 12, opacity: 0.6 }}>
             {props.lastMsgTime}
           </Text>
-          <Ionicons
-            name="caret-forward"
-            size={24}
-            color={lightModColor.fontColor}
-          />
         </View>
       </View>
     </View>
