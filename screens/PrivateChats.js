@@ -63,9 +63,9 @@ const PrivateChats = ({ navigation }) => {
           >
             <ChatList
               name={
-                chat.recieverName == userDoc.name
-                  ? chat.senderName
-                  : chat.recieverName
+                chat.senderName == userDoc.name
+                  ? chat.recieverName
+                  : chat.senderName
               }
               lastMsg={chat.lastMsg}
               lastMsgTime={chat.lastMsgTime}
