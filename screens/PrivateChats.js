@@ -51,6 +51,7 @@ const PrivateChats = ({ navigation }) => {
             key={chat.id}
             onPress={() =>
               navigation.navigate("One To One", {
+                name: chat.recieverName,
                 number: chat.number,
                 id: chat.id,
               })
