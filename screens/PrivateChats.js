@@ -52,7 +52,10 @@ const PrivateChats = ({ navigation }) => {
             key={chat.id}
             onPress={() =>
               navigation.navigate("One To One", {
-                name: chat.recieverName,
+                name:
+                  chat.senderName == userDoc.name
+                    ? chat.recieverName
+                    : chat.senderName,
                 number:
                   chat.senderNumber == userDoc.phone
                     ? chat.recieverNumber
