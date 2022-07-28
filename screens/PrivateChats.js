@@ -28,7 +28,8 @@ const PrivateChats = ({ navigation }) => {
           id: doc.id,
           recieverName: doc.data().recieverName,
           senderName: doc.data().senderName,
-          number: doc.data().recieverNumber,
+          recieverNumber: doc.data().recieverNumber,
+          senderNumber: doc.data().senderNumber,
           lastMsg: doc.data().lastMsg,
           lastMsgTime: doc.data().lastMsgTime,
           lastMsgBy: doc.data().lastMsgBy,
@@ -52,7 +53,10 @@ const PrivateChats = ({ navigation }) => {
             onPress={() =>
               navigation.navigate("One To One", {
                 name: chat.recieverName,
-                number: chat.number,
+                number:
+                  chat.senderNumber == userDoc.number
+                    ? chat.senderNumber
+                    : chat.recieverNumber,
                 id: chat.id,
               })
             }
