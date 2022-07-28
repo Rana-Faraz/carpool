@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import MapView from "react-native-maps";
 import { GOOGLE_MAPS_APIKEY } from "@env";
@@ -13,6 +20,7 @@ import {
   Entypo,
   Ionicons,
   FontAwesome,
+  AntDesign,
 } from "@expo/vector-icons";
 import {
   availableRideHeading,
@@ -56,37 +64,7 @@ const RideDetailsScreen = () => {
   };
   const key = "AIzaSyDxGlhtwYGWKCxulLrJYL4zWWcK0-RR3XA";
   return (
-    <View>
-      {/* <View
-        style={[
-          row,
-          {
-            justifyContent: "space-around",
-            position: "absolute",
-            top: 60,
-            zIndex: 10,
-            width: "100%",
-          },
-        ]}
-      >
-        <MaterialIcons
-          name="my-location"
-          size={30}
-          color={lightModColor.themeBackground}
-        />
-        <View style={{ flexDirection: "row" }}>
-          <MaterialCommunityIcons
-            name="dots-horizontal"
-            size={30}
-            color={lightModColor.themeBackground}
-          />
-        </View>
-        <MaterialIcons
-          name="location-on"
-          size={30}
-          color={lightModColor.themeBackground}
-        />
-      </View> */}
+    <ScrollView>
       <View style={{ flexDirection: "row" }}>
         <MapView
           initialRegion={origin}
@@ -99,13 +77,7 @@ const RideDetailsScreen = () => {
           scrollEnabled={false}
           zoomEnabled={false}
           cacheEnabled={true}
-        >
-          {/* <MapViewDirections
-          origin={origin}
-          destination={destination}
-          apikey={key}
-        /> */}
-        </MapView>
+        ></MapView>
         <MapView
           initialRegion={destination}
           style={{ height: 250, width: "50%" }}
@@ -113,13 +85,7 @@ const RideDetailsScreen = () => {
           scrollEnabled={false}
           zoomEnabled={false}
           cacheEnabled={true}
-        >
-          {/* <MapViewDirections
-          origin={origin}
-          destination={destination}
-          apikey={key}
-        /> */}
-        </MapView>
+        ></MapView>
       </View>
       <View
         //   key={props.id}
@@ -171,42 +137,6 @@ const RideDetailsScreen = () => {
             </Text>
           </View>
         </View>
-
-        {/* <View style={{ paddingVertical: 0 }}>
-          <View style={[row, { justifyContent: "flex-start" }]}>
-            <Octicons
-              name="dot-fill"
-              size={40}
-              color={lightModColor.themeBackground}
-              // style={{ paddingTop: 4 }}
-            />
-            <Text
-              style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}
-            >
-              {pickupDetail}
-            </Text>
-          </View>
-          <View>
-            <Entypo
-              name="dots-three-vertical"
-              size={20}
-              color={lightModColor.themeBackground}
-            />
-          </View>
-          <View style={[row, { justifyContent: "flex-start" }]}>
-            <Octicons
-              name="dot-fill"
-              size={40}
-              color={lightModColor.themeBackground}
-              // style={{ paddingTop: 4 }}
-            />
-            <Text
-              style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}
-            >
-              {dropDetail}
-            </Text>
-          </View>
-        </View> */}
         <View style={[row, { marginVertical: 5 }]}>
           <Text style={{ fontSize: 20 }}>
             <FontAwesome5
@@ -284,8 +214,63 @@ const RideDetailsScreen = () => {
             <Text>{" " + time}</Text>
           </View>
         </View>
+        {comments ? (
+          <View style={{ paddingVertical: 10 }}>
+            <Text style={{ fontSize: 18 }}>
+              <AntDesign
+                name="infocirlceo"
+                size={18}
+                color={lightModColor.themeBackground}
+              />
+              {" " + comments}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
       </View>
-    </View>
+      <View
+        style={[
+          row,
+          { paddingVertical: 20, paddingHorizontal: 10, alignItems: "center" },
+        ]}
+      >
+        <View style={[row, { alignItems: "center" }]}>
+          <View
+            style={{
+              padding: 3,
+              borderColor: lightModColor.themeBackground,
+              borderWidth: 3,
+              borderRadius: 50,
+            }}
+          >
+            <Image
+              source={require("../../assets/images.png")}
+              style={{ height: 50, width: 50, borderRadius: 30 }}
+            />
+          </View>
+          <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
+            <Text style={[availableRideHeading, { marginBottom: 0 }]}>
+              {user.name}
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={{ borderRadius: 50, padding: 10, backgroundColor: "#ffff" }}
+        >
+          <MaterialIcons
+            name="messenger"
+            size={24}
+            color={lightModColor.themeBackground}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={{ paddingHorizontal: 10 }}>
+        <TouchableOpacity style={[btn, { paddingVertical: 10, width: "100%" }]}>
+          <Text style={[btnText]}>Book</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
