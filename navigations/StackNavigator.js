@@ -29,6 +29,7 @@ import ChatCatogery from "../screens/ChatCatogery";
 import PrivateChats from "../screens/PrivateChats";
 import OneToOneChat from "../screens/OneToOneChat";
 import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
+import FemaleGlobalChat from "../screens/FemaleGlobalChat";
 
 const Stack = createStackNavigator();
 
@@ -75,7 +76,7 @@ const appStack = () => {
           component={LoadingScreen}
           options={{ headerShown: false }}
         />
-      ) : userDoc.name == "" ? (
+      ) : userDoc.name == "" || userDoc.gender == "" ? (
         <Stack.Group
           screenOptions={{
             presentation: "transparentModal",
@@ -126,6 +127,16 @@ const appStack = () => {
               name="ChatCat"
               component={ChatCatogery}
               options={{
+                headerTitle: "Chats",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="Female Chat"
+              component={FemaleGlobalChat}
+              options={{
+                headerShown: false,
                 headerTitle: "Chats",
                 headerStyle: headerStyle,
                 headerTintColor: "#ffff",

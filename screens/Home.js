@@ -17,6 +17,7 @@ const Home = () => {
     if (userDoc.name == "") {
       Navigation.replace("UserInfo");
     }
+    console.log(userDoc);
   }, [userDoc]);
 
   return (
