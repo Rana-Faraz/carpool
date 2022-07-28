@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import ChatList from "../components/ChatList";
 import {
@@ -12,8 +12,11 @@ import {
 import { db } from "../api/firebase";
 import { CarState } from "../context/CarContext";
 import LoadingScreen from "./LoadingScreen";
+import { useNavigation } from "@react-navigation/native";
+import { lightModColor } from "../style/Color";
 
-const PrivateChats = ({ navigation }) => {
+const PrivateChats = () => {
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState([]);
   const { user, userDoc } = CarState();
@@ -44,7 +47,12 @@ const PrivateChats = ({ navigation }) => {
   return (
     <>
       {isLoading ? (
-        <LoadingScreen />
+        <View style={{ marginTop: 30 }}>
+          <ActivityIndicator
+            size="large"
+            color={lightModColor.themeBackground}
+          />
+        </View>
       ) : (
         chats &&
         chats.map((chat) => (

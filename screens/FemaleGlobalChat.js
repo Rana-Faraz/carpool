@@ -38,7 +38,7 @@ import LoadingScreen from "./LoadingScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const GlobalChatScreen = () => {
+const FemaleGlobalChat = () => {
   const Navigation = useNavigation();
   const dates = new Set();
 
@@ -54,7 +54,12 @@ const GlobalChatScreen = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const collectionRef = collection(db, "messages");
+    const collectionRef = collection(
+      db,
+      "messages",
+      "femaleChat",
+      "globalChat"
+    );
     const q = query(collectionRef, orderBy("createdAt", "asc"));
     const formatDate = (date) => {
       const td = new Date();
@@ -180,7 +185,7 @@ const GlobalChatScreen = () => {
     var ampm = H < 12 || H === 24 ? " AM" : " PM";
     time = h + time.substr(2, 3) + ampm;
 
-    addDoc(collection(db, "messages"), {
+    addDoc(collection(db, "messages", "femaleChat", "globalChat"), {
       text: text,
       sentBy: user,
       name: userDoc.name,
@@ -328,6 +333,6 @@ const GlobalChatScreen = () => {
   );
 };
 
-export default GlobalChatScreen;
+export default FemaleGlobalChat;
 
 const styles = StyleSheet.create({});

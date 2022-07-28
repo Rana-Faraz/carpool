@@ -44,7 +44,20 @@ const Profile = () => {
         }}
       >
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>Number: </Text>
-        <Text style={{ fontSize: 20 }}>{userDoc.phone}</Text>
+        <Text style={{ fontSize: 20 }}>{`0${userDoc.phone.slice(
+          3,
+          6
+        )}-${userDoc.phone.slice(6)}`}</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          padding: 20,
+        }}
+      >
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Gender: </Text>
+        <Text style={{ fontSize: 20 }}>{userDoc.gender}</Text>
       </View>
       <TouchableOpacity
         onPress={deleteItem}

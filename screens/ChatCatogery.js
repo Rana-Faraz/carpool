@@ -6,8 +6,11 @@ import { heading } from "../style/Style";
 import { Divider } from "react-native-paper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
+import { CarState } from "../context/CarContext";
+import PrivateChats from "./PrivateChats";
 
 const ChatCatogery = ({ navigation }) => {
+  const { userDoc } = CarState();
   return (
     <View style={{ marginHorizontal: 20 }}>
       <TouchableOpacity
@@ -53,7 +56,7 @@ const ChatCatogery = ({ navigation }) => {
         </View>
         <Ionicons name="caret-forward" size={24} color="black" />
       </TouchableOpacity>
-      <Divider
+      {/* <Divider
         style={{
           width: "80%",
           alignSelf: "center",
@@ -103,7 +106,67 @@ const ChatCatogery = ({ navigation }) => {
           </Text>
         </View>
         <Ionicons name="caret-forward" size={24} color="black" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      {userDoc.gender === "Female" && (
+        <>
+          <Divider
+            style={{
+              width: "80%",
+              alignSelf: "center",
+              height: 1,
+              borderRadius: 50,
+            }}
+          />
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Female Chat");
+            }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "#d4d7db",
+              padding: 10,
+              borderRadius: 10,
+              marginVertical: 10,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View
+                style={{
+                  backgroundColor: lightModColor.themeBackground,
+                  padding: 5,
+                  height: 45,
+                  width: 45,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 50,
+                }}
+              >
+                <FontAwesome5
+                  name="female"
+                  size={35}
+                  color={lightModColor.headerFontColor}
+                />
+              </View>
+
+              <Text
+                style={[
+                  {
+                    color: lightModColor.fontColor,
+                    fontSize: 18,
+                    paddingLeft: 10,
+                  },
+                ]}
+              >
+                Female Only
+              </Text>
+            </View>
+            <Ionicons name="caret-forward" size={24} color="black" />
+          </TouchableOpacity>
+        </>
+      )}
       <Divider
         style={{
           width: "80%",
@@ -112,47 +175,7 @@ const ChatCatogery = ({ navigation }) => {
           borderRadius: 50,
         }}
       />
-
-      <TouchableOpacity
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backgroundColor: "#d4d7db",
-          padding: 10,
-          borderRadius: 10,
-          marginVertical: 10,
-        }}
-      >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <View
-            style={{
-              backgroundColor: lightModColor.themeBackground,
-              padding: 5,
-              height: 45,
-              width: 45,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 50,
-            }}
-          >
-            <FontAwesome5
-              name="female"
-              size={35}
-              color={lightModColor.headerFontColor}
-            />
-          </View>
-
-          <Text
-            style={[
-              { color: lightModColor.fontColor, fontSize: 18, paddingLeft: 10 },
-            ]}
-          >
-            Female Only
-          </Text>
-        </View>
-        <Ionicons name="caret-forward" size={24} color="black" />
-      </TouchableOpacity>
+      <PrivateChats />
     </View>
   );
 };

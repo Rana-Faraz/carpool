@@ -52,6 +52,7 @@ const OTPScreen = ({ route, navigation }) => {
       name: "",
       email: "",
       image: "",
+      gender: "",
     };
     getDoc(myDoc)
       .then((snapshot) => {

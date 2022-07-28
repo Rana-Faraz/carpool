@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import {
   addDoc,
@@ -42,7 +43,12 @@ const OneToOneChat = ({ route, navigation }) => {
 
   const _scrollView = React.useRef(null);
 
+  useEffect(() => {
+    _scrollView.current.scrollToEnd({ animated: true });
+  }, [messages]);
+
   const chatId = user > number ? user + number : number + user;
+
   useEffect(() => {
     setIsLoading(true);
     const collectionRef = collection(db, "messages", id, "privateChats");
@@ -81,21 +87,10 @@ const OneToOneChat = ({ route, navigation }) => {
           sentAt: formatDate(doc.data().sentAt.toDate()),
         }))
       );
-      // const docRef = doc(db, "Users-Data", messages.user);
-      // getDoc(docRef).then((snapshot) => {
-      //   if (snapshot.exists) {
-      //     setData({
-      //       name: snapshot.data().name,
-      //       phone: messages.user,
-      //     });
-      //   } else {
-      //     console.log("No doc found");
-      //   }
-      // });
+
       setIsLoading(false);
     });
 
-    // console.log(messages);
     return unsub;
   }, []);
   const renderDate = (chat, dateNum) => {
@@ -178,43 +173,44 @@ const OneToOneChat = ({ route, navigation }) => {
         >
           <View style={{ flex: 1, width: "100%" }}>
             <View>
-              {messages && (
-                <SectionList
-                  style={{ marginBottom: 80 }}
-                  sections={[
-                    {
-                      data: messages,
-                      renderItem: ({ item }) => (
-                        <React.Fragment key={item.id}>
-                          {dates.has(item.sentAt)
+              <ScrollView
+                onContentSizeChange={(contentWidth, contentHeight) => {
+                  _scrollView.current.scrollToEnd({ animated: false });
+                }}
+                ref={_scrollView}
+                style={{
+                  marginBottom: 80,
+                }}
+              >
+                {messages &&
+                  messages.map((item) => (
+                    <React.Fragment key={item.id}>
+                      {dates.has(item.sentAt)
+                        ? null
+                        : renderDate(item, item.sentAt)}
+                      <ChatBubble
+                        key={item.id}
+                        message={item.message}
+                        sentTime={item.time}
+                        backgroundColor={
+                          item.user == user
+                            ? lightModColor.themeBackground
+                            : "white"
+                        }
+                        flex={item.user == user ? "flex-end" : "flex-start"}
+                        nameColor={"orange"}
+                        fontColor={item.user == user ? "white" : "black"}
+                        name={
+                          item.user === user
                             ? null
-                            : renderDate(item, item.sentAt)}
-                          <ChatBubble
-                            key={item.id}
-                            message={item.message}
-                            sentTime={item.time}
-                            backgroundColor={
-                              item.user == user
-                                ? lightModColor.themeBackground
-                                : "white"
-                            }
-                            flex={item.user == user ? "flex-end" : "flex-start"}
-                            nameColor={"orange"}
-                            fontColor={item.user == user ? "white" : "black"}
-                            name={
-                              item.user === user
-                                ? null
-                                : item.name
-                                ? item.name
-                                : item.user
-                            }
-                          />
-                        </React.Fragment>
-                      ),
-                    },
-                  ]}
-                />
-              )}
+                            : item.name
+                            ? item.name
+                            : item.user
+                        }
+                      />
+                    </React.Fragment>
+                  ))}
+              </ScrollView>
             </View>
             <View
               style={{
