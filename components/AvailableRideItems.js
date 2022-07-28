@@ -150,6 +150,8 @@ const AvailableRideItems = (props) => {
               user: props.user,
               carDetails: props.carDetails,
               price: props.price,
+              pickup: props.pickup,
+              drop: props.drop,
               pickupDetail: props.pickupDetail,
               dropDetail: props.dropDetail,
               seats: props.seats,

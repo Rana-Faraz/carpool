@@ -127,6 +127,8 @@ const SuggessionScreen = () => {
                 id={doc.id}
                 user={doc.user}
                 carDetails={doc.carDetails}
+                pickup={doc.pickup}
+                drop={doc.drop}
                 price={doc.price}
                 pickupDetail={doc.pickupDetail}
                 dropDetail={doc.dropDetail}
