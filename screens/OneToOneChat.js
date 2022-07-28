@@ -41,9 +41,6 @@ const OneToOneChat = ({ route, navigation }) => {
   const [data, setData] = React.useState();
 
   const _scrollView = React.useRef(null);
-  useEffect(() => {
-    _scrollView?.current?.scrollToEnd({ animated: true });
-  }, [messages]);
 
   const chatId = user > number ? user + number : number + user;
   useEffect(() => {
@@ -101,9 +98,6 @@ const OneToOneChat = ({ route, navigation }) => {
     // console.log(messages);
     return unsub;
   }, []);
-  useEffect(() => {
-    _scrollView?.current?.scrollToEnd({ animated: false });
-  }, []);
   const renderDate = (chat, dateNum) => {
     dates.add(dateNum);
 
@@ -155,7 +149,6 @@ const OneToOneChat = ({ route, navigation }) => {
       Alert.alert("Error", error.message);
     });
     setText("");
-    _scrollView.current.scrollToEnd({ animated: true });
   };
 
   return (
