@@ -147,7 +147,7 @@ const AvailableRideItems = (props) => {
             {
               padding: 8,
               width: props.user.phone !== userDoc.phone ? "49%" : "100%",
-              backgroundColor: "#6d7483",
+              backgroundColor: "#b6b6b6",
             },
           ]}
           onPress={() =>

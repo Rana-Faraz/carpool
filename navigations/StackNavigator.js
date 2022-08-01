@@ -30,6 +30,7 @@ import PrivateChats from "../screens/PrivateChats";
 import OneToOneChat from "../screens/OneToOneChat";
 import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
 import FemaleGlobalChat from "../screens/FemaleGlobalChat";
+import PorfileScreen from "../screens/PorfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -158,6 +159,7 @@ const appStack = () => {
                 headerTintColor: "#ffff",
               }}
             />
+
             <Stack.Screen
               name="getRide"
               component={GetRideScreen}
@@ -195,6 +197,17 @@ const appStack = () => {
                 headerBackTitleVisible: false,
                 headerTitle: "Offer Ride",
                 headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+          </Stack.Group>
+          <Stack.Group>
+            <Stack.Screen
+              name="User Profile"
+              component={PorfileScreen}
+              options={{
+                headerTitle: "",
+                headerStyle: [headerStyle, { elevation: 0, shadowOpacity: 0 }],
                 headerTintColor: "#ffff",
               }}
             />

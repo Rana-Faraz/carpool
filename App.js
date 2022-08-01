@@ -8,6 +8,7 @@ import "react-native-gesture-handler";
 import { UserProvider } from "./context/CarContext";
 import StackNavigator from "./navigations/StackNavigator";
 import { useFonts } from "expo-font";
+import PorfileScreen from "./screens/PorfileScreen";
 
 export default function App() {
   const [loaded] = useFonts({

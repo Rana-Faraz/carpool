@@ -32,10 +32,8 @@ import { CarState } from "../../context/CarContext";
 import { lightModColor } from "../../style/Color";
 import { availableRideHeading, btn, btnText, row } from "../../style/Style";
 
-const RideDetailsScreen = () => {
+const RideDetailsScreen = ({ navigation, route }) => {
   const { user, userDoc } = CarState();
-  const Navigation = useNavigation();
-  const route = useRoute();
   const {
     id,
     currentUser,
@@ -51,6 +49,8 @@ const RideDetailsScreen = () => {
     comments,
     createDate,
   } = route.params;
+
+  const thisUser = currentUser;
 
   const GeoLoc = [
     {
@@ -183,7 +183,7 @@ const RideDetailsScreen = () => {
         text: "Yes",
         onPress: () => {
           privateChat(name, number);
-          Navigation.navigate("One To One", {
+          navigation.navigate("One To One", {
             name: name,
             number: number,
           });
@@ -397,7 +397,19 @@ const RideDetailsScreen = () => {
               },
             ]}
           >
-            <View style={[row, { alignItems: "center" }]}>
+            <TouchableOpacity
+              onPress={
+                () =>
+                  navigation.navigate("User Profile", { userInfo: thisUser })
+                // console.log(currentUser)
+              }
+              style={[
+                row,
+                {
+                  alignItems: "center",
+                },
+              ]}
+            >
               <View
                 style={{
                   padding: 3,
@@ -416,7 +428,7 @@ const RideDetailsScreen = () => {
                   {currentUser.name}
                 </Text>
               </View>
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={{
                 borderRadius: 50,

@@ -191,9 +191,11 @@ const UserInfoScreen = () => {
                   marginTop: 40,
                   backgroundColor: "#FFff",
                   alignSelf: "center",
+                  opacity: name == "" || gender == "" ? 0.5 : 1,
                 },
               ]}
               onPress={onUpdate}
+              disabled={name == "" || gender == ""}
             >
               <Text
                 style={[
