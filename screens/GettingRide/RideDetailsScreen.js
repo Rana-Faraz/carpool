@@ -1,43 +1,44 @@
 import {
+  AntDesign,
+  Entypo,
+  FontAwesome,
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Zocial,
+} from "@expo/vector-icons";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import React, { useState } from "react";
+import {
+  Alert,
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
 import MapView from "react-native-maps";
-import { GOOGLE_MAPS_APIKEY } from "@env";
-import MapViewDirections from "react-native-maps-directions";
+import { db } from "../../api/firebase";
+import { CarState } from "../../context/CarContext";
 import { lightModColor } from "../../style/Color";
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Zocial,
-  FontAwesome5,
-  Octicons,
-  Entypo,
-  Ionicons,
-  FontAwesome,
-  AntDesign,
-} from "@expo/vector-icons";
-import {
-  availableRideHeading,
-  btn,
-  btnText,
-  itemCenter,
-  row,
-} from "../../style/Style";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { availableRideHeading, btn, btnText, row } from "../../style/Style";
 
 const RideDetailsScreen = () => {
+  const { user, userDoc } = CarState();
   const Navigation = useNavigation();
   const route = useRoute();
   const {
     id,
-    user,
+    currentUser,
     carDetails,
     price,
     pickupDetail,
@@ -51,19 +52,147 @@ const RideDetailsScreen = () => {
     createDate,
   } = route.params;
 
+  const GeoLoc = [
+    {
+      city: "Lahore",
+      latitude: 31.5204,
+      longitude: 74.3587,
+    },
+    {
+      city: "Pattoki",
+      latitude: 31.0249,
+      longitude: 73.8479,
+    },
+    {
+      city: "Islamabad",
+      latitude: 33.6844,
+      longitude: 73.0479,
+    },
+    {
+      city: "Karachi",
+      latitude: 24.8607,
+      longitude: 67.0011,
+    },
+    {
+      city: "Peshawar",
+      latitude: 34.0151,
+      longitude: 71.5249,
+    },
+    {
+      city: "Multan",
+      latitude: 30.1575,
+      longitude: 71.5249,
+    },
+    {
+      city: "Okara",
+      latitude: 30.8138,
+      longitude: 73.4534,
+    },
+    {
+      city: "Quetta",
+      latitude: 30.1798,
+      longitude: 66.975,
+    },
+    {
+      city: "Sheikhupura",
+      latitude: 31.7167,
+      longitude: 73.985,
+    },
+    {
+      city: "Sialkot",
+      latitude: 32.4945,
+      longitude: 74.5229,
+    },
+    {
+      city: "Gujranwala",
+      latitude: 32.1877,
+      longitude: 74.1945,
+    },
+    {
+      city: "Faisalabad",
+      latitude: 31.4504,
+      longitude: 73.135,
+    },
+    {
+      city: "Rawalpindi",
+      latitude: 33.5651,
+      longitude: 73.0169,
+    },
+  ];
+
+  const handleGeoPickup = () => {
+    return GeoLoc.filter((loc) => loc.city === pickup);
+  };
+
+  const handleGeoDrop = () => {
+    return GeoLoc.filter((loc) => loc.city === drop);
+  };
+
   const origin = {
-    latitude: 31.5204,
-    longitude: 74.3587,
+    latitude: handleGeoPickup()[0].latitude,
+    longitude: handleGeoPickup()[0].longitude,
     latitudeDelta: 0.0722,
     longitudeDelta: 0.0421,
   };
   const destination = {
-    latitude: 31.0249,
-    longitude: 73.8479,
+    latitude: handleGeoDrop()[0].latitude,
+    longitude: handleGeoDrop()[0].longitude,
     latitudeDelta: 0.0722,
     longitudeDelta: 0.0421,
   };
-  const key = "AIzaSyDxGlhtwYGWKCxulLrJYL4zWWcK0-RR3XA";
+
+  const privateChat = (name, number) => {
+    var date = new Date();
+    var time = date.toLocaleTimeString();
+    var H = +time.substr(0, 2);
+    var h = H % 12 || 12;
+    var ampm = H < 12 || H === 24 ? " AM" : " PM";
+    time = h + time.substr(2, 3) + ampm;
+    const chatId = user > number ? user + number : number + user;
+    const docRef2 = doc(db, "Users-Data", user, "messages", chatId);
+    const infoData = {
+      senderName: userDoc.name,
+      recieverName: name,
+      senderNumber: user,
+      recieverNumber: number,
+      sentAt: serverTimestamp(),
+      time: time,
+    };
+    setDoc(docRef2, infoData, { merge: true });
+    const docRef3 = doc(db, "Users-Data", number, "messages", chatId);
+    setDoc(docRef3, infoData, { merge: true });
+    const docRef = collection(db, "messages", chatId, "privateChats");
+    const docData = {
+      senderName: userDoc.name,
+      recieverName: name,
+      senderNumber: user,
+      recieverNumber: number,
+      sentAt: serverTimestamp(),
+      time: time,
+    };
+    getDoc(docRef2).then((doc) => {
+      if (doc.data() === undefined) {
+        addDoc(docRef, docData, { merge: true });
+      }
+    });
+  };
+
+  const onLongPress = (name, number) => {
+    Alert.alert("Message", "Do you want to message " + name + "?", [
+      {
+        text: "Yes",
+        onPress: () => {
+          privateChat(name, number);
+          Navigation.navigate("One To One", {
+            name: name,
+            number: number,
+          });
+        },
+      },
+      { text: "Cancel" },
+    ]);
+  };
+
   return (
     <>
       <View>
@@ -256,55 +385,66 @@ const RideDetailsScreen = () => {
           )}
         </View>
       </View>
-      <View style={{ position: "absolute", bottom: 30, width: "100%" }}>
-        <View
-          style={[
-            row,
-            {
-              paddingVertical: 20,
-              paddingHorizontal: 10,
-              alignItems: "center",
-            },
-          ]}
-        >
-          <View style={[row, { alignItems: "center" }]}>
-            <View
+      {userDoc.phone !== currentUser.phone && (
+        <View style={{ position: "absolute", bottom: 30, width: "100%" }}>
+          <View
+            style={[
+              row,
+              {
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+                alignItems: "center",
+              },
+            ]}
+          >
+            <View style={[row, { alignItems: "center" }]}>
+              <View
+                style={{
+                  padding: 3,
+                  borderColor: lightModColor.themeBackground,
+                  borderWidth: 3,
+                  borderRadius: 50,
+                }}
+              >
+                <Image
+                  source={require("../../assets/images.png")}
+                  style={{ height: 50, width: 50, borderRadius: 30 }}
+                />
+              </View>
+              <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
+                <Text style={[availableRideHeading, { marginBottom: 0 }]}>
+                  {currentUser.name}
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity
               style={{
-                padding: 3,
-                borderColor: lightModColor.themeBackground,
-                borderWidth: 3,
                 borderRadius: 50,
+                padding: 10,
+                backgroundColor: "#ffff",
               }}
+              onPress={() =>
+                userDoc.phone === currentUser.phone
+                  ? null
+                  : onLongPress(currentUser.name, currentUser.phone)
+              }
             >
-              <Image
-                source={require("../../assets/images.png")}
-                style={{ height: 50, width: 50, borderRadius: 30 }}
+              <MaterialIcons
+                name="messenger"
+                size={24}
+                color={lightModColor.themeBackground}
               />
-            </View>
-            <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-              <Text style={[availableRideHeading, { marginBottom: 0 }]}>
-                {user.name}
-              </Text>
-            </View>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={{ borderRadius: 50, padding: 10, backgroundColor: "#ffff" }}
-          >
-            <MaterialIcons
-              name="messenger"
-              size={24}
-              color={lightModColor.themeBackground}
-            />
-          </TouchableOpacity>
+          <View style={{ paddingHorizontal: 10 }}>
+            <TouchableOpacity
+              style={[btn, { paddingVertical: 10, width: "100%" }]}
+            >
+              <Text style={[btnText]}>Book</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={{ paddingHorizontal: 10 }}>
-          <TouchableOpacity
-            style={[btn, { paddingVertical: 10, width: "100%" }]}
-          >
-            <Text style={[btnText]}>Book</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      )}
     </>
   );
 };

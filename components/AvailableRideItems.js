@@ -9,11 +9,13 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { CarState } from "../context/CarContext";
 import { lightModColor } from "../style/Color";
 import { btn, btnText, itemCenter, row } from "../style/Style";
 
 const AvailableRideItems = (props) => {
   const Navigation = useNavigation();
+  const { user, userDoc } = CarState();
 
   return (
     <View
@@ -142,12 +144,16 @@ const AvailableRideItems = (props) => {
         <TouchableOpacity
           style={[
             btn,
-            { padding: 8, width: "49%", backgroundColor: "#6d7483" },
+            {
+              padding: 8,
+              width: props.user.phone !== userDoc.phone ? "49%" : "100%",
+              backgroundColor: "#6d7483",
+            },
           ]}
           onPress={() =>
             Navigation.navigate("RideDetails", {
               id: props.id,
-              user: props.user,
+              currentUser: props.user,
               carDetails: props.carDetails,
               price: props.price,
               pickup: props.pickup,
@@ -164,9 +170,11 @@ const AvailableRideItems = (props) => {
         >
           <Text style={[btnText]}>Details</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[btn, { padding: 8, width: "49%" }]}>
-          <Text style={[btnText]}>Book Now</Text>
-        </TouchableOpacity>
+        {props.user.phone !== userDoc.phone && (
+          <TouchableOpacity style={[btn, { padding: 8, width: "49%" }]}>
+            <Text style={[btnText]}>Book Now</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
