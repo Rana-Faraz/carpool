@@ -117,8 +117,10 @@ const PorfileScreen = ({ route, navigation }) => {
             <Text style={{ textAlign: "center", fontFamily: "MonLight" }}>
               {date}
             </Text>
-            <View style={{ marginTop: 10, marginHorizontal: 10 }}>
-              <Text style={{ fontFamily: "MonBold" }}>Recent Activity</Text>
+            <View style={{ marginTop: 10 }}>
+              <Text style={{ fontFamily: "MonBold", marginHorizontal: 10 }}>
+                Recent Activity
+              </Text>
               {/* <AvailableRideItems /> */}
               {ridesDoc ? (
                 ridesDoc.length === 0 ? (
