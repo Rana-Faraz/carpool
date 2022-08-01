@@ -2,8 +2,11 @@ import React from "react";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
 import { lightModColor } from "../style/Color";
 import { Entypo } from "@expo/vector-icons";
+import { CarState } from "../context/CarContext";
 
 export default function Alert(props) {
+  const { setalert } = CarState();
+
   const capitalized = (word) => {
     const lower = word.toLowerCase();
     return lower.charAt(0).toUpperCase() + lower.slice(1);
@@ -33,8 +36,13 @@ export default function Alert(props) {
       >
         {capitalized(props.alert.type)}! <Text>{props.alert.message}</Text>
       </Text>
-      <TouchableOpacity>
-        <Entypo name="cross" size={24} color="#ffff" />
+      <TouchableOpacity onPress={() => setalert(null)}>
+        <Entypo
+          name="cross"
+          size={24}
+          color="#ffff"
+          style={{ paddingHorizontal: 10 }}
+        />
       </TouchableOpacity>
     </View>
   ) : null;
