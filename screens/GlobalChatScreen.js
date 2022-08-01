@@ -91,7 +91,7 @@ const GlobalChatScreen = () => {
       setIsLoading(false);
     });
 
-    // console.log(messages);
+    console.log(id);
     return unsub;
   }, []);
 
@@ -122,6 +122,7 @@ const GlobalChatScreen = () => {
       {
         text: "Yes",
         onPress: () => {
+          console.log(number, name);
           privateChat(name, id, number);
           Navigation.navigate("One To One", {
             name: name,
