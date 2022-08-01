@@ -44,8 +44,7 @@ const Home = () => {
           Offer Ride
         </Text>
       </TouchableOpacity>
-
-      <StatusBar style="light" animated />
+      <StatusBar style="inverted" animated />
     </View>
   );
 };

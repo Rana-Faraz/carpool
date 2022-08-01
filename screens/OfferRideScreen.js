@@ -66,7 +66,7 @@ const OfferRideScreen = () => {
   const [show, setShow] = useState(false);
 
   // *********** Context Api Objects *************************
-  const { userDoc } = CarState();
+  const { userDoc, showAlert } = CarState();
 
   // *************** Date n Time Logics **********************
   let current = new Date();
@@ -192,7 +192,7 @@ const OfferRideScreen = () => {
     };
 
     addDoc(collectionRef, docData)
-      .then(console.log("succesfully added"))
+      .then(showAlert("Offer Posted", "success"))
       .catch((err) => console.log(err));
 
     Navigation.goBack();
