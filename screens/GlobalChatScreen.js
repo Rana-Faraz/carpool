@@ -91,7 +91,6 @@ const GlobalChatScreen = () => {
       setIsLoading(false);
     });
 
-    console.log(id);
     return unsub;
   }, []);
 
