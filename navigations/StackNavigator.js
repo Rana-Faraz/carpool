@@ -107,7 +107,7 @@ const appStack = () => {
                 return (
                   <View>
                     <TouchableOpacity
-                      onPress={() => Navigation.navigate("Chat")}
+                      onPress={() => Navigation.navigate("ChatCat")}
                       style={{ paddingHorizontal: 20 }}
                     >
                       <Ionicons
