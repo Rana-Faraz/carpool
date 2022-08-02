@@ -61,7 +61,7 @@ const AvailableRideItems = (props) => {
             // style={{ paddingTop: 4 }}
           />
           <Text style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}>
-            {props.pickupDetail}
+            {`${props.pickupDetail}, ${props.pickup}`}
           </Text>
         </View>
         <View>
@@ -79,7 +79,7 @@ const AvailableRideItems = (props) => {
             // style={{ paddingTop: 4 }}
           />
           <Text style={{ fontSize: 18, paddingLeft: 10, alignSelf: "center" }}>
-            {props.dropDetail}
+            {`${props.dropDetail}, ${props.drop}`}
           </Text>
         </View>
       </View>
