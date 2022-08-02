@@ -102,6 +102,9 @@ const appStack = () => {
           >
             <Stack.Screen name="root" component={TabNavigator} />
           </Stack.Group>
+
+          {/* Rides Stack Group */}
+
           <Stack.Group
             screenOptions={{
               headerRight: () => {
@@ -124,42 +127,6 @@ const appStack = () => {
               ...TransitionPresets.SlideFromRightIOS,
             }}
           >
-            <Stack.Screen
-              name="ChatCat"
-              component={ChatCatogery}
-              options={{
-                headerTitle: "Chats",
-                headerStyle: headerStyle,
-                headerTintColor: "#ffff",
-              }}
-            />
-            <Stack.Screen
-              name="Female Chat"
-              component={FemaleGlobalChat}
-              options={{
-                headerShown: false,
-                headerTitle: "Chats",
-                headerStyle: headerStyle,
-                headerTintColor: "#ffff",
-              }}
-            />
-            <Stack.Screen
-              name="Private Chats"
-              component={PrivateChats}
-              options={{
-                headerStyle: headerStyle,
-                headerTintColor: "#ffff",
-              }}
-            />
-            <Stack.Screen
-              name="One To One"
-              component={OneToOneChat}
-              options={{
-                headerStyle: headerStyle,
-                headerTintColor: "#ffff",
-              }}
-            />
-
             <Stack.Screen
               name="getRide"
               component={GetRideScreen}
@@ -200,8 +167,6 @@ const appStack = () => {
                 headerTintColor: "#ffff",
               }}
             />
-          </Stack.Group>
-          <Stack.Group>
             <Stack.Screen
               name="User Profile"
               component={PorfileScreen}
@@ -212,19 +177,29 @@ const appStack = () => {
               }}
             />
           </Stack.Group>
+
+          {/* Chat Stack Group */}
           <Stack.Group
             screenOptions={{
+              headerShown: false,
               gestureEnabled: true,
               ...TransitionPresets.SlideFromRightIOS,
             }}
           >
             <Stack.Screen
-              name="Chat"
-              component={GlobalChatScreen}
+              name="ChatCat"
+              component={ChatCatogery}
               options={{
-                headerShown: false,
+                headerShown: true,
+                headerTitle: "Chats",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
               }}
             />
+            <Stack.Screen name="Female Chat" component={FemaleGlobalChat} />
+            <Stack.Screen name="Private Chats" component={PrivateChats} />
+            <Stack.Screen name="One To One" component={OneToOneChat} />
+            <Stack.Screen name="Chat" component={GlobalChatScreen} />
           </Stack.Group>
         </>
       )}

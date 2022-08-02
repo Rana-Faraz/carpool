@@ -9,6 +9,7 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import React, { useLayoutEffect, useState } from "react";
 import {
   Button,
+  Keyboard,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -200,8 +201,9 @@ const OfferRideScreen = () => {
 
   return (
     <ScrollView
-    // automaticallyAdjustKeyboardInsets={true}
-    // automaticallyAdjustsScrollIndicatorInsets={false}
+      onScroll={() => Keyboard.dismiss()}
+      // automaticallyAdjustKeyboardInsets={true}
+      // automaticallyAdjustsScrollIndicatorInsets={false}
     >
       <KeyboardAvoidingView
         style={{ padding: 10, height: Platform.OS === "ios" ? 800 : null }}

@@ -166,100 +166,127 @@ const OneToOneChat = ({ route, navigation }) => {
   return (
     <>
       {isLoading && <LoadingScreen />}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 70 : 0}
-      >
-        <View
-          style={{
-            height: "100%",
-          }}
+      <SafeAreaView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          // keyboardVerticalOffset={Platform.OS === "ios" ? 70 : 0}
         >
-          <View style={{ flex: 1, width: "100%" }}>
-            <View>
-              <ScrollView
-                onContentSizeChange={(contentWidth, contentHeight) => {
-                  _scrollView.current.scrollToEnd({ animated: false });
-                }}
-                ref={_scrollView}
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              paddingLeft: 5,
+              opacity: 0.5,
+              zIndex: 999,
+            }}
+            onPress={() => Navigation.goBack()}
+          >
+            <Ionicons name="ios-chevron-back-outline" size={35} color="black" />
+          </TouchableOpacity>
+          <View
+            style={{
+              height: "100%",
+            }}
+          >
+            <View style={{ flex: 1, width: "100%" }}>
+              <View>
+                <View style={{ marginHorizontal: 50, marginVertical: 10 }}>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      opacity: 0.5,
+                      fontSize: 10,
+                      textAlign: "center",
+                    }}
+                  >
+                    Chats between you and {name} are private and only visible to
+                    you and {name}.
+                  </Text>
+                </View>
+                <ScrollView
+                  onContentSizeChange={(contentWidth, contentHeight) => {
+                    _scrollView.current.scrollToEnd({ animated: false });
+                  }}
+                  ref={_scrollView}
+                  style={{
+                    // height: "100%",
+                    marginBottom: 100,
+                  }}
+                >
+                  {messages &&
+                    messages.map((item) => (
+                      <React.Fragment key={item.id}>
+                        {dates.has(item.sentAt)
+                          ? null
+                          : renderDate(item, item.sentAt)}
+                        <ChatBubble
+                          key={item.id}
+                          message={item.message}
+                          sentTime={item.time}
+                          backgroundColor={
+                            item.user == user
+                              ? lightModColor.themeBackground
+                              : "white"
+                          }
+                          flex={item.user == user ? "flex-end" : "flex-start"}
+                          nameColor={"orange"}
+                          fontColor={item.user == user ? "white" : "black"}
+                          name={
+                            item.user === user
+                              ? null
+                              : item.name
+                              ? item.name
+                              : item.user
+                          }
+                        />
+                      </React.Fragment>
+                    ))}
+                </ScrollView>
+              </View>
+              <View
                 style={{
-                  marginBottom: 80,
-                }}
-              >
-                {messages &&
-                  messages.map((item) => (
-                    <React.Fragment key={item.id}>
-                      {dates.has(item.sentAt)
-                        ? null
-                        : renderDate(item, item.sentAt)}
-                      <ChatBubble
-                        key={item.id}
-                        message={item.message}
-                        sentTime={item.time}
-                        backgroundColor={
-                          item.user == user
-                            ? lightModColor.themeBackground
-                            : "white"
-                        }
-                        flex={item.user == user ? "flex-end" : "flex-start"}
-                        nameColor={"orange"}
-                        fontColor={item.user == user ? "white" : "black"}
-                        name={
-                          item.user === user
-                            ? null
-                            : item.name
-                            ? item.name
-                            : item.user
-                        }
-                      />
-                    </React.Fragment>
-                  ))}
-              </ScrollView>
-            </View>
-            <View
-              style={{
-                position: "absolute",
-                bottom: 20,
-                width: "100%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginVertical: 5,
-                marginHorizontal: 10,
-              }}
-            >
-              <TextInput
-                style={{
-                  height: 40,
-                  borderRadius: 20,
-                  paddingHorizontal: 10,
-                  width: "70%",
-                  backgroundColor: "white",
-                }}
-                placeholder="Enter your message"
-                onChangeText={(text) => setText(text)}
-                value={text}
-              />
-              <TouchableOpacity
-                disabled={text.length == 0}
-                style={{
-                  opacity: text.length == 0 ? 0.5 : 1,
-                  height: 40,
-                  backgroundColor: lightModColor.themeBackground,
-                  borderRadius: 20,
-                  marginRight: 20,
+                  position: "absolute",
+                  bottom: 0,
+                  width: "100%",
+                  flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "center",
-                  width: "20%",
+                  justifyContent: "space-between",
+                  marginVertical: 5,
+                  marginHorizontal: 10,
                 }}
-                onPress={onSend}
               >
-                <Text style={{ color: "white" }}>Send</Text>
-              </TouchableOpacity>
+                <TextInput
+                  style={{
+                    height: 40,
+                    borderRadius: 20,
+                    paddingHorizontal: 10,
+                    width: "70%",
+                    backgroundColor: "white",
+                  }}
+                  placeholder="Enter your message"
+                  onChangeText={(text) => setText(text)}
+                  value={text}
+                />
+                <TouchableOpacity
+                  disabled={text.length == 0}
+                  style={{
+                    opacity: text.length == 0 ? 0.5 : 1,
+                    height: 40,
+                    backgroundColor: lightModColor.themeBackground,
+                    borderRadius: 20,
+                    marginRight: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "20%",
+                  }}
+                  onPress={onSend}
+                >
+                  <Text style={{ color: "white" }}>Send</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
       <ExpoStatusBar style="light" animated={true} />
     </>
   );
