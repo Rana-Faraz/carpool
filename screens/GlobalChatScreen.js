@@ -117,18 +117,19 @@ const GlobalChatScreen = () => {
     );
   };
 
-  const onLongPress = (name, id, number, sender) => {
+  const onLongPress = () => {
     setShowModal(true);
-    //       console.log(number, name);
-    //       privateChat(name, id, number);
-    //       Navigation.navigate("One To One", {
-    //         name: name,
-    //         id: id,
-    //         number: number,
-    //         sender: sender,
-    //       });
-    //     },
-    //   },
+  };
+
+  const onSendMessage = (name, id, number, sender) => {
+    console.log(number, name);
+    privateChat(name, id, number);
+    Navigation.navigate("One To One", {
+      name: name,
+      id: id,
+      number: number,
+      sender: sender,
+    });
   };
   useEffect(() => {
     _scrollView.current.scrollToEnd({ animated: true });
@@ -291,7 +292,16 @@ const GlobalChatScreen = () => {
                                 }}
                               />
                               <View>
-                                <TouchableOpacity>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    onSendMessage(
+                                      item.name,
+                                      item.id,
+                                      item.user,
+                                      item.sender
+                                    );
+                                  }}
+                                >
                                   <Text
                                     style={{
                                       color: "#11a0fd",
@@ -338,6 +348,9 @@ const GlobalChatScreen = () => {
                                 borderRadius: 12,
                                 marginHorizontal: 10,
                               }}
+                              onPress={() => {
+                                setShowModal(!showModal);
+                              }}
                             >
                               <Text style={{ fontSize: 22, color: "#11a0fd" }}>
                                 Cancel
@@ -348,15 +361,7 @@ const GlobalChatScreen = () => {
                         <Pressable
                           key={item.id}
                           onLongPress={
-                            item.user == user
-                              ? null
-                              : () =>
-                                  onLongPress(
-                                    item.name,
-                                    item.id,
-                                    item.user,
-                                    item.sender
-                                  )
+                            item.user == user ? null : () => onLongPress()
                           }
                         >
                           <ChatBubble
