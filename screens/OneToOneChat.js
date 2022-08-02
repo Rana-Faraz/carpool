@@ -79,6 +79,7 @@ const OneToOneChat = ({ route, navigation }) => {
           id: doc.id,
           createdAt: doc.data().createdAt,
           message: doc.data().text,
+          sender: doc.data().sender,
           name: doc.data().name,
           sentTo: doc.data().sentTo,
           sentToName: doc.data().sentToName,
@@ -121,39 +122,25 @@ const OneToOneChat = ({ route, navigation }) => {
     const collectionRef = collection(db, "messages", chatId, "privateChats");
     const collectionRef2 = doc(db, "Users-Data", user, "messages", chatId);
     const collectionRef3 = doc(db, "Users-Data", number, "messages", chatId);
-    setDoc(
-      collectionRef3,
-      {
-        lastMsg: text,
-        lastMsgTime: time,
-        lastMsgBy: user,
-        recieverName: name,
-        senderName: userDoc.name,
-        latest: serverTimestamp(),
-      },
-      { merge: true }
-    );
-    setDoc(
-      collectionRef2,
-      {
-        lastMsg: text,
-        lastMsgTime: time,
-        lastMsgBy: user,
-        recieverName: name,
-        senderName: userDoc.name,
-        latest: serverTimestamp(),
-      },
-      { merge: true }
-    );
+    const docData = {
+      lastMsg: text,
+      lastMsgTime: time,
+      lastMsgBy: user,
+      recieverName: name,
+      senderName: userDoc.name,
+      latest: serverTimestamp(),
+    };
+    setDoc(collectionRef3, docData, { merge: true });
+    setDoc(collectionRef2, docData, { merge: true });
     addDoc(
       collectionRef,
       {
         text: text,
         sentBy: user,
+        sender: userDoc,
         name: userDoc.name,
         sentTime: time,
         sentAt: new Date(),
-
         time: time,
       },
       { merge: true }

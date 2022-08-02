@@ -87,6 +87,7 @@ const FemaleGlobalChat = () => {
         snapshot.docs.map((doc) => ({
           id: doc.id,
           message: doc.data().text,
+          sender: doc.data().sender,
           name: doc.data().name,
           user: doc.data().sentBy,
           time: doc.data().sentTime,
@@ -164,10 +165,10 @@ const FemaleGlobalChat = () => {
     const docData = {
       name: userDoc.name,
       setToName: name,
+      sender: userDoc,
       chatId: chatId,
       sentBy: user,
       sentTo: number,
-      message: "Hi!",
       sentAt: serverTimestamp(),
       time: time,
     };
@@ -188,6 +189,7 @@ const FemaleGlobalChat = () => {
     addDoc(collection(db, "messages", "femaleChat", "globalChat"), {
       text: text,
       sentBy: user,
+      sender: userDoc,
       name: userDoc.name,
       sentTime: time,
       createdAt: serverTimestamp(),
