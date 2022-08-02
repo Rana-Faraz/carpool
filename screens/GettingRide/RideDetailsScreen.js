@@ -9,6 +9,7 @@ import {
   Zocial,
 } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { GOOGLE_API_KEY } from "@env";
 import {
   collection,
   doc,
@@ -16,9 +17,10 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Alert,
+  Dimensions,
   Image,
   Platform,
   StyleSheet,
@@ -27,13 +29,30 @@ import {
   View,
 } from "react-native";
 import MapView from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
 import { db } from "../../api/firebase";
 import { CarState } from "../../context/CarContext";
 import { lightModColor } from "../../style/Color";
 import { availableRideHeading, btn, btnText, row } from "../../style/Style";
 
 const RideDetailsScreen = ({ navigation, route }) => {
+  const { width, height } = Dimensions.get("window");
+  const ASPECT_RATIO = width / height;
   const { user, userDoc } = CarState();
+  const mapRef = useRef(null);
+  useEffect(() => {
+    setTimeout(() => {
+      mapRef.current.fitToSuppliedMarkers(["pickup", "drop"], {
+        edgePadding: {
+          top: 70,
+          right: 70,
+          bottom: 70,
+          left: 70,
+        },
+      });
+    }, 500);
+  }, []);
+
   const {
     id,
     currentUser,
@@ -131,14 +150,22 @@ const RideDetailsScreen = ({ navigation, route }) => {
   const origin = {
     latitude: handleGeoPickup()[0].latitude,
     longitude: handleGeoPickup()[0].longitude,
-    latitudeDelta: 0.0722,
-    longitudeDelta: 0.0421,
+    latitudeDelta: 6.105,
+    longitudeDelta: 0.005,
   };
-  const destination = {
+  // const destination = {
+  //   latitude: handleGeoDrop()[0].latitude,
+  //   longitude: handleGeoDrop()[0].longitude,
+  //   latitudeDelta: 0.0722,
+  //   longitudeDelta: 0.0421,
+  // };
+  const pickupLocation = {
+    latitude: handleGeoPickup()[0].latitude,
+    longitude: handleGeoPickup()[0].longitude,
+  };
+  const dropLocation = {
     latitude: handleGeoDrop()[0].latitude,
     longitude: handleGeoDrop()[0].longitude,
-    latitudeDelta: 0.0722,
-    longitudeDelta: 0.0421,
   };
 
   const privateChat = (name, number) => {
@@ -196,7 +223,26 @@ const RideDetailsScreen = ({ navigation, route }) => {
   return (
     <>
       <View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ height: 300, width: "100%" }}>
+          <MapView
+            initialRegion={origin}
+            style={{ height: 300, width: "100%" }}
+            ref={mapRef}
+          >
+            <MapView.Marker coordinate={pickupLocation} identifier="pickup" />
+            <MapView.Marker coordinate={dropLocation} identifier="drop" />
+            <MapViewDirections
+              origin={pickupLocation}
+              destination={dropLocation}
+              apikey={GOOGLE_API_KEY}
+              strokeWidth={Platform.OS === "android" ? 3 : 1}
+              strokeColors={[lightModColor.themeBackground, "red"]}
+              timePrecision="now"
+              mode="DRIVING"
+            />
+          </MapView>
+        </View>
+        {/* <View style={{ flexDirection: "row" }}>
           <MapView
             initialRegion={origin}
             style={{
@@ -217,7 +263,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
             zoomEnabled={false}
             cacheEnabled={true}
           ></MapView>
-        </View>
+        </View> */}
         <View
           //   key={props.id}
           style={{
