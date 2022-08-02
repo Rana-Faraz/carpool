@@ -202,6 +202,7 @@ const OfferRideScreen = () => {
   return (
     <ScrollView
       onScroll={() => Keyboard.dismiss()}
+      scrollEventThrottle={32}
       // automaticallyAdjustKeyboardInsets={true}
       // automaticallyAdjustsScrollIndicatorInsets={false}
     >
