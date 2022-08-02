@@ -48,14 +48,16 @@ import { useNavigation } from "@react-navigation/native";
 
 const OfferRideScreen = () => {
   const Navigation = useNavigation();
+  let current = new Date();
 
   // ******** Use States for all the input fields ********
   const [pickup, setPickup] = useState("");
   const [drop, setDrop] = useState("");
   const [pickupDetail, setPickupDetail] = useState("");
   const [dropDetail, setDropDetail] = useState("");
-  const [currDate, setCurrDate] = useState(new Date());
-  const [formatedDate, setFormatedDate] = useState(new Date());
+  const [currDate, setCurrDate] = useState(current);
+  const [formatedDate, setFormatedDate] = useState(current);
+  const [formatedtime, setFormatedtime] = useState(current.getHours());
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [carDeatails, setCarDeatails] = useState("");
@@ -70,7 +72,6 @@ const OfferRideScreen = () => {
   const { userDoc, showAlert } = CarState();
 
   // *************** Date n Time Logics **********************
-  let current = new Date();
   let currenDate =
     current.getDate() +
     "-" +
@@ -94,11 +95,13 @@ const OfferRideScreen = () => {
     setCurrDate(currentDate);
     setDate(fDate);
   };
+
   const onChangeTime = (event, selectedDate) => {
     const currentDate = selectedDate || currDate;
     setShow(Platform.OS === "ios");
 
     let temDate = new Date(currentDate);
+    setFormatedtime(temDate.getHours());
     let fhours =
       temDate.getHours() > 12 ? temDate.getHours() - 12 : temDate.getHours();
     let formHours = fhours < 10 ? "0" + fhours : fhours;
@@ -172,7 +175,7 @@ const OfferRideScreen = () => {
 
   // ******* DataBase Logics **********
 
-  const create = () => {
+  const addData = () => {
     const collectionRef = collection(db, "Rides");
 
     const docData = {
@@ -190,6 +193,7 @@ const OfferRideScreen = () => {
       createBy: userDoc,
       createDate: serverTimestamp(),
       formatedDate: formatedDate,
+      formatedtime: formatedtime,
     };
 
     addDoc(collectionRef, docData)
@@ -197,6 +201,18 @@ const OfferRideScreen = () => {
       .catch((err) => console.log(err));
 
     Navigation.goBack();
+  };
+
+  const create = () => {
+    if (date === currenDate) {
+      if (time.slice(0, 2) === currentTime.slice(0, 2)) {
+        showAlert("Time should be 1 Hour more than current time", "warn");
+      } else {
+        addData();
+      }
+    } else {
+      addData();
+    }
   };
 
   return (
@@ -222,7 +238,6 @@ const OfferRideScreen = () => {
             buttonTextStyle={{ fontSize: 15 }}
             dropdownStyle={{ height: "70%" }}
             dropdownIconPosition="left"
-            // defaultValue={pickup}
             renderDropdownIcon={() => (
               <MaterialIcons
                 name="my-location"
