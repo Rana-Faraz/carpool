@@ -73,6 +73,7 @@ const TabNavigator = () => {
         name="Profile"
         component={Profile}
         options={{
+          headerStyle: [headerStyle, { elevation: 0, shadowOpacity: 0 }],
           tabBarIcon: (tabInfo) => {
             return (
               <MaterialCommunityIcons
