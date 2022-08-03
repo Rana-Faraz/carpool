@@ -45,7 +45,7 @@ const GlobalChatScreen = () => {
   const _scrollView = React.useRef(null);
   const { user, userDoc } = CarState();
   const { height, width } = Dimensions.get("window");
-  const [showModal, setShowModal] = React.useState(false);
+  const [show, setShow] = React.useState(false);
 
   const [text, setText] = React.useState("");
   const [messages, setMessages] = React.useState();
@@ -82,7 +82,6 @@ const GlobalChatScreen = () => {
         snapshot.docs.map((doc) => ({
           id: doc.id,
           message: doc.data().text,
-          sender: doc.data().sender,
           name: doc.data().name,
           user: doc.data().sentBy,
           time: doc.data().sentTime,
@@ -117,19 +116,22 @@ const GlobalChatScreen = () => {
     );
   };
 
-  const onLongPress = () => {
-    setShowModal(true);
-  };
-
-  const onSendMessage = (name, id, number, sender) => {
-    console.log(number, name);
-    privateChat(name, id, number);
-    Navigation.navigate("One To One", {
-      name: name,
-      id: id,
-      number: number,
-      sender: sender,
-    });
+  const onLongPress = (name, id, number) => {
+    Alert.alert("Message", "Do you want to message " + name + "?", [
+      {
+        text: "Yes",
+        onPress: () => {
+          console.log(number, name);
+          privateChat(name, id, number);
+          Navigation.navigate("One To One", {
+            name: name,
+            id: id,
+            number: number,
+          });
+        },
+      },
+      { text: "Cancel" },
+    ]);
   };
   useEffect(() => {
     _scrollView.current.scrollToEnd({ animated: true });
@@ -144,6 +146,18 @@ const GlobalChatScreen = () => {
     time = h + time.substr(2, 3) + ampm;
     const chatId = user > number ? user + number : number + user;
     const docRef2 = doc(db, "Users-Data", user, "messages", chatId);
+    const infoData = {
+      senderName: userDoc.name,
+      recieverName: name,
+      senderNumber: user,
+      recieverNumber: number,
+      sentAt: serverTimestamp(),
+      time: time,
+    };
+    setDoc(docRef2, infoData, { merge: true });
+    const docRef3 = doc(db, "Users-Data", number, "messages", chatId);
+    setDoc(docRef3, infoData, { merge: true });
+    const docRef = collection(db, "messages", chatId, "privateChats");
     const docData = {
       senderName: userDoc.name,
       recieverName: name,
@@ -152,10 +166,6 @@ const GlobalChatScreen = () => {
       sentAt: serverTimestamp(),
       time: time,
     };
-    setDoc(docRef2, docData, { merge: true });
-    const docRef3 = doc(db, "Users-Data", number, "messages", chatId);
-    setDoc(docRef3, docData, { merge: true });
-    const docRef = collection(db, "messages", chatId, "privateChats");
     getDoc(docRef2).then((doc) => {
       if (doc.data() === undefined) {
         addDoc(docRef, docData, { merge: true });
@@ -170,17 +180,13 @@ const GlobalChatScreen = () => {
     var ampm = H < 12 || H === 24 ? " AM" : " PM";
     time = h + time.substr(2, 3) + ampm;
 
-    const collectionRef = collection(db, "messages");
-    const docData = {
+    addDoc(collection(db, "messages"), {
       text: text,
       sentBy: user,
-      sender: userDoc,
       name: userDoc.name,
       sentTime: time,
       createdAt: serverTimestamp(),
-    };
-
-    addDoc(collectionRef, docData).catch((error) => {
+    }).catch((error) => {
       Alert.alert("Error", error.message);
     });
     setText("");
@@ -239,129 +245,12 @@ const GlobalChatScreen = () => {
                         {dates.has(item.createdAt)
                           ? null
                           : renderDate(item, item.createdAt)}
-                        <Modal
-                          animationType="slide"
-                          transparent={true}
-                          visible={showModal}
-                        >
-                          <Pressable
-                            style={{
-                              flex: 1,
-                              backgroundColor: "black",
-                              opacity: 0.5,
-                            }}
-                            onPress={() => {
-                              setShowModal(!showModal);
-                            }}
-                          />
-                          <View
-                            style={[
-                              styles.centeredView,
-                              {
-                                position: "absolute",
-                                width: "100%",
-                                right: 0,
-                                bottom: 0,
-                              },
-                            ]}
-                          >
-                            <View
-                              style={{
-                                backgroundColor: "#D9D9D9",
-                                borderRadius: 12,
-                                marginHorizontal: 10,
-                              }}
-                            >
-                              <Text
-                                style={{
-                                  color: "#a0a0a0",
-                                  textAlign: "center",
-                                  fontSize: 20,
-                                  padding: 10,
-                                  marginTop: 10,
-                                }}
-                              >
-                                Would you like to?
-                              </Text>
-                              <View
-                                style={{
-                                  height: 1,
-                                  opacity: 0.5,
-                                  backgroundColor: "#a0a0a0",
-                                  marginVertical: 10,
-                                }}
-                              />
-                              <View>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    onSendMessage(
-                                      item.name,
-                                      item.id,
-                                      item.user,
-                                      item.sender
-                                    );
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      color: "#11a0fd",
-                                      fontSize: 22,
-                                      textAlign: "center",
-                                      padding: 5,
-                                    }}
-                                  >
-                                    Send Message
-                                  </Text>
-                                </TouchableOpacity>
-                                <View
-                                  style={{
-                                    height: 1,
-                                    opacity: 0.5,
-                                    backgroundColor: "#a0a0a0",
-                                    marginVertical: 10,
-                                  }}
-                                />
-                                <TouchableOpacity>
-                                  <Text
-                                    style={{
-                                      color: "#11a0fd",
-                                      fontSize: 22,
-                                      textAlign: "center",
-                                      paddingHorizontal: 5,
-                                      paddingTop: 5,
-                                      marginBottom: 10,
-                                    }}
-                                  >
-                                    View Profile
-                                  </Text>
-                                </TouchableOpacity>
-                              </View>
-                            </View>
-                            <TouchableOpacity
-                              style={{
-                                backgroundColor: "#D9D9D9",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginBottom: 20,
-                                marginTop: 10,
-                                paddingVertical: 10,
-                                borderRadius: 12,
-                                marginHorizontal: 10,
-                              }}
-                              onPress={() => {
-                                setShowModal(!showModal);
-                              }}
-                            >
-                              <Text style={{ fontSize: 22, color: "#11a0fd" }}>
-                                Cancel
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                        </Modal>
                         <Pressable
                           key={item.id}
                           onLongPress={
-                            item.user == user ? null : () => onLongPress()
+                            item.user == user
+                              ? null
+                              : () => onLongPress(item.name, item.id, item.user)
                           }
                         >
                           <ChatBubble
