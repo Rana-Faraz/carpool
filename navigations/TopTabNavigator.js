@@ -20,8 +20,18 @@ export default function TopTabNavigator() {
       }}
     >
       <Tab.Group>
-        <Tab.Screen name="ActiveTrip" component={ActiveTripScreen} />
-        <Tab.Screen name="History" component={HistoryScreen} />
+        <Tab.Screen
+          name="ActiveTrip"
+          component={ActiveTripScreen}
+          options={{
+            title: "Live",
+          }}
+        />
+        <Tab.Screen
+          name="History"
+          component={HistoryScreen}
+          options={{ title: "Expired" }}
+        />
       </Tab.Group>
     </Tab.Navigator>
   );

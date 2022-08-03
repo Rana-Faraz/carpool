@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { Animated, Platform, Text, TouchableOpacity, View } from "react-native";
-import { lightModColor } from "../style/Color";
 import { Entypo } from "@expo/vector-icons";
+import React, { useEffect, useRef } from "react";
+import { Animated, Platform, Text, TouchableOpacity } from "react-native";
 import { CarState } from "../context/CarContext";
 
 export default function Alert(props) {

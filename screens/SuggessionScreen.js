@@ -41,6 +41,7 @@ const SuggessionScreen = () => {
       collectionRef,
       where("pickup", "==", pickUpLoca),
       where("drop", "==", dropLoca),
+      where("expire", "==", false),
       orderBy("formatedDate")
     );
 
@@ -62,6 +63,7 @@ const SuggessionScreen = () => {
           user: doc.data().createBy,
           createDate: doc.data().createDate,
           formatedDate: doc.data().formatedDate.toDate(),
+          expire: doc.data().expire,
         }))
       );
     });
@@ -91,7 +93,7 @@ const SuggessionScreen = () => {
         <View style={[row, { paddingVertical: 10, paddingHorizontal: 20 }]}>
           <Text style={[availableRideHeading]}>Avaiable Rides</Text>
           <TouchableOpacity style={[row]}>
-            <FontAwesome
+            {/* <FontAwesome
               name="sort"
               size={25}
               color={lightModColor.themeBackground}
@@ -104,7 +106,7 @@ const SuggessionScreen = () => {
               ]}
             >
               Filter
-            </Text>
+            </Text> */}
           </TouchableOpacity>
         </View>
         {ridesDoc ? (
@@ -137,6 +139,7 @@ const SuggessionScreen = () => {
                 time={doc.time}
                 comments={doc.comments}
                 createDate={doc.createDate}
+                formatedDate={doc.formatedDate}
               />
             ))
           )

@@ -38,6 +38,10 @@ import { availableRideHeading, btn, btnText, row } from "../../style/Style";
 const RideDetailsScreen = ({ navigation, route }) => {
   const { width, height } = Dimensions.get("window");
   const ASPECT_RATIO = width / height;
+  const MapData = {
+    distance: "",
+    time: "",
+  };
   const { user, userDoc } = CarState();
   const mapRef = useRef(null);
   useEffect(() => {
@@ -239,6 +243,11 @@ const RideDetailsScreen = ({ navigation, route }) => {
               strokeColors={[lightModColor.themeBackground, "red"]}
               timePrecision="now"
               mode="DRIVING"
+              optimizeWaypoints={true}
+              onReady={(result) => {
+                console.log(result.distance + " km");
+                console.log(result.duration + " minutes");
+              }}
             />
           </MapView>
         </View>
@@ -431,8 +440,18 @@ const RideDetailsScreen = ({ navigation, route }) => {
           )}
         </View>
       </View>
-      {userDoc.phone !== currentUser.phone && (
-        <View style={{ position: "absolute", bottom: 30, width: "100%" }}>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          backgroundColor: "#ffff",
+          borderTopEndRadius: 20,
+          borderTopLeftRadius: 20,
+          alignSelf: "center",
+        }}
+      >
+        {userDoc.phone !== currentUser.phone && (
           <View
             style={[
               row,
@@ -479,7 +498,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
               style={{
                 borderRadius: 50,
                 padding: 10,
-                backgroundColor: "#ffff",
+                backgroundColor: "#eae8e8",
               }}
               onPress={() =>
                 userDoc.phone === currentUser.phone
@@ -494,15 +513,18 @@ const RideDetailsScreen = ({ navigation, route }) => {
               />
             </TouchableOpacity>
           </View>
-          <View style={{ paddingHorizontal: 10 }}>
-            <TouchableOpacity
-              style={[btn, { paddingVertical: 10, width: "100%" }]}
-            >
-              <Text style={[btnText]}>Book</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
+        )}
+        {userDoc.phone !== currentUser.phone &&
+          userDoc.phone === currentUser.phone && (
+            <View style={{ paddingHorizontal: 10 }}>
+              <TouchableOpacity
+                style={[btn, { paddingVertical: 10, width: "100%" }]}
+              >
+                <Text style={[btnText]}>Book</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+      </View>
     </>
   );
 };

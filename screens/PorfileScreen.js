@@ -152,6 +152,7 @@ const PorfileScreen = ({ route, navigation }) => {
                       time={doc.time}
                       comments={doc.comments}
                       createDate={doc.createDate}
+                      formatedDate={doc.formatedDate}
                     />
                   ))
                 )

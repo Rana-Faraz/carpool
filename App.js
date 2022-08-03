@@ -9,6 +9,7 @@ import { UserProvider } from "./context/CarContext";
 import StackNavigator from "./navigations/StackNavigator";
 import { useFonts } from "expo-font";
 import PorfileScreen from "./screens/PorfileScreen";
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -24,6 +25,7 @@ export default function App() {
     <UserProvider>
       <NavigationContainer>
         <StackNavigator />
+        <ExpoStatusBar style="inverted" />
       </NavigationContainer>
     </UserProvider>
   );

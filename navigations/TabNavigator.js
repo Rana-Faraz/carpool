@@ -88,7 +88,7 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="MyTrip"
+        name="My Trips"
         component={TopTabNavigator}
         options={{
           tabBarIcon: (tabInfo) => {

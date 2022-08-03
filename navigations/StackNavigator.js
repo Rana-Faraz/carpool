@@ -140,7 +140,7 @@ const appStack = () => {
               name="suggession"
               component={SuggessionScreen}
               options={{
-                headerTitle: "Available Ride",
+                headerTitle: "Available Rides",
                 headerStyle: headerStyle,
                 headerTintColor: "#ffff",
                 headerTitleAlign: "center",

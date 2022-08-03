@@ -194,6 +194,7 @@ const OfferRideScreen = () => {
       createDate: serverTimestamp(),
       formatedDate: formatedDate,
       formatedtime: formatedtime,
+      expire: false,
     };
 
     addDoc(collectionRef, docData)
@@ -492,9 +493,9 @@ const OfferRideScreen = () => {
 
         <View style={[row, { alignItems: "center" }]}>
           <TouchableOpacity
-            style={[availableRideLocaBox, { opacity: price <= 400 ? 0.5 : 1 }]}
-            onPress={() => price > 400 && setPrice(price - 50)}
-            disabled={price <= 400}
+            style={[availableRideLocaBox, { opacity: price <= 100 ? 0.5 : 1 }]}
+            onPress={() => price > 100 && setPrice(price - 50)}
+            disabled={price <= 100}
           >
             <AntDesign
               name="minuscircle"
@@ -516,9 +517,9 @@ const OfferRideScreen = () => {
             <Text style={{ paddingVertical: 3 }}>{price}</Text>
           </View>
           <TouchableOpacity
-            style={[availableRideLocaBox, { opacity: price >= 4000 ? 0.5 : 1 }]}
-            onPress={() => price < 4000 && setPrice(price + 50)}
-            disabled={price >= 4000}
+            style={[availableRideLocaBox, { opacity: price >= 8000 ? 0.5 : 1 }]}
+            onPress={() => price < 8000 && setPrice(price + 50)}
+            disabled={price >= 8000}
           >
             <AntDesign
               name="pluscircle"
