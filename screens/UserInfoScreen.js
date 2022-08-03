@@ -21,20 +21,28 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 const UserInfoScreen = () => {
   const Navigation = useNavigation();
-  const { user, setUser, userDoc, setUserDoc } = CarState();
+  const { user, setUser, userDoc, setUserDoc, showAlert } = CarState();
   const [name, setName] = React.useState("");
   const [gender, setGender] = React.useState("");
+  var letters = /^[a-zA-Z\s]*$/;
   const onUpdate = async () => {
     if (name) {
-      const docRef = doc(db, "Users-Data", user);
-      updateDoc(docRef, { name: name, gender: gender }).then(
-        setUserDoc({ phone: userDoc.phone, name: name, gender: gender })
-      );
+      if (name.match(letters)) {
+        const docRef = doc(db, "Users-Data", user);
+        updateDoc(docRef, { name: name, gender: gender }).then(
+          setUserDoc({ phone: userDoc.phone, name: name, gender: gender })
+        );
 
-      try {
-        await AsyncStorage.setItem("user", JSON.stringify(name));
-      } catch {
-        (err) => console.log(err.message);
+        try {
+          await AsyncStorage.setItem("user", JSON.stringify(name));
+        } catch {
+          (err) => console.log(err.message);
+        }
+      } else {
+        showAlert(
+          "Name can only contain alphabet characters (A-Z or a-z)",
+          "warn"
+        );
       }
     } else {
       Alert.alert("Error", "Please enter your name");

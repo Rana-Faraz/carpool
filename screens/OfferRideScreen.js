@@ -217,7 +217,7 @@ const OfferRideScreen = () => {
 
   return (
     <ScrollView
-      onScroll={() => Keyboard.dismiss()}
+      // onScroll={() => Keyboard.dismiss()}
       scrollEventThrottle={32}
       // automaticallyAdjustKeyboardInsets={true}
       // automaticallyAdjustsScrollIndicatorInsets={false}
@@ -436,7 +436,7 @@ const OfferRideScreen = () => {
           />
           <View style={{ width: "41%" }}>
             <SelectDropdown
-              data={["Hand Bag", "Medium", "Large"]}
+              data={["No Bags", "Hand Bag", "Medium", "Large"]}
               buttonStyle={dropDownStyle}
               buttonTextStyle={{ fontSize: 15 }}
               defaultValue="Hand Bag"

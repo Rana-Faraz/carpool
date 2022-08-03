@@ -65,7 +65,7 @@ export default function Alert(props) {
           width: "90%",
         }}
       >
-        {capitalized(props.alert.type)}! <Text>{props.alert.message}</Text>
+        <Text>{props.alert.message}</Text>
       </Text>
       <TouchableOpacity
         onPress={() => {
