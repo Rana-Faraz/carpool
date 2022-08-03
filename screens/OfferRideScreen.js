@@ -326,7 +326,7 @@ const OfferRideScreen = () => {
                 style={[
                   styles.centeredView,
                   {
-                    backgroundColor: "#9d9d9d",
+                    backgroundColor: "#D9D9D9",
                     height: "40%",
                     position: "absolute",
                     width: "100%",
