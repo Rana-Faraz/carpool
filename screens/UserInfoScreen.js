@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native";
 import { lightModColor } from "../style/Color";
 import { btn, btnText } from "../style/Style";
 import { CarState } from "../context/CarContext";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../api/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -30,12 +30,17 @@ const UserInfoScreen = () => {
       if (name.match(letters)) {
         const docRef = doc(db, "Users-Data", user);
         updateDoc(docRef, { name: name, gender: gender }).then(
-          setUserDoc({
-            phone: userDoc.phone,
-            name: name,
-            gender: gender,
-            createdAt: userDoc.createdAt,
-          })
+          getDoc(docRef)
+            .then((snapshot) => {
+              if (snapshot.exists) {
+                setUserDoc(snapshot.data());
+              } else {
+                console.log("No doc found");
+              }
+            })
+            .catch((error) => {
+              console.log(error.message);
+            })
         );
 
         try {
