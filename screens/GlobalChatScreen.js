@@ -82,6 +82,7 @@ const GlobalChatScreen = () => {
         snapshot.docs.map((doc) => ({
           id: doc.id,
           message: doc.data().text,
+          sender: doc.data().sender,
           name: doc.data().name,
           user: doc.data().sentBy,
           time: doc.data().sentTime,
@@ -116,10 +117,10 @@ const GlobalChatScreen = () => {
     );
   };
 
-  const onLongPress = (name, id, number) => {
-    Alert.alert("Message", "Do you want to message " + name + "?", [
+  const onLongPress = (name, id, number, sender) => {
+    Alert.alert("Info", "Would you like to?", [
       {
-        text: "Yes",
+        text: "Send Message",
         onPress: () => {
           console.log(number, name);
           privateChat(name, id, number);
@@ -130,7 +131,12 @@ const GlobalChatScreen = () => {
           });
         },
       },
-      { text: "Cancel" },
+      {
+        text: "View Profile",
+        onPress: () =>
+          Navigation.navigate("User Profile", { userInfo: sender }),
+      },
+      { text: "Cancel", style: "destructive" },
     ]);
   };
   useEffect(() => {
@@ -183,6 +189,7 @@ const GlobalChatScreen = () => {
     addDoc(collection(db, "messages"), {
       text: text,
       sentBy: user,
+      sender: userDoc,
       name: userDoc.name,
       sentTime: time,
       createdAt: serverTimestamp(),
@@ -250,7 +257,13 @@ const GlobalChatScreen = () => {
                           onLongPress={
                             item.user == user
                               ? null
-                              : () => onLongPress(item.name, item.id, item.user)
+                              : () =>
+                                  onLongPress(
+                                    item.name,
+                                    item.id,
+                                    item.user,
+                                    item.sender
+                                  )
                           }
                         >
                           <ChatBubble
@@ -329,5 +342,3 @@ const GlobalChatScreen = () => {
 };
 
 export default GlobalChatScreen;
-
-const styles = StyleSheet.create({});

@@ -30,7 +30,12 @@ const UserInfoScreen = () => {
       if (name.match(letters)) {
         const docRef = doc(db, "Users-Data", user);
         updateDoc(docRef, { name: name, gender: gender }).then(
-          setUserDoc({ phone: userDoc.phone, name: name, gender: gender })
+          setUserDoc({
+            phone: userDoc.phone,
+            name: name,
+            gender: gender,
+            createdAt: userDoc.createdAt,
+          })
         );
 
         try {

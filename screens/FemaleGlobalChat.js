@@ -123,11 +123,12 @@ const FemaleGlobalChat = () => {
     );
   };
 
-  const onLongPress = (name, id, number) => {
-    Alert.alert("Message", "Do you want to message " + name + "?", [
+  const onLongPress = (name, id, number, sender) => {
+    Alert.alert("Info", "Would you like to?", [
       {
-        text: "Yes",
+        text: "Send Message",
         onPress: () => {
+          console.log(number, name);
           privateChat(name, id, number);
           Navigation.navigate("One To One", {
             name: name,
@@ -136,7 +137,12 @@ const FemaleGlobalChat = () => {
           });
         },
       },
-      { text: "Cancel" },
+      {
+        text: "View Profile",
+        onPress: () =>
+          Navigation.navigate("User Profile", { userInfo: sender }),
+      },
+      { text: "Cancel", style: "destructive" },
     ]);
   };
   useEffect(() => {
@@ -257,7 +263,13 @@ const FemaleGlobalChat = () => {
                           onLongPress={
                             item.user == user
                               ? null
-                              : () => onLongPress(item.name, item.id, item.user)
+                              : () =>
+                                  onLongPress(
+                                    item.name,
+                                    item.id,
+                                    item.user,
+                                    item.sender
+                                  )
                           }
                         >
                           <ChatBubble

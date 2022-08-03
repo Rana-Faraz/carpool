@@ -165,7 +165,7 @@ const OneToOneChat = ({ route, navigation }) => {
               opacity: 0.5,
               zIndex: 999,
             }}
-            onPress={() => Navigation.goBack()}
+            onPress={() => navigation.goBack()}
           >
             <Ionicons name="ios-chevron-back-outline" size={35} color="black" />
           </TouchableOpacity>
@@ -274,7 +274,7 @@ const OneToOneChat = ({ route, navigation }) => {
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
-      <ExpoStatusBar style="light" animated={true} />
+      <ExpoStatusBar style="dark" animated={true} />
     </>
   );
 };
