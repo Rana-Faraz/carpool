@@ -12,7 +12,7 @@ export const heading = {
   fontFamily: "MonBold",
 };
 export const btn = {
-  padding: 20,
+  padding: 15,
   width: "60%",
   backgroundColor: lightModColor.themeBackground,
   borderRadius: 40,

@@ -19,7 +19,7 @@ import {
   View,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
-import { lightModColor } from "../style/Color";
+import { lightModColor } from "../../style/Color";
 import {
   availableRideHeading,
   availableRideLocaBox,
@@ -27,34 +27,62 @@ import {
   btnText,
   dropDownStyle,
   row,
-} from "../style/Style";
+} from "../../style/Style";
 // import uuid from "react-native-uuid";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../api/firebase";
-import { CarState } from "../context/CarContext";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "../../api/firebase";
+import { CarState } from "../../context/CarContext";
 
-// import { MaterialIcons } from "@expo/vector-icons";
-
-const OfferRideScreen = () => {
+const UpdateOfferScreen = () => {
   const Navigation = useNavigation();
+
+  // ************ Update Routing ****************
+  const route = useRoute();
+  const {
+    u_id,
+    u_carDetails,
+    u_price,
+    u_pickup,
+    u_drop,
+    u_pickupDetail,
+    u_dropDetail,
+    u_seats,
+    u_date,
+    u_time,
+    u_comments,
+    u_createDate,
+    u_formatedDate,
+    u_edit,
+    u_luggage,
+  } = route.params;
+
   let current = new Date();
 
   // ******** Use States for all the input fields ********
-  const [pickup, setPickup] = useState("");
-  const [drop, setDrop] = useState("");
-  const [pickupDetail, setPickupDetail] = useState("");
-  const [dropDetail, setDropDetail] = useState("");
+  const [pickup, setPickup] = useState(u_pickup ? u_pickup : "");
+  const [drop, setDrop] = useState(u_drop ? u_drop : "");
+  const [pickupDetail, setPickupDetail] = useState(
+    u_pickupDetail ? u_pickupDetail : ""
+  );
+  const [dropDetail, setDropDetail] = useState(
+    u_dropDetail ? u_dropDetail : ""
+  );
   const [currDate, setCurrDate] = useState(current);
-  const [formatedDate, setFormatedDate] = useState(current);
-  const [formatedtime, setFormatedtime] = useState(current.getHours());
-  const [date, setDate] = useState();
-  const [time, setTime] = useState();
-  const [carDeatails, setCarDeatails] = useState("");
-  const [seats, setSeats] = useState(1);
-  const [luggage, setLuggage] = useState("Hand Bag");
-  const [price, setPrice] = useState(1000);
-  const [comments, setComments] = useState("");
+  const [formatedDate, setFormatedDate] = useState(u_formatedDate);
+  const [date, setDate] = useState(u_date);
+  const [time, setTime] = useState(u_time);
+  const [carDeatails, setCarDeatails] = useState(u_carDetails);
+  const [seats, setSeats] = useState(u_seats);
+  const [luggage, setLuggage] = useState(u_luggage);
+  const [price, setPrice] = useState(u_price);
+  const [comments, setComments] = useState(u_comments ? u_comments : "");
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
@@ -208,10 +236,9 @@ const OfferRideScreen = () => {
     setDropDropValue(handleDropin);
   }, [pickup]);
 
-  // ******* DataBase Logics **********
-
-  const addData = () => {
-    const collectionRef = collection(db, "Rides");
+  // ****************** DataBase Logic ********************
+  const UpdateData = () => {
+    const docRef = doc(db, "Rides", u_id);
 
     const docData = {
       pickup: pickup.replace(/\s/g, ""),
@@ -225,28 +252,28 @@ const OfferRideScreen = () => {
       seats: seats,
       price: price,
       comments: comments,
-      createBy: userDoc,
-      createDate: serverTimestamp(),
+      updatedBy: userDoc,
+      UpdatedData: serverTimestamp(),
       formatedDate: formatedDate,
       expire: false,
     };
 
-    addDoc(collectionRef, docData)
-      .then(showAlert("Offer Posted", "success"))
+    setDoc(docRef, docData, { merge: true })
+      .then(showAlert("Offer updated successfully", "success"))
       .catch((err) => console.log(err));
 
     Navigation.goBack();
   };
 
-  const create = () => {
+  const update = () => {
     if (date === currenDate) {
       if (time.slice(0, 2) === currentTime.slice(0, 2)) {
-        showAlert("Time should be more than current time", "warn");
+        showAlert("Time should be 1 Hour more than current time", "warn");
       } else {
-        addData();
+        UpdateData();
       }
     } else {
-      addData();
+      UpdateData();
     }
   };
 
@@ -489,7 +516,6 @@ const OfferRideScreen = () => {
             color={lightModColor.themeBackground}
             style={{ paddingHorizontal: 5 }}
           />
-
           <View style={[availableRideLocaBox, row, { width: "41%" }]}>
             <TouchableOpacity
               onPress={() => seats > 1 && setSeats(seats - 1)}
@@ -504,9 +530,9 @@ const OfferRideScreen = () => {
             </TouchableOpacity>
             <Text style={{ paddingHorizontal: 5 }}>{seats}</Text>
             <TouchableOpacity
-              onPress={() => seats < 25 && setSeats(seats + 1)}
-              disabled={seats === 25}
-              style={{ opacity: seats === 25 ? 0.5 : 1 }}
+              onPress={() => seats < 3 && setSeats(seats + 1)}
+              disabled={seats === 3}
+              style={{ opacity: seats === 3 ? 0.5 : 1 }}
             >
               <AntDesign
                 name="pluscircle"
@@ -580,7 +606,7 @@ const OfferRideScreen = () => {
           value={comments}
         />
         <TouchableOpacity
-          onPress={create}
+          onPress={update}
           style={[
             btn,
             {
@@ -616,11 +642,11 @@ const OfferRideScreen = () => {
             price === ""
           }
         >
-          <Text style={[btnText, { fontSize: 18 }]}>Post Offer</Text>
+          <Text style={[btnText, { fontSize: 18 }]}>Update Offer</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </ScrollView>
   );
 };
 
-export default OfferRideScreen;
+export default UpdateOfferScreen;

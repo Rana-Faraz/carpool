@@ -11,6 +11,7 @@ import {
   Dimensions,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { db } from "../../api/firebase";
@@ -77,23 +78,27 @@ const ActiveTripScreen = () => {
             </View>
           ) : (
             ridesDoc.map((doc) => (
-              <AvailableRideItems
-                key={doc.id}
-                id={doc.id}
-                user={doc.user}
-                carDetails={doc.carDetails}
-                pickup={doc.pickup}
-                drop={doc.drop}
-                price={doc.price}
-                pickupDetail={doc.pickupDetail}
-                dropDetail={doc.dropDetail}
-                seats={doc.seats}
-                date={doc.date}
-                time={doc.time}
-                comments={doc.comments}
-                createDate={doc.createDate}
-                formatedDate={doc.formatedDate}
-              />
+              <>
+                <AvailableRideItems
+                  key={doc.id}
+                  id={doc.id}
+                  user={doc.user}
+                  carDetails={doc.carDetails}
+                  pickup={doc.pickup}
+                  drop={doc.drop}
+                  price={doc.price}
+                  pickupDetail={doc.pickupDetail}
+                  dropDetail={doc.dropDetail}
+                  luggage={doc.luggage}
+                  seats={doc.seats}
+                  date={doc.date}
+                  time={doc.time}
+                  comments={doc.comments}
+                  createDate={doc.createDate}
+                  formatedDate={doc.formatedDate}
+                  active={"active"}
+                />
+              </>
             ))
           )
         ) : (

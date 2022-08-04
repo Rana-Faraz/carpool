@@ -41,11 +41,11 @@ export default function Alert(props) {
         bottom: 20,
         backgroundColor:
           props.alert.type === "success"
-            ? "green"
+            ? "#00539cff"
             : props.alert.type === "warn"
             ? "#dcce80"
             : "red",
-        width: "95%",
+        width: "70%",
         padding: 20,
         //   marginHorizontal: 20,
         flexDirection: "row",

@@ -118,7 +118,7 @@ const SignInScreen = () => {
                 },
               ]}
             >
-              Welcome back
+              Welcome to Seat Share
             </Text>
             <Text
               style={{

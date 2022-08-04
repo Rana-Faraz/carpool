@@ -3,7 +3,7 @@ export const lightModColor = {
   fontColor: "#000",
   headerFontColor: "#ffff",
   headerBackground: "#F74236",
-  themeBackground: "#F74236",
+  themeBackground: "#00539cff",
 };
 export const DarkModColor = {
   background: "#1e1e1e",

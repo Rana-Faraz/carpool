@@ -7,18 +7,24 @@ import {
   FontAwesome5,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View, Alert } from "react-native";
 import { db } from "../api/firebase";
 import { CarState } from "../context/CarContext";
 import { lightModColor } from "../style/Color";
 import { btn, btnText, itemCenter, row } from "../style/Style";
 
 const AvailableRideItems = (props) => {
+  // *********** Rides Expiring Logic *******************
   const current = new Date();
   const Navigation = useNavigation();
-  const { userDoc } = CarState();
+  const { userDoc, showAlert } = CarState();
+  // const timeHours =
+  //   props.time.slice(8, 10) === "PM"
+  //     ? parseInt(props.time.slice(0, 2)) + 12
+  //     : parseInt(props.time.slice(0, 2));
+  // const timeMinutes = parseInt(props.time.slice(5, 7));
 
   const expireRides = () => {
     const expiredDoc = doc(db, "Rides", props.id);
@@ -28,19 +34,46 @@ const AvailableRideItems = (props) => {
     setDoc(expiredDoc, data, { merge: true });
   };
 
-  if (current.getDate() <= props.formatedDate.getDate()) {
-    if (current.getMonth() <= props.formatedDate.getMonth()) {
-      console.log("true");
-    } else {
-      setTimeout(() => {
+  if (!props.history) {
+    if (current.getDate() <= props.formatedDate.getDate()) {
+      if (current.getMonth() <= props.formatedDate.getMonth()) {
+        // if (
+        //   current.getHours() === 0
+        //     ? 24 <= timeHours
+        //     : current.getHours() <= timeHours
+        // ) {
+        //   // if (current.getMinutes <= timeMinutes) {
+        //   // } else {
+        //   //   expireRides();
+        //   // }
+        // } else {
+        //   expireRides();
+        // }
+      } else {
         expireRides();
-      }, 2000);
-    }
-  } else {
-    setTimeout(() => {
+      }
+    } else {
       expireRides();
-    }, 2000);
+    }
   }
+
+  // ***************** Delete Rides Logic********************
+  const _delete = () => {
+    Alert.alert("Confirm", "Are you sure you want to delete your Ride", [
+      {
+        text: "Yes",
+        onPress: () => {
+          const myDoc = doc(db, "Rides", props.id);
+          deleteDoc(myDoc)
+            .then(showAlert("Your ride deleted successfully", "success"))
+            .catch((err) => showAlert(err.message, "error"));
+        },
+      },
+      {
+        text: "NO",
+      },
+    ]);
+  };
 
   return (
     <View
@@ -55,10 +88,7 @@ const AvailableRideItems = (props) => {
     >
       <View style={[row]}>
         <View style={[row]}>
-          <Image
-            source={require("../assets/images.png")}
-            style={{ height: 50, width: 50 }}
-          />
+          <FontAwesome name="user-circle" size={50} color="#eea47fff" />
           <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
             <Text style={{ fontSize: 15 }}>
               {props.user.name === userDoc.name ? "You" : props.user.name}
@@ -183,17 +213,115 @@ const AvailableRideItems = (props) => {
           <Text>{" " + props.time}</Text>
         </View>
       </View>
-      <View style={[itemCenter, row, { marginVertical: 10 }]}>
+      <View
+        style={[
+          itemCenter,
+          row,
+          { marginVertical: 10, justifyContent: "center" },
+        ]}
+      >
         {props.history ? (
-          <></>
+          <>
+            <TouchableOpacity
+              onPress={_delete}
+              style={[
+                btn,
+                {
+                  padding: 8,
+                  width: "60%",
+                  backgroundColor: lightModColor.themeBackground,
+                },
+              ]}
+            >
+              <Text style={[btnText]}>Remove Ride</Text>
+            </TouchableOpacity>
+          </>
+        ) : props.active ? (
+          <>
+            <TouchableOpacity
+              style={[
+                btn,
+                {
+                  padding: 8,
+                  width: "31%",
+                  backgroundColor: lightModColor.themeBackground,
+                },
+              ]}
+              onPress={() =>
+                Navigation.navigate("RideDetails", {
+                  id: props.id,
+                  currentUser: props.user,
+                  carDetails: props.carDetails,
+                  price: props.price,
+                  pickup: props.pickup,
+                  drop: props.drop,
+                  pickupDetail: props.pickupDetail,
+                  dropDetail: props.dropDetail,
+                  seats: props.seats,
+                  date: props.date,
+                  time: props.time,
+                  comments: props.comments,
+                  createDate: props.createDate,
+                  luggage: props.luggage,
+                })
+              }
+            >
+              <Text style={[btnText]}>Details</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Navigation.navigate("updateOffer", {
+                  u_id: props.id,
+                  u_carDetails: props.carDetails,
+                  u_price: props.price,
+                  u_pickup: props.pickup,
+                  u_drop: props.drop,
+                  u_pickupDetail: props.pickupDetail,
+                  u_dropDetail: props.dropDetail,
+                  u_seats: props.seats,
+                  u_date: props.date,
+                  u_time: props.time,
+                  u_comments: props.comments,
+                  u_createDate: props.createDate,
+                  u_formatedDate: props.formatedDate,
+                  u_edit: "edit",
+                  u_luggage: props.luggage,
+                })
+              }
+              style={[
+                btn,
+                {
+                  padding: 8,
+                  width: "31%",
+                  backgroundColor: "#eea47fff",
+                  marginHorizontal: 6,
+                },
+              ]}
+            >
+              <Text style={[btnText]}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={_delete}
+              style={[
+                btn,
+                {
+                  padding: 8,
+                  width: "31%",
+                  backgroundColor: lightModColor.themeBackground,
+                },
+              ]}
+            >
+              <Text style={[btnText]}>Remove</Text>
+            </TouchableOpacity>
+          </>
         ) : (
           <TouchableOpacity
             style={[
               btn,
               {
                 padding: 8,
-                width: props.user.phone !== userDoc.phone ? "100%" : "100%",
-                backgroundColor: "#b6b6b6",
+                width: props.user.phone !== userDoc.phone ? "60%" : "60%",
+                backgroundColor: lightModColor.themeBackground,
               },
             ]}
             onPress={() =>
@@ -217,12 +345,12 @@ const AvailableRideItems = (props) => {
             <Text style={[btnText]}>Details</Text>
           </TouchableOpacity>
         )}
-        {props.user.phone !== userDoc.phone &&
+        {/* {props.user.phone !== userDoc.phone &&
           props.user.phone === userDoc.phone && (
             <TouchableOpacity style={[btn, { padding: 8, width: "49%" }]}>
               <Text style={[btnText]}>Book Now</Text>
             </TouchableOpacity>
-          )}
+          )} */}
       </View>
     </View>
   );

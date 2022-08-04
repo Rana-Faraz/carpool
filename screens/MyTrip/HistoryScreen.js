@@ -13,7 +13,7 @@ import { CarState } from "../../context/CarContext";
 import { lightModColor } from "../../style/Color";
 import { itemCenter } from "../../style/Style";
 
-const ActiveTripScreen = () => {
+const HistoryScreen = () => {
   const [ridesDoc, setRidesDoc] = useState();
   const { userDoc } = CarState();
 
@@ -103,4 +103,4 @@ const ActiveTripScreen = () => {
   );
 };
 
-export default ActiveTripScreen;
+export default HistoryScreen;

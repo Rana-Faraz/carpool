@@ -31,6 +31,7 @@ import OneToOneChat from "../screens/OneToOneChat";
 import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
 import FemaleGlobalChat from "../screens/FemaleGlobalChat";
 import PorfileScreen from "../screens/PorfileScreen";
+import UpdateOfferScreen from "../screens/OfferRides/UpdateOfferScreen";
 
 const Stack = createStackNavigator();
 
@@ -163,6 +164,16 @@ const appStack = () => {
               options={{
                 headerBackTitleVisible: false,
                 headerTitle: "Offer Ride",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="updateOffer"
+              component={UpdateOfferScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTitle: "Update Offer",
                 headerStyle: headerStyle,
                 headerTintColor: "#ffff",
               }}
