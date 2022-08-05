@@ -20,7 +20,11 @@ const ChatList = (props) => {
             source={require("../assets/images.png")}
             style={{ borderRadius: 50, height: 45, width: 45 }}
           /> */}
-          <FontAwesome name="user-circle" size={45} color="#eea47fff" />
+          <FontAwesome
+            name="user-circle"
+            size={45}
+            color={lightModColor.secoundColor}
+          />
 
           <View
             style={{

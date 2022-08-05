@@ -88,7 +88,11 @@ const AvailableRideItems = (props) => {
     >
       <View style={[row]}>
         <View style={[row]}>
-          <FontAwesome name="user-circle" size={50} color="#eea47fff" />
+          <FontAwesome
+            name="user-circle"
+            size={50}
+            color={lightModColor.secoundColor}
+          />
           <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
             <Text style={{ fontSize: 15 }}>
               {props.user.name === userDoc.name ? "You" : props.user.name}
@@ -110,7 +114,9 @@ const AvailableRideItems = (props) => {
         </View>
       </View>
       <View style={{ paddingVertical: 10 }}>
-        <View style={[row, { justifyContent: "flex-start" }]}>
+        <View
+          style={[row, { justifyContent: "flex-start", alignItems: "center" }]}
+        >
           <Octicons
             name="dot-fill"
             size={40}
@@ -126,7 +132,11 @@ const AvailableRideItems = (props) => {
               width: "95%",
             }}
           >
-            {`${props.pickupDetail}, ${props.pickup}`}
+            {`${
+              props.pickupDetail.length >= 50
+                ? props.pickupDetail.slice(0, 50) + "..."
+                : props.pickupDetail
+            }, ${props.pickup}`}
           </Text>
         </View>
         <View>
@@ -136,7 +146,9 @@ const AvailableRideItems = (props) => {
             color={lightModColor.themeBackground}
           />
         </View>
-        <View style={[row, { justifyContent: "flex-start" }]}>
+        <View
+          style={[row, { justifyContent: "flex-start", alignItems: "center" }]}
+        >
           <Octicons
             name="dot-fill"
             size={40}
@@ -152,7 +164,11 @@ const AvailableRideItems = (props) => {
               width: "95%",
             }}
           >
-            {`${props.dropDetail}, ${props.drop}`}
+            {`${
+              props.dropDetail.length >= 50
+                ? props.dropDetail.slice(0, 50) + "..."
+                : props.dropDetail
+            }, ${props.drop}`}
           </Text>
         </View>
       </View>
@@ -162,10 +178,10 @@ const AvailableRideItems = (props) => {
           {
             borderTopColor: "#4444",
             borderTopWidth: 1,
-            padding: 10,
+            paddingVertical: 10,
             borderBottomColor: "#4444",
             borderBottomWidth: 1,
-            padding: 10,
+            // padding: 10,
           },
         ]}
       >
@@ -217,7 +233,10 @@ const AvailableRideItems = (props) => {
         style={[
           itemCenter,
           row,
-          { marginVertical: 10, justifyContent: "center" },
+          {
+            marginTop: 10,
+            justifyContent: "center",
+          },
         ]}
       >
         {props.history ? (
@@ -243,7 +262,7 @@ const AvailableRideItems = (props) => {
                 btn,
                 {
                   padding: 8,
-                  width: "31%",
+                  width: "32%",
                   backgroundColor: lightModColor.themeBackground,
                 },
               ]}
@@ -292,8 +311,8 @@ const AvailableRideItems = (props) => {
                 btn,
                 {
                   padding: 8,
-                  width: "31%",
-                  backgroundColor: "#eea47fff",
+                  width: "32%",
+                  backgroundColor: lightModColor.secoundColor,
                   marginHorizontal: 6,
                 },
               ]}
@@ -306,7 +325,7 @@ const AvailableRideItems = (props) => {
                 btn,
                 {
                   padding: 8,
-                  width: "31%",
+                  width: "32%",
                   backgroundColor: lightModColor.themeBackground,
                 },
               ]}
