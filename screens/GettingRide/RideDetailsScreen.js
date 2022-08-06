@@ -23,7 +23,6 @@ import {
   Dimensions,
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -352,7 +351,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <ScrollView>
+      <View>
         <View style={{ height: 300, width: "100%" }}>
           <MapView
             initialRegion={origin}
@@ -366,7 +365,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
               destination={dropLocation}
               apikey={GOOGLE_API_KEY}
               strokeWidth={Platform.OS === "android" ? 3 : 1}
-              strokeColors={[lightModColor.themeBackground]}
+              strokeColors={[lightModColor.themeBackground, "red"]}
               timePrecision="now"
               mode="DRIVING"
               optimizeWaypoints={true}
@@ -565,7 +564,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
             <></>
           )}
         </View>
-      </ScrollView>
+      </View>
       <View
         style={{
           position: "absolute",

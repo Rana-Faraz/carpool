@@ -180,14 +180,14 @@ const OfferRideScreen = () => {
     "Okara",
     "Pakpattan",
     "Kasur",
-    "Rahim yar Khan",
-    "Raganpur",
+    "Rahim Yar Khan",
+    "Rajanpur",
     "Rawalpindi",
     "Sahiwal",
     "Sargodha",
     "Sheikhupura",
     "Sialkot",
-    "Toba tek Singh",
+    "Toba Tek Singh",
     "Vehari",
   ];
   const [pickDropValue, setPickDropValue] = useState(pickupDropDown);
@@ -323,7 +323,6 @@ const OfferRideScreen = () => {
               placeholder="Detailed Pickup Location"
               onChangeText={(value) => setPickupDetail(value)}
               value={pickupDetail}
-              maxLength={60}
             />
             <Text>To</Text>
             <TextInput
@@ -331,7 +330,6 @@ const OfferRideScreen = () => {
               placeholder="Detailed Drop Location"
               onChangeText={(value) => setDropDetail(value)}
               value={dropDetail}
-              maxLength={60}
             />
           </View>
         </View>
@@ -363,6 +361,7 @@ const OfferRideScreen = () => {
               />
               <View
                 style={[
+                  styles.centeredView,
                   {
                     backgroundColor: "#D9D9D9",
                     height: "40%",
@@ -461,7 +460,6 @@ const OfferRideScreen = () => {
             placeholder="Make/Model/Year"
             onChangeText={(value) => setCarDeatails(value)}
             value={carDeatails}
-            maxLength={20}
           />
         </View>
         <View
@@ -580,7 +578,6 @@ const OfferRideScreen = () => {
           placeholder="Add some additional details"
           onChangeText={(value) => setComments(value)}
           value={comments}
-          maxLength={100}
         />
         <TouchableOpacity
           onPress={create}

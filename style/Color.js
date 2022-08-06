@@ -4,7 +4,6 @@ export const lightModColor = {
   headerFontColor: "#ffff",
   headerBackground: "#F74236",
   themeBackground: "#00539cff",
-  secoundColor: "#eea47fff",
 };
 export const DarkModColor = {
   background: "#1e1e1e",

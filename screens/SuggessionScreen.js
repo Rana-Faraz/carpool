@@ -76,9 +76,10 @@ const SuggessionScreen = () => {
       <View>
         <View style={[{ padding: 13, marginTop: 5 }]}>
           <Text style={[availableRideHeading]}>
-            {date.getDate() +
+            {"From " +
+              date.getDate() +
               " " +
-              Months[date.getMonth()].name +
+              Months[date.getMonth()].short +
               " " +
               date.getFullYear()}
           </Text>

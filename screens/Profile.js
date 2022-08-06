@@ -44,7 +44,7 @@ const Profile = () => {
         <FontAwesome
           name="user-circle"
           size={100}
-          color={lightModColor.secoundColor}
+          color="#eea47fff"
           style={{
             height: 100,
             width: 100,
@@ -53,7 +53,6 @@ const Profile = () => {
             alignSelf: "center",
             top: height * 0.1 * 0.3,
             zIndex: 99999,
-            backgroundColor: lightModColor.themeBackground,
           }}
         />
 

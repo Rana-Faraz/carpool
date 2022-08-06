@@ -38,7 +38,7 @@ export default function Alert(props) {
     <Animated.View
       style={{
         position: "absolute",
-        bottom: 55,
+        bottom: 20,
         backgroundColor:
           props.alert.type === "success"
             ? "#00539cff"
