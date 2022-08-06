@@ -1,4 +1,5 @@
 import {
+  Alert,
   Dimensions,
   Image,
   StyleSheet,
@@ -12,14 +13,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { btn, btnText } from "../style/Style";
 import { lightModColor } from "../style/Color";
-
+import { FontAwesome } from "@expo/vector-icons";
 const Profile = () => {
   const { user, setUser, userDoc, setUserDoc } = CarState();
   const { height, width } = Dimensions.get("window");
   const deleteItem = () => {
-    AsyncStorage.removeItem("user")
-      .then(() => setUser(null))
-      .catch((e) => console.log(e));
+    Alert.alert("Confirm", "You want to Logout?", [
+      {
+        text: "Yes",
+        onPress: () => {
+          AsyncStorage.removeItem("user")
+            .then(() => setUser(null))
+            .catch((e) => console.log(e));
+        },
+      },
+
+      {
+        text: "No",
+      },
+    ]);
   };
   return (
     <View style={{ height: "100%" }}>
@@ -29,7 +41,23 @@ const Profile = () => {
           height: height * 0.1,
         }}
       >
-        <Image
+        <FontAwesome
+          name="user-circle"
+          size={100}
+          color={lightModColor.secoundColor}
+          style={{
+            height: 100,
+            width: 100,
+            borderRadius: 100,
+            position: "absolute",
+            alignSelf: "center",
+            top: height * 0.1 * 0.3,
+            zIndex: 99999,
+            backgroundColor: lightModColor.themeBackground,
+          }}
+        />
+
+        {/* <Image
           source={require("../assets/images.png")}
           style={{
             height: 100,
@@ -40,7 +68,7 @@ const Profile = () => {
             top: height * 0.1 * 0.3,
             zIndex: 99999,
           }}
-        />
+        /> */}
       </View>
       <View style={{ backgroundColor: "#f2f2f2", zIndex: -1 }}>
         <View style={{ marginTop: 60 }}>
@@ -112,7 +140,7 @@ const Profile = () => {
         onPress={deleteItem}
         style={[btn, { alignSelf: "center", marginTop: 40 }]}
       >
-        <Text style={btnText}>Logout</Text>
+        <Text style={btnText}>Log out</Text>
       </TouchableOpacity>
     </View>
   );

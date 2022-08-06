@@ -1,6 +1,7 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { lightModColor } from "../style/Color";
+import StatusBar from "expo-status-bar";
 
 const LoadingScreen = () => {
   return (
@@ -12,6 +13,7 @@ const LoadingScreen = () => {
       }}
     >
       <ActivityIndicator size="large" color={lightModColor.themeBackground} />
+      <StatusBar style="inverted" />
     </View>
   );
 };

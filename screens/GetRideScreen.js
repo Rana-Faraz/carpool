@@ -1,16 +1,13 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useLayoutEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
 import SelectDropdown from "react-native-select-dropdown";
 import { lightModColor } from "../style/Color";
 import { btn, btnText, dropDownStyle, itemCenter } from "../style/Style";
 
 const GetRideScreen = () => {
   const Navigation = useNavigation();
-  const route = useRoute();
-  const { id } = route.params;
 
   const [pickUp, setPickUp] = useState();
   const [dropIn, setDropIn] = useState();
@@ -18,36 +15,82 @@ const GetRideScreen = () => {
   // ************** Casecading Drop Down Logic ***************
 
   const pickupDropDown = [
-    "Lahore",
-    "Islamabad",
-    "Rawalpindi",
-    "Karachi",
+    "Attock",
+    "Bahawalnagar",
+    "Bahawalpur",
+    "Bhakkar",
+    "Chakwal",
+    "Chiniot",
+    "DG Khan",
     "Faisalabad",
     "Gujranwala",
-    "Sialkot",
-    "Sheikhupura",
-    "Okara",
-    "Pattoki",
-    "Kasur",
+    "Gujrat",
+    "Hafizabad",
+    "Islamabad",
+    "Jhang",
+    "Jhelum",
+    "Khanewal",
+    "Khushab",
+    "Lahore",
+    "Layyah",
+    "Lodhran",
+    "Mandi Bahauddin",
+    "Mianwali",
     "Multan",
-    "Peshawar",
-    "Quetta",
+    "Muzaffargarh",
+    "Nankana Sahib",
+    "Narowal",
+    "Okara",
+    "Pakpattan",
+    "Kasur",
+    "Rahim yar Khan",
+    "Raganpur",
+    "Rawalpindi",
+    "Sahiwal",
+    "Sargodha",
+    "Sheikhupura",
+    "Sialkot",
+    "Toba tek Singh",
+    "Vehari",
   ];
   const dropinDropDown = [
-    "Lahore",
-    "Islamabad",
-    "Rawalpindi",
-    "Karachi",
+    "Attock",
+    "Bahawalnagar",
+    "Bahawalpur",
+    "Bhakkar",
+    "Chakwal",
+    "Chiniot",
+    "DG Khan",
     "Faisalabad",
     "Gujranwala",
-    "Sialkot",
-    "Sheikhupura",
-    "Okara",
-    "Pattoki",
-    "Kasur",
+    "Gujrat",
+    "Hafizabad",
+    "Islamabad",
+    "Jhang",
+    "Jhelum",
+    "Khanewal",
+    "Khushab",
+    "Lahore",
+    "Layyah",
+    "Lodhran",
+    "Mandi Bahauddin",
+    "Mianwali",
     "Multan",
-    "Peshawar",
-    "Quetta",
+    "Muzaffargarh",
+    "Nankana Sahib",
+    "Narowal",
+    "Okara",
+    "Pakpattan",
+    "Kasur",
+    "Rahim yar Khan",
+    "Raganpur",
+    "Rawalpindi",
+    "Sahiwal",
+    "Sargodha",
+    "Sheikhupura",
+    "Sialkot",
+    "Toba tek Singh",
+    "Vehari",
   ];
   const [pickDropValue, setPickDropValue] = useState(pickupDropDown);
   const [dropDropValue, setDropDropValue] = useState(dropinDropDown);
@@ -76,6 +119,7 @@ const GetRideScreen = () => {
           height: "50%",
         }}
       >
+        <Text style={{ fontSize: 18, alignSelf: "flex-start" }}>From</Text>
         <View style={[itemCenter, { flexDirection: "row" }]}>
           <View style={{ width: "70%" }}>
             <SelectDropdown
@@ -96,7 +140,7 @@ const GetRideScreen = () => {
             />
           </View>
         </View>
-        <Text>To</Text>
+        <Text style={{ fontSize: 18, alignSelf: "flex-start" }}>To</Text>
         <View style={[itemCenter, { flexDirection: "row", marginBottom: 20 }]}>
           <View style={{ width: "70%" }}>
             <SelectDropdown
@@ -118,21 +162,23 @@ const GetRideScreen = () => {
           </View>
         </View>
         <TouchableOpacity
-          style={[btn, { opacity: !pickUp || !dropIn ? 0.5 : 1 }]}
+          style={[
+            btn,
+            {
+              opacity: !pickUp || !dropIn ? 0.5 : 1,
+              paddingHorizontal: 60,
+              paddingVertical: 10,
+            },
+          ]}
           onPress={() =>
-            id === "get"
-              ? Navigation.navigate("suggession", {
-                  pickUpLoca: pickUp,
-                  dropLoca: dropIn,
-                })
-              : Navigation.navigate("offerRide", {
-                  pickUpLoca: pickUp,
-                  dropLoca: dropIn,
-                })
+            Navigation.navigate("suggession", {
+              pickUpLoca: pickUp,
+              dropLoca: dropIn,
+            })
           }
           disabled={!pickUp || !dropIn}
         >
-          <Text style={btnText}>Select Route</Text>
+          <Text style={btnText}>Search</Text>
         </TouchableOpacity>
       </View>
     </View>

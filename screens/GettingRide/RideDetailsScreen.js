@@ -23,6 +23,7 @@ import {
   Dimensions,
   Image,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -92,16 +93,6 @@ const RideDetailsScreen = ({ navigation, route }) => {
       longitude: 73.0479,
     },
     {
-      city: "Karachi",
-      latitude: 24.8607,
-      longitude: 67.0011,
-    },
-    {
-      city: "Peshawar",
-      latitude: 34.0151,
-      longitude: 71.5249,
-    },
-    {
       city: "Multan",
       latitude: 30.1575,
       longitude: 71.5249,
@@ -110,11 +101,6 @@ const RideDetailsScreen = ({ navigation, route }) => {
       city: "Okara",
       latitude: 30.8138,
       longitude: 73.4534,
-    },
-    {
-      city: "Quetta",
-      latitude: 30.1798,
-      longitude: 66.975,
     },
     {
       city: "Sheikhupura",
@@ -132,6 +118,11 @@ const RideDetailsScreen = ({ navigation, route }) => {
       longitude: 74.1945,
     },
     {
+      city: "Gujrat",
+      latitude: 32.5731,
+      longitude: 74.1005,
+    },
+    {
       city: "Faisalabad",
       latitude: 31.4504,
       longitude: 73.135,
@@ -140,6 +131,146 @@ const RideDetailsScreen = ({ navigation, route }) => {
       city: "Rawalpindi",
       latitude: 33.5651,
       longitude: 73.0169,
+    },
+    {
+      city: "Sahiwal",
+      latitude: 30.677717,
+      longitude: 73.106812,
+    },
+    {
+      city: "Khushab",
+      latitude: 32.2955,
+      longitude: 72.3489,
+    },
+    {
+      city: "Khanewal",
+      latitude: 30.286415,
+      longitude: 71.93203,
+    },
+    {
+      city: "Hafizabad",
+      latitude: 32.071697,
+      longitude: 73.68573,
+    },
+    {
+      city: "Mandi Bahauddin",
+      latitude: 32.588169,
+      longitude: 73.497345,
+    },
+    {
+      city: "Layyah",
+      latitude: 30.9693,
+      longitude: 70.9428,
+    },
+    {
+      city: "Attock",
+      latitude: 33.768051,
+      longitude: 72.360703,
+    },
+    {
+      city: "Lodhran",
+      latitude: 29.5467,
+      longitude: 71.6276,
+    },
+    {
+      city: "Sargodha",
+      latitude: 32.082466,
+      longitude: 72.669128,
+    },
+    {
+      city: "Bahawalpur",
+      latitude: 29.418068,
+      longitude: 71.670685,
+    },
+    {
+      city: "Jhelum",
+      latitude: 32.940548,
+      longitude: 73.727631,
+    },
+    {
+      city: "Narowal",
+      latitude: 32.099476,
+      longitude: 74.874733,
+    },
+    {
+      city: "Kasur",
+      latitude: 31.118793,
+      longitude: 74.463272,
+    },
+    {
+      city: "Bhakkar",
+      latitude: 31.633333,
+      longitude: 71.066666,
+    },
+    {
+      city: "Jhang",
+      latitude: 31.278046,
+      longitude: 72.31176,
+    },
+    {
+      city: "Jhang",
+      latitude: 31.278046,
+      longitude: 72.31176,
+    },
+    {
+      city: "DG Khan",
+      latitude: 30.032486,
+      longitude: 70.640244,
+    },
+    {
+      city: "Vehari",
+      latitude: 30.045246,
+      longitude: 72.348869,
+    },
+    {
+      city: "Muzaffargarh",
+      latitude: 30.074377,
+      longitude: 71.184654,
+    },
+    {
+      city: "Bahawalnagar",
+      latitude: 30.0025,
+      longitude: 73.2412,
+    },
+    {
+      city: "Chakwal",
+      latitude: 32.9328,
+      longitude: 72.863,
+    },
+    {
+      city: "Chiniot",
+      latitude: 31.7292,
+      longitude: 72.9822,
+    },
+    {
+      city: "Mianwali",
+      latitude: 32.5839,
+      longitude: 71.537,
+    },
+    {
+      city: "Nankana Sahib",
+      latitude: 31.4492,
+      longitude: 73.7125,
+    },
+    {
+      city: "Pakpattan",
+      latitude: 30.3573,
+      longitude: 73.3827,
+    },
+    {
+      city: "Rahim Yar Khan",
+      latitude: 28.4212,
+      longitude: 70.2989,
+    },
+    {
+      city: "Rajanpurn",
+      latitude: 29.1044,
+      longitude: 70.3301,
+    },
+    {
+      city: "Toba Tek Singh",
+      latitude: 30.9709,
+      longitude: 72.4826,
     },
   ];
 
@@ -157,12 +288,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
     latitudeDelta: 6.105,
     longitudeDelta: 0.005,
   };
-  // const destination = {
-  //   latitude: handleGeoDrop()[0].latitude,
-  //   longitude: handleGeoDrop()[0].longitude,
-  //   latitudeDelta: 0.0722,
-  //   longitudeDelta: 0.0421,
-  // };
+
   const pickupLocation = {
     latitude: handleGeoPickup()[0].latitude,
     longitude: handleGeoPickup()[0].longitude,
@@ -226,7 +352,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <View>
+      <ScrollView>
         <View style={{ height: 300, width: "100%" }}>
           <MapView
             initialRegion={origin}
@@ -240,7 +366,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
               destination={dropLocation}
               apikey={GOOGLE_API_KEY}
               strokeWidth={Platform.OS === "android" ? 3 : 1}
-              strokeColors={[lightModColor.themeBackground, "red"]}
+              strokeColors={[lightModColor.themeBackground]}
               timePrecision="now"
               mode="DRIVING"
               optimizeWaypoints={true}
@@ -439,7 +565,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
             <></>
           )}
         </View>
-      </View>
+      </ScrollView>
       <View
         style={{
           position: "absolute",
