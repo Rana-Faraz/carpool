@@ -88,7 +88,11 @@ const AvailableRideItems = (props) => {
     >
       <View style={[row]}>
         <View style={[row]}>
-          <FontAwesome name="user-circle" size={50} color="#eea47fff" />
+          <FontAwesome
+            name="user-circle"
+            size={50}
+            color={lightModColor.secoundColor}
+          />
           <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
             <Text style={{ fontSize: 15 }}>
               {props.user.name === userDoc.name ? "You" : props.user.name}
@@ -293,7 +297,7 @@ const AvailableRideItems = (props) => {
                 {
                   padding: 8,
                   width: "31%",
-                  backgroundColor: "#eea47fff",
+                  backgroundColor: lightModColor.secoundColor,
                   marginHorizontal: 6,
                 },
               ]}

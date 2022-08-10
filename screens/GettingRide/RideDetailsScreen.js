@@ -21,7 +21,6 @@ import {
   Alert,
   Dimensions,
   Platform,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -658,5 +657,3 @@ const RideDetailsScreen = ({ navigation, route }) => {
 };
 
 export default RideDetailsScreen;
-
-const styles = StyleSheet.create({});

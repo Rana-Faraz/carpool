@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { CarState } from "../context/CarContext";
+import { lightModColor } from "../style/Color";
 import { btn, btnText } from "../style/Style";
 
 const Home = () => {
@@ -25,12 +26,20 @@ const Home = () => {
         <Text style={btnText}>Get a Ride</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[btn, { marginTop: 20, backgroundColor: "#eea47fff" }]}
+        style={[
+          btn,
+          { marginTop: 20, backgroundColor: lightModColor.secoundColor },
+        ]}
         onPress={() => Navigation.navigate("offerRide")}
       >
         <Text
           style={
-            ([btnText], { color: "#000", textAlign: "center", fontSize: 20 })
+            ([btnText],
+            {
+              color: lightModColor.themeBackground,
+              textAlign: "center",
+              fontSize: 20,
+            })
           }
         >
           Offer a Ride

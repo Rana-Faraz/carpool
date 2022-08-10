@@ -1,12 +1,18 @@
 //create a context api for user
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { doc, getDoc } from "firebase/firestore";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { Text } from "react-native";
 import { db } from "../api/firebase";
 import Alert from "../components/Alert";
 
-const CarContext = React.createContext();
+const CarContext = createContext();
 
 //create a provider for user context
 export function UserProvider({ children }) {
@@ -51,7 +57,6 @@ export function UserProvider({ children }) {
       .catch((e) => console.log(e));
   };
 
-  console.log(user);
   return (
     <CarContext.Provider
       value={{

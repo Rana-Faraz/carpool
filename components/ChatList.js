@@ -1,12 +1,13 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { CarState } from "../context/CarContext";
+import { lightModColor } from "../style/Color";
 
 const ChatList = (props) => {
   const { user, userDoc } = CarState();
   return (
-    <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
+    <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
       <View
         style={{
           flexDirection: "row",
@@ -15,9 +16,14 @@ const ChatList = (props) => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Image
+          {/* <Image
             source={require("../assets/images.png")}
             style={{ borderRadius: 50, height: 45, width: 45 }}
+          /> */}
+          <FontAwesome
+            name="user-circle"
+            size={45}
+            color={lightModColor.secoundColor}
           />
           <View
             style={{
