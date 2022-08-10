@@ -14,6 +14,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../api/firebase";
 import { CarState } from "../context/CarContext";
@@ -26,6 +27,20 @@ const PrivateChats = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState([]);
   const { user, userDoc } = CarState();
+
+  const setSeen = (chatId, number, senderName, recieverName, senderNumber) => {
+    const collectionRef2 = doc(db, "Users-Data", user, "messages", chatId);
+    const collectionRef3 = doc(db, "Users-Data", number, "messages", chatId);
+    updateDoc(collectionRef2, { lastMsgSeen: true }, { merge: true });
+    updateDoc(collectionRef3, { lastMsgSeen: true }, { merge: true });
+
+    navigation.navigate("One To One", {
+      name: senderName == userDoc.name ? recieverName : senderName,
+      number: senderNumber == userDoc.phone ? number : senderNumber,
+      id: chatId,
+    });
+  };
+
   useEffect(() => {
     setIsLoading(true);
     const collectionRef = collection(db, "Users-Data", user, "messages");
@@ -42,6 +57,7 @@ const PrivateChats = () => {
           lastMsg: doc.data().lastMsg,
           lastMsgTime: doc.data().lastMsgTime,
           lastMsgBy: doc.data().lastMsgBy,
+          lastMsgSeen: doc.data().lastMsgSeen,
         }))
       );
       setIsLoading(false);
@@ -65,17 +81,13 @@ const PrivateChats = () => {
           <TouchableOpacity
             key={chat.id}
             onPress={() =>
-              navigation.navigate("One To One", {
-                name:
-                  chat.senderName == userDoc.name
-                    ? chat.recieverName
-                    : chat.senderName,
-                number:
-                  chat.senderNumber == userDoc.phone
-                    ? chat.recieverNumber
-                    : chat.senderNumber,
-                id: chat.id,
-              })
+              setSeen(
+                chat.id,
+                chat.recieverNumber,
+                chat.senderName,
+                chat.recieverName,
+                chat.senderNumber
+              )
             }
           >
             <ChatList
@@ -87,6 +99,7 @@ const PrivateChats = () => {
               lastMsg={chat.lastMsg}
               lastMsgTime={chat.lastMsgTime}
               lastMsgBy={chat.lastMsgBy}
+              lastMsgSeen={chat.lastMsgSeen}
             />
           </TouchableOpacity>
         ))

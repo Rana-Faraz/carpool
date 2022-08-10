@@ -126,6 +126,7 @@ const OneToOneChat = ({ route, navigation }) => {
       lastMsg: text,
       lastMsgTime: time,
       lastMsgBy: user,
+      lastMsgSeen: false,
       recieverName: name,
       senderName: userDoc.name,
       latest: serverTimestamp(),

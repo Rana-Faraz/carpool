@@ -350,7 +350,6 @@ const UpdateOfferScreen = () => {
               placeholder="Detailed Pickup Location"
               onChangeText={(value) => setPickupDetail(value)}
               value={pickupDetail}
-              maxLength={60}
             />
             <Text>To</Text>
             <TextInput
@@ -358,7 +357,6 @@ const UpdateOfferScreen = () => {
               placeholder="Detailed Drop Location"
               onChangeText={(value) => setDropDetail(value)}
               value={dropDetail}
-              maxLength={60}
             />
           </View>
         </View>
@@ -489,7 +487,6 @@ const UpdateOfferScreen = () => {
             placeholder="Make/Model/Year"
             onChangeText={(value) => setCarDeatails(value)}
             value={carDeatails}
-            maxLength={20}
           />
         </View>
         <View
@@ -607,7 +604,6 @@ const UpdateOfferScreen = () => {
           placeholder="Add some additional details"
           onChangeText={(value) => setComments(value)}
           value={comments}
-          maxLength={100}
         />
         <TouchableOpacity
           onPress={update}
