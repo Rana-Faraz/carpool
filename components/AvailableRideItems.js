@@ -166,10 +166,10 @@ const AvailableRideItems = (props) => {
           {
             borderTopColor: "#4444",
             borderTopWidth: 1,
-            padding: 10,
+            paddingVertical: 10,
             borderBottomColor: "#4444",
             borderBottomWidth: 1,
-            padding: 10,
+            // padding: 10,
           },
         ]}
       >

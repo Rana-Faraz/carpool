@@ -21,6 +21,7 @@ import {
   Alert,
   Dimensions,
   Platform,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -348,7 +349,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <View>
+      <ScrollView>
         <View style={{ height: 300, width: "100%" }}>
           <MapView
             initialRegion={origin}
@@ -561,10 +562,10 @@ const RideDetailsScreen = ({ navigation, route }) => {
             <></>
           )}
         </View>
-      </View>
+      </ScrollView>
       <View
         style={{
-          // position: "absolute",
+          position: "absolute",
           bottom: 0,
           width: "100%",
           backgroundColor: "#ffff",
