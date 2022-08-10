@@ -119,7 +119,15 @@ const GetRideScreen = () => {
           height: "50%",
         }}
       >
-        <Text style={{ fontSize: 18, alignSelf: "flex-start" }}>From</Text>
+        <Text
+          style={{
+            fontSize: 18,
+            alignSelf: "flex-start",
+            fontFamily: "MonLight",
+          }}
+        >
+          From
+        </Text>
         <View style={[itemCenter, { flexDirection: "row" }]}>
           <View style={{ width: "70%" }}>
             <SelectDropdown
@@ -140,7 +148,15 @@ const GetRideScreen = () => {
             />
           </View>
         </View>
-        <Text style={{ fontSize: 18, alignSelf: "flex-start" }}>To</Text>
+        <Text
+          style={{
+            fontSize: 18,
+            alignSelf: "flex-start",
+            fontFamily: "MonLight",
+          }}
+        >
+          To
+        </Text>
         <View style={[itemCenter, { flexDirection: "row", marginBottom: 20 }]}>
           <View style={{ width: "70%" }}>
             <SelectDropdown

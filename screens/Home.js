@@ -23,7 +23,7 @@ const Home = () => {
         style={btn}
         onPress={() => Navigation.navigate("getRide")}
       >
-        <Text style={btnText}>Get a Ride</Text>
+        <Text style={[btnText, { fontFamily: "MonMedium" }]}>Get a Ride</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[
@@ -33,14 +33,15 @@ const Home = () => {
         onPress={() => Navigation.navigate("offerRide")}
       >
         <Text
-          style={
-            ([btnText],
+          style={[
+            btnText,
             {
               color: lightModColor.themeBackground,
               textAlign: "center",
               fontSize: 20,
-            })
-          }
+              fontFamily: "MonMedium",
+            },
+          ]}
         >
           Offer a Ride
         </Text>
