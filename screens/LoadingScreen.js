@@ -13,7 +13,7 @@ const LoadingScreen = () => {
       }}
     >
       <ActivityIndicator size="large" color={lightModColor.themeBackground} />
-      <StatusBar style="inverted" />
+      {/* <StatusBar style="inverted" /> */}
     </View>
   );
 };

@@ -15,6 +15,7 @@ import { lightModColor } from "../style/Color";
 import { StatusBar } from "expo-status-bar";
 import AvailableRideItems from "../components/AvailableRideItems";
 import { itemCenter } from "../style/Style";
+import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 import {
@@ -96,18 +97,27 @@ const PorfileScreen = ({ route, navigation }) => {
             height: height * 0.1,
           }}
         >
-          <Image
-            source={require("../assets/images.png")}
+          <FontAwesome
+            name="user-circle"
+            size={100}
+            color={lightModColor.secoundColor}
             style={{
-              height: 100,
-              width: 100,
-              borderRadius: 100,
               position: "absolute",
               alignSelf: "center",
               top: height * 0.1 * 0.3,
               zIndex: 99999,
+              backgroundColor: lightModColor.themeBackground,
+              borderRadius: 100,
             }}
           />
+          {/* <Image
+            source={require("../assets/images.png")}
+            style={{
+              height: 100,
+              width: 100,
+              
+            }}
+          /> */}
         </View>
         <View style={{ backgroundColor: "#f2f2f2", zIndex: -1 }}>
           <View style={{ marginTop: 60 }}>

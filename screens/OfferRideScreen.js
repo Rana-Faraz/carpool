@@ -214,8 +214,8 @@ const OfferRideScreen = () => {
     const collectionRef = collection(db, "Rides");
 
     const docData = {
-      pickup: pickup.replace(/\s/g, ""),
-      drop: drop.replace(/\s/g, ""),
+      pickup: pickup,
+      drop: drop,
       pickupDetail: pickupDetail,
       dropDetail: dropDetail,
       date: date,

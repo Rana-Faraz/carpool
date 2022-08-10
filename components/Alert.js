@@ -2,6 +2,7 @@ import { Entypo } from "@expo/vector-icons";
 import React, { useEffect, useRef } from "react";
 import { Animated, Platform, Text, TouchableOpacity } from "react-native";
 import { CarState } from "../context/CarContext";
+import { lightModColor } from "../style/Color";
 
 export default function Alert(props) {
   const { setalert } = CarState();
@@ -41,11 +42,11 @@ export default function Alert(props) {
         bottom: 55,
         backgroundColor:
           props.alert.type === "success"
-            ? "#00539cff"
+            ? lightModColor.themeBackground
             : props.alert.type === "warn"
-            ? "#dcce80"
+            ? lightModColor.secoundColor
             : "red",
-        width: "70%",
+        width: "90%",
         padding: 20,
         //   marginHorizontal: 20,
         flexDirection: "row",

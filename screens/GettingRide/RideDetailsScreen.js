@@ -1,3 +1,4 @@
+import { GOOGLE_API_KEY } from "@env";
 import {
   AntDesign,
   Entypo,
@@ -8,8 +9,6 @@ import {
   MaterialIcons,
   Zocial,
 } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { GOOGLE_API_KEY } from "@env";
 import {
   collection,
   doc,
@@ -17,11 +16,10 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Alert,
   Dimensions,
-  Image,
   Platform,
   ScrollView,
   StyleSheet,
@@ -416,7 +414,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
                 style={[
                   availableRideHeading,
                   {
-                    fontSize: Platform.OS === "android" ? 25 : 30,
+                    fontSize: Platform.OS === "android" ? 22 : 30,
                     marginBottom: 0,
                     textAlign: "auto",
                   },
@@ -430,7 +428,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
                 style={[
                   availableRideHeading,
                   {
-                    fontSize: Platform.OS === "android" ? 25 : 30,
+                    fontSize: Platform.OS === "android" ? 22 : 30,
                     marginBottom: 0,
                     textAlign: "right",
                   },
@@ -568,7 +566,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
       </ScrollView>
       <View
         style={{
-          position: "absolute",
+          // position: "absolute",
           bottom: 0,
           width: "100%",
           backgroundColor: "#ffff",
@@ -609,9 +607,14 @@ const RideDetailsScreen = ({ navigation, route }) => {
                   borderRadius: 50,
                 }}
               >
-                <Image
+                {/* <Image
                   source={require("../../assets/images.png")}
                   style={{ height: 50, width: 50, borderRadius: 30 }}
+                /> */}
+                <FontAwesome
+                  name="user-circle"
+                  size={50}
+                  color={lightModColor.secoundColor}
                 />
               </View>
               <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>

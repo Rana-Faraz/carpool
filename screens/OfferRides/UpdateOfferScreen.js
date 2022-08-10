@@ -241,8 +241,8 @@ const UpdateOfferScreen = () => {
     const docRef = doc(db, "Rides", u_id);
 
     const docData = {
-      pickup: pickup.replace(/\s/g, ""),
-      drop: drop.replace(/\s/g, ""),
+      pickup: pickup,
+      drop: drop,
       pickupDetail: pickupDetail,
       dropDetail: dropDetail,
       date: date,
