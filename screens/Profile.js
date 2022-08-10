@@ -41,21 +41,22 @@ const Profile = () => {
           height: height * 0.1,
         }}
       >
-        <FontAwesome
-          name="user-circle"
-          size={100}
-          color={lightModColor.secoundColor}
+        <View
           style={{
-            height: 100,
-            width: 100,
-            borderRadius: 100,
             position: "absolute",
             alignSelf: "center",
             top: height * 0.1 * 0.3,
             zIndex: 99999,
             backgroundColor: lightModColor.themeBackground,
+            borderRadius: 11150,
           }}
-        />
+        >
+          <FontAwesome
+            name="user-circle"
+            size={100}
+            color={lightModColor.secoundColor}
+          />
+        </View>
 
         {/* <Image
           source={require("../assets/images.png")}

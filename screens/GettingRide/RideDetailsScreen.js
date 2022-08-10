@@ -26,7 +26,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { db } from "../../api/firebase";
 import { CarState } from "../../context/CarContext";
@@ -355,6 +355,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
             initialRegion={origin}
             style={{ height: 300, width: "100%" }}
             ref={mapRef}
+            provider={PROVIDER_GOOGLE}
           >
             <MapView.Marker coordinate={pickupLocation} identifier="pickup" />
             <MapView.Marker coordinate={dropLocation} identifier="drop" />
@@ -362,8 +363,8 @@ const RideDetailsScreen = ({ navigation, route }) => {
               origin={pickupLocation}
               destination={dropLocation}
               apikey={GOOGLE_API_KEY}
-              strokeWidth={Platform.OS === "android" ? 3 : 1}
-              strokeColors={[lightModColor.themeBackground, "red"]}
+              strokeWidth={3}
+              strokeColors={[lightModColor.themeBackground]}
               timePrecision="now"
               mode="DRIVING"
               optimizeWaypoints={true}
@@ -413,7 +414,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
                 style={[
                   availableRideHeading,
                   {
-                    fontSize: Platform.OS === "android" ? 22 : 30,
+                    fontSize: Platform.OS === "android" ? 22 : 23,
                     marginBottom: 0,
                     textAlign: "auto",
                   },
@@ -427,7 +428,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
                 style={[
                   availableRideHeading,
                   {
-                    fontSize: Platform.OS === "android" ? 22 : 30,
+                    fontSize: Platform.OS === "android" ? 22 : 23,
                     marginBottom: 0,
                     textAlign: "right",
                   },
@@ -496,10 +497,10 @@ const RideDetailsScreen = ({ navigation, route }) => {
               {
                 borderTopColor: "#4444",
                 borderTopWidth: 1,
-                padding: 10,
+                paddingVertical: 10,
                 borderBottomColor: "#4444",
                 borderBottomWidth: 1,
-                padding: 10,
+                // padding: 10,
               },
             ]}
           >
@@ -565,7 +566,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
       </ScrollView>
       <View
         style={{
-          position: "absolute",
+          // position: "absolute",
           bottom: 0,
           width: "100%",
           backgroundColor: "#ffff",

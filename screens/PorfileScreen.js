@@ -97,19 +97,22 @@ const PorfileScreen = ({ route, navigation }) => {
             height: height * 0.1,
           }}
         >
-          <FontAwesome
-            name="user-circle"
-            size={100}
-            color={lightModColor.secoundColor}
+          <View
             style={{
               position: "absolute",
               alignSelf: "center",
               top: height * 0.1 * 0.3,
               zIndex: 99999,
               backgroundColor: lightModColor.themeBackground,
-              borderRadius: 100,
+              borderRadius: 11150,
             }}
-          />
+          >
+            <FontAwesome
+              name="user-circle"
+              size={100}
+              color={lightModColor.secoundColor}
+            />
+          </View>
           {/* <Image
             source={require("../assets/images.png")}
             style={{
