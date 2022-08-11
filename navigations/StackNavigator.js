@@ -1,37 +1,30 @@
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import Home from "../screens/Home";
-import TabNavigator from "./TabNavigator";
-import GetRideScreen from "../screens/GetRideScreen";
-import { headerStyle } from "../style/Style";
-import SuggessionScreen from "../screens/SuggessionScreen";
-import OfferRideScreen from "../screens/OfferRideScreen";
-import LandingScreen from "../screens/LandingScreen";
-import SignInScreen from "../screens/SignInScreen";
-import OTPScreen from "../screens/OTPScreen";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { CarState } from "../context/CarContext";
-import GlobalChatScreen from "../screens/GlobalChatScreen";
-import { useNavigation } from "@react-navigation/native";
-import UserInfoScreen from "../screens/UserInfoScreen";
-import LoadingScreen from "../screens/LoadingScreen";
 import ChatCatogery from "../screens/ChatCatogery";
-import PrivateChats from "../screens/PrivateChats";
-import OneToOneChat from "../screens/OneToOneChat";
-import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
 import FemaleGlobalChat from "../screens/FemaleGlobalChat";
-import PorfileScreen from "../screens/PorfileScreen";
+import GetRideScreen from "../screens/GetRideScreen";
+import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
+import GlobalChatScreen from "../screens/GlobalChatScreen";
+import LandingScreen from "../screens/LandingScreen";
+import LoadingScreen from "../screens/LoadingScreen";
 import UpdateOfferScreen from "../screens/OfferRides/UpdateOfferScreen";
+import OfferRideScreen from "../screens/OfferRideScreen";
+import OneToOneChat from "../screens/OneToOneChat";
+import OTPScreen from "../screens/OTPScreen";
+import PorfileScreen from "../screens/PorfileScreen";
+import PrivateChats from "../screens/PrivateChats";
+import SignInScreen from "../screens/SignInScreen";
+import SuggessionScreen from "../screens/SuggessionScreen";
+import UserInfoScreen from "../screens/UserInfoScreen";
+import { headerStyle } from "../style/Style";
+import TabNavigator from "./TabNavigator";
 
 const Stack = createStackNavigator();
 
