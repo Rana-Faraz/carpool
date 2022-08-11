@@ -34,12 +34,6 @@ import { lightModColor } from "../../style/Color";
 import { availableRideHeading, btn, btnText, row } from "../../style/Style";
 
 const RideDetailsScreen = ({ navigation, route }) => {
-  const { width, height } = Dimensions.get("window");
-  const ASPECT_RATIO = width / height;
-  const MapData = {
-    distance: "",
-    time: "",
-  };
   const { user, userDoc } = CarState();
   const mapRef = useRef(null);
   useEffect(() => {
@@ -333,6 +327,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
 
   const onLongPress = (name, number) => {
     Alert.alert("Message", "Do you want to message " + name + "?", [
+      { text: "Cancel" },
       {
         text: "Yes",
         onPress: () => {
@@ -343,7 +338,6 @@ const RideDetailsScreen = ({ navigation, route }) => {
           });
         },
       },
-      { text: "Cancel" },
     ]);
   };
 
@@ -364,9 +358,9 @@ const RideDetailsScreen = ({ navigation, route }) => {
               destination={dropLocation}
               apikey={GOOGLE_API_KEY}
               strokeWidth={3}
-              strokeColors={[lightModColor.themeBackground]}
+              strokeColors={lightModColor.themeBackground}
               timePrecision="now"
-              mode="DRIVING"
+              mode="driving"
               optimizeWaypoints={true}
               onReady={(result) => {
                 console.log(result.distance + " km");
@@ -375,30 +369,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
             />
           </MapView>
         </View>
-        {/* <View style={{ flexDirection: "row" }}>
-          <MapView
-            initialRegion={origin}
-            style={{
-              height: 250,
-              width: "50%",
-              backgroundColor: lightModColor.themeBackground,
-            }}
-            mapType="standard"
-            scrollEnabled={false}
-            zoomEnabled={false}
-            cacheEnabled={true}
-          ></MapView>
-          <MapView
-            initialRegion={destination}
-            style={{ height: 250, width: "50%" }}
-            mapType="standard"
-            scrollEnabled={false}
-            zoomEnabled={false}
-            cacheEnabled={true}
-          ></MapView>
-        </View> */}
         <View
-          //   key={props.id}
           style={{
             backgroundColor: "#ffff",
             marginHorizontal: 10,

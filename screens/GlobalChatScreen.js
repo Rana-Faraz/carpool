@@ -119,6 +119,7 @@ const GlobalChatScreen = () => {
 
   const onLongPress = (name, id, number, sender) => {
     Alert.alert("Info", "Would you like to?", [
+      { text: "Cancel", style: "cancel" },
       {
         text: "Send Message",
         onPress: () => {
@@ -136,7 +137,6 @@ const GlobalChatScreen = () => {
         onPress: () =>
           Navigation.navigate("User Profile", { userInfo: sender }),
       },
-      { text: "Cancel", style: "destructive" },
     ]);
   };
   useEffect(() => {

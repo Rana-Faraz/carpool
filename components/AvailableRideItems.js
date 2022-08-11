@@ -20,11 +20,6 @@ const AvailableRideItems = (props) => {
   const current = new Date();
   const Navigation = useNavigation();
   const { userDoc, showAlert } = CarState();
-  // const timeHours =
-  //   props.time.slice(8, 10) === "PM"
-  //     ? parseInt(props.time.slice(0, 2)) + 12
-  //     : parseInt(props.time.slice(0, 2));
-  // const timeMinutes = parseInt(props.time.slice(5, 7));
 
   const expireRides = () => {
     const expiredDoc = doc(db, "Rides", props.id);
@@ -37,18 +32,6 @@ const AvailableRideItems = (props) => {
   if (!props.history) {
     if (current.getDate() <= props.formatedDate.getDate()) {
       if (current.getMonth() <= props.formatedDate.getMonth()) {
-        // if (
-        //   current.getHours() === 0
-        //     ? 24 <= timeHours
-        //     : current.getHours() <= timeHours
-        // ) {
-        //   // if (current.getMinutes <= timeMinutes) {
-        //   // } else {
-        //   //   expireRides();
-        //   // }
-        // } else {
-        //   expireRides();
-        // }
       } else {
         expireRides();
       }
@@ -87,7 +70,7 @@ const AvailableRideItems = (props) => {
       }}
     >
       <View style={[row]}>
-        <View style={[row]}>
+        <View style={[row, { width: "75%", justifyContent: "space-evenly" }]}>
           <FontAwesome
             name="user-circle"
             size={50}
@@ -107,8 +90,12 @@ const AvailableRideItems = (props) => {
             </Text>
           </View>
         </View>
-        <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+        <View
+          style={{ paddingVertical: 5, paddingHorizontal: 10, width: "27%" }}
+        >
+          <Text
+            style={{ fontSize: 15, fontWeight: "bold", alignSelf: "flex-end" }}
+          >
             Rs.{props.price}
           </Text>
         </View>
@@ -119,7 +106,7 @@ const AvailableRideItems = (props) => {
             name="dot-fill"
             size={40}
             color={lightModColor.themeBackground}
-            // style={{ paddingTop: 4 }}
+            style={{ alignSelf: "center" }}
           />
           <Text
             style={{
@@ -145,7 +132,7 @@ const AvailableRideItems = (props) => {
             name="dot-fill"
             size={40}
             color={lightModColor.themeBackground}
-            // style={{ paddingTop: 4 }}
+            style={{ alignSelf: "center" }}
           />
           <Text
             style={{
@@ -349,12 +336,6 @@ const AvailableRideItems = (props) => {
             <Text style={[btnText]}>Details</Text>
           </TouchableOpacity>
         )}
-        {/* {props.user.phone !== userDoc.phone &&
-          props.user.phone === userDoc.phone && (
-            <TouchableOpacity style={[btn, { padding: 8, width: "49%" }]}>
-              <Text style={[btnText]}>Book Now</Text>
-            </TouchableOpacity>
-          )} */}
       </View>
     </View>
   );

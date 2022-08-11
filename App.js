@@ -1,15 +1,14 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Warning: ..."]);
 LogBox.ignoreAllLogs();
-import { NavigationContainer } from "@react-navigation/native";
 
+import { useFonts } from "expo-font";
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import { StyleSheet } from "react-native";
 import "react-native-gesture-handler";
 import { UserProvider } from "./context/CarContext";
 import StackNavigator from "./navigations/StackNavigator";
-import { useFonts } from "expo-font";
-import PorfileScreen from "./screens/PorfileScreen";
-import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 
 export default function App() {
   const [loaded] = useFonts({
