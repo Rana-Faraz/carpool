@@ -70,14 +70,19 @@ const AvailableRideItems = (props) => {
       }}
     >
       <View style={[row]}>
-        <View style={[row, { width: "75%", justifyContent: "space-evenly" }]}>
+        <View style={[row, { width: "75%", justifyContent: "flex-start" }]}>
           <FontAwesome
             name="user-circle"
             size={50}
             color={lightModColor.secoundColor}
           />
           <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-            <Text style={{ fontSize: 15 }}>
+            <Text
+              style={{
+                fontSize: 15,
+                //  fontFamily: "MonLight"
+              }}
+            >
               {props.user.name === userDoc.name ? "You" : props.user.name}
             </Text>
             <Text style={{ fontSize: 15 }}>
@@ -94,7 +99,12 @@ const AvailableRideItems = (props) => {
           style={{ paddingVertical: 5, paddingHorizontal: 10, width: "27%" }}
         >
           <Text
-            style={{ fontSize: 15, fontWeight: "bold", alignSelf: "flex-end" }}
+            style={{
+              fontSize: 15,
+              fontWeight: "bold",
+              alignSelf: "flex-end",
+              fontFamily: "MonBold",
+            }}
           >
             Rs.{props.price}
           </Text>
@@ -285,7 +295,7 @@ const AvailableRideItems = (props) => {
                   padding: 8,
                   width: "31%",
                   backgroundColor: lightModColor.secoundColor,
-                  marginHorizontal: 6,
+                  marginHorizontal: 10,
                 },
               ]}
             >
