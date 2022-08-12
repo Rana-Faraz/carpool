@@ -5,6 +5,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { CarState } from "../context/CarContext";
 import { lightModColor } from "../style/Color";
 import { btn, btnText } from "../style/Style";
+import { Divider } from "react-native-paper";
 
 const Home = () => {
   const Navigation = useNavigation();
@@ -20,11 +21,49 @@ const Home = () => {
   return (
     <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
       <TouchableOpacity
-        style={btn}
+        style={[btn, { marginBottom: 20 }]}
+        onPress={() => Navigation.navigate("getRideCToC")}
+      >
+        <Text style={[btnText, { fontFamily: "MonMedium" }]}>Get Ride</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[
+          btn,
+          { marginBottom: 20, backgroundColor: lightModColor.secoundColor },
+        ]}
+        // onPress={() => Navigation.navigate("offerRide")}
+      >
+        <Text
+          style={[
+            btnText,
+            {
+              color: lightModColor.themeBackground,
+              textAlign: "center",
+              fontSize: 20,
+              fontFamily: "MonMedium",
+            },
+          ]}
+        >
+          Offer a Ride
+        </Text>
+      </TouchableOpacity>
+
+      <Divider
+        style={{
+          width: "80%",
+          alignSelf: "center",
+          height: 1,
+          borderRadius: 50,
+        }}
+      />
+      <TouchableOpacity
+        style={[btn, { marginTop: 20 }]}
         onPress={() => Navigation.navigate("getRide")}
       >
         <Text style={[btnText, { fontFamily: "MonMedium" }]}>Get a Ride</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[
           btn,

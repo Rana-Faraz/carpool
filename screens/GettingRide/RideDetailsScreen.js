@@ -350,6 +350,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
             style={{ height: 300, width: "100%" }}
             ref={mapRef}
             provider={PROVIDER_GOOGLE}
+            customMapStyleString={"a8dce65d63e074b8"}
           >
             <MapView.Marker coordinate={pickupLocation} identifier="pickup" />
             <MapView.Marker coordinate={dropLocation} identifier="drop" />

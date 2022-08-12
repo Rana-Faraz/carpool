@@ -11,6 +11,7 @@ import ChatCatogery from "../screens/ChatCatogery";
 import FemaleGlobalChat from "../screens/FemaleGlobalChat";
 import GetRideScreen from "../screens/GetRideScreen";
 import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
+import GettingRideCTOCScreen from "../screens/GettingRideInterCityScreen/GettingRideCTOCScreen";
 import GlobalChatScreen from "../screens/GlobalChatScreen";
 import LandingScreen from "../screens/LandingScreen";
 import LoadingScreen from "../screens/LoadingScreen";
@@ -124,6 +125,15 @@ const appStack = () => {
             <Stack.Screen
               name="getRide"
               component={GetRideScreen}
+              options={{
+                headerTitle: "Select Route",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="getRideCToC"
+              component={GettingRideCTOCScreen}
               options={{
                 headerTitle: "Select Route",
                 headerStyle: headerStyle,

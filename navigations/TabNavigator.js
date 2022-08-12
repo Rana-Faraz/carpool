@@ -38,6 +38,7 @@ const TabNavigator = () => {
         // headerTitle: "Share Ride",
         headerShadowVisible: true,
         tabBarHideOnKeyboard: true,
+        // tabBarAllowFontScaling: true,
         tabBarVisibilityAnimationConfig: {
           hide: {
             config: {
