@@ -9,6 +9,7 @@ import { StyleSheet } from "react-native";
 import "react-native-gesture-handler";
 import { UserProvider } from "./context/CarContext";
 import StackNavigator from "./navigations/StackNavigator";
+import { ToastProvider } from "react-native-toast-notifications";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -21,12 +22,14 @@ export default function App() {
     return null;
   }
   return (
-    <UserProvider>
-      <NavigationContainer>
-        <StackNavigator />
-        <ExpoStatusBar style="inverted" />
-      </NavigationContainer>
-    </UserProvider>
+    <ToastProvider style={{ marginBottom: 45 }}>
+      <UserProvider>
+        <NavigationContainer>
+          <StackNavigator />
+          <ExpoStatusBar style="inverted" />
+        </NavigationContainer>
+      </UserProvider>
+    </ToastProvider>
   );
 }
 

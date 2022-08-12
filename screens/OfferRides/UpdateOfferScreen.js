@@ -39,9 +39,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../../api/firebase";
 import { CarState } from "../../context/CarContext";
+import { useToast } from "react-native-toast-notifications";
 
 const UpdateOfferScreen = () => {
   const Navigation = useNavigation();
+  const toast = useToast();
 
   // ************ Update Routing ****************
   const route = useRoute();
@@ -87,7 +89,7 @@ const UpdateOfferScreen = () => {
   const [show, setShow] = useState(false);
 
   // *********** Context Api Objects *************************
-  const { userDoc, showAlert } = CarState();
+  const { userDoc } = CarState();
 
   // *************** Date n Time Logics **********************
   let currenDate =
@@ -259,7 +261,15 @@ const UpdateOfferScreen = () => {
     };
 
     setDoc(docRef, docData, { merge: true })
-      .then(showAlert("Offer updated successfully", "success"))
+      .then(
+        toast.show("Offer updated successfully", {
+          type: "success",
+          placement: "bottom",
+          duration: 3000,
+          offset: 30,
+          animationType: "slide-in",
+        })
+      )
       .catch((err) => console.log(err));
 
     Navigation.goBack();
@@ -268,7 +278,14 @@ const UpdateOfferScreen = () => {
   const update = () => {
     if (date === currenDate) {
       if (time.slice(0, 2) === currentTime.slice(0, 2)) {
-        showAlert("Time should be 1 Hour more than current time", "warn");
+        // showAlert("", "warn");
+        toast.show("Time should be 1 Hour more than current time", {
+          type: "warning",
+          placement: "bottom",
+          duration: 3000,
+          offset: 30,
+          animationType: "slide-in",
+        });
       } else {
         UpdateData();
       }
@@ -390,7 +407,6 @@ const UpdateOfferScreen = () => {
               />
               <View
                 style={[
-                  styles.centeredView,
                   {
                     backgroundColor: "#D9D9D9",
                     height: "40%",

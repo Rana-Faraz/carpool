@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import { Text } from "react-native";
 import { db } from "../api/firebase";
-import Alert from "../components/Alert";
+// import Alert from "../components/Alert";
 
 const CarContext = createContext();
 
@@ -20,16 +20,16 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState();
   const [userDoc, setUserDoc] = useState(null);
 
-  const [alert, setalert] = useState(null);
-  const showAlert = (msg, type) => {
-    setalert({
-      message: msg,
-      type: type,
-    });
-    setTimeout(() => {
-      setalert(null);
-    }, 3000);
-  };
+  // const [alert, setalert] = useState(null);
+  // const showAlert = (msg, type) => {
+  //   setalert({
+  //     message: msg,
+  //     type: type,
+  //   });
+  //   setTimeout(() => {
+  //     setalert(null);
+  //   }, 3000);
+  // };
 
   useEffect(() => {
     if (user) {
@@ -65,13 +65,12 @@ export function UserProvider({ children }) {
         userDoc,
         setUserDoc,
         isLoading,
-        showAlert,
-        alert,
-        setalert,
+        // alert,
+        // setalert,
       }}
     >
       {children}
-      <Alert alert={alert} />
+      {/* <Alert alert={alert} /> */}
     </CarContext.Provider>
   );
 }

@@ -1,6 +1,10 @@
+import { FontAwesome5 } from "@expo/vector-icons";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import React from "react";
 import {
   Alert,
   Keyboard,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -8,20 +12,17 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native";
+import { useToast } from "react-native-toast-notifications";
+import { db } from "../api/firebase";
+import { CarState } from "../context/CarContext";
 import { lightModColor } from "../style/Color";
 import { btn, btnText } from "../style/Style";
-import { CarState } from "../context/CarContext";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../api/firebase";
-import { useNavigation } from "@react-navigation/native";
-import { FontAwesome5 } from "@expo/vector-icons";
 // import { SafeAreaView } from "react-native-safe-area-context";
 
 const UserInfoScreen = () => {
-  const Navigation = useNavigation();
-  const { user, setUser, userDoc, setUserDoc, showAlert } = CarState();
+  // const Navigation = useNavigation();
+  const toast = useToast();
+  const { user, setUserDoc } = CarState();
   const [name, setName] = React.useState("");
   const [gender, setGender] = React.useState("");
   var letters = /^[a-zA-Z\s]*$/;
@@ -49,10 +50,13 @@ const UserInfoScreen = () => {
           (err) => console.log(err.message);
         }
       } else {
-        showAlert(
-          "Name can only contain alphabet characters (A-Z or a-z)",
-          "warn"
-        );
+        toast.show("Name can only contain alphabet characters (A-Z or a-z)", {
+          type: "warning",
+          placement: "bottom",
+          duration: 3000,
+          offset: 30,
+          animationType: "slide-in",
+        });
       }
     } else {
       Alert.alert("Error", "Please enter your name");

@@ -33,11 +33,13 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../api/firebase";
 import { CarState } from "../context/CarContext";
+import { useToast } from "react-native-toast-notifications";
 
 // import { MaterialIcons } from "@expo/vector-icons";
 
 const OfferRideScreen = () => {
   const Navigation = useNavigation();
+  const toast = useToast();
   let current = new Date();
 
   // ******** Use States for all the input fields ********
@@ -59,7 +61,7 @@ const OfferRideScreen = () => {
   const [show, setShow] = useState(false);
 
   // *********** Context Api Objects *************************
-  const { userDoc, showAlert } = CarState();
+  const { userDoc } = CarState();
 
   // *************** Date n Time Logics **********************
   let currenDate =
@@ -232,7 +234,16 @@ const OfferRideScreen = () => {
     };
 
     addDoc(collectionRef, docData)
-      .then(showAlert("Offer Posted", "success"))
+      .then(
+        // showAlert("", "success")
+        toast.show("Offer Posted", {
+          type: "success",
+          placement: "bottom",
+          duration: 3000,
+          offset: 30,
+          animationType: "slide-in",
+        })
+      )
       .catch((err) => console.log(err));
 
     Navigation.goBack();
@@ -241,7 +252,14 @@ const OfferRideScreen = () => {
   const create = () => {
     if (date === currenDate) {
       if (time.slice(0, 2) === currentTime.slice(0, 2)) {
-        showAlert("Time should be more than current time", "warn");
+        // showAlert("", "warn");
+        toast.show("Time should be more than current time", {
+          type: "warning",
+          placement: "bottom",
+          duration: 3000,
+          offset: 30,
+          animationType: "slide-in",
+        });
       } else {
         addData();
       }

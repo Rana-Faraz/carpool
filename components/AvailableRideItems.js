@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import React from "react";
 import { Image, Text, TouchableOpacity, View, Alert } from "react-native";
+import { useToast } from "react-native-toast-notifications";
 import { db } from "../api/firebase";
 import { CarState } from "../context/CarContext";
 import { lightModColor } from "../style/Color";
@@ -19,7 +20,8 @@ const AvailableRideItems = (props) => {
   // *********** Rides Expiring Logic *******************
   const current = new Date();
   const Navigation = useNavigation();
-  const { userDoc, showAlert } = CarState();
+  const { userDoc } = CarState();
+  const toast = useToast();
 
   const expireRides = () => {
     const expiredDoc = doc(db, "Rides", props.id);
@@ -48,8 +50,17 @@ const AvailableRideItems = (props) => {
         onPress: () => {
           const myDoc = doc(db, "Rides", props.id);
           deleteDoc(myDoc)
-            .then(showAlert("Your ride deleted successfully", "success"))
-            .catch((err) => showAlert(err.message, "error"));
+            .then(
+              // showAlert("", "")
+              toast.show("Your ride deleted successfully", {
+                type: "success",
+                placement: "bottom",
+                duration: 3000,
+                offset: 30,
+                animationType: "slide-in",
+              })
+            )
+            .catch((err) => console.log(err.message, "error"));
         },
       },
       {

@@ -1,37 +1,29 @@
 import { GOOGLE_API_KEY } from "@env";
-import { View, Text, PermissionsAndroid } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as Location from "expo-location";
 
 // navigator.geolocation = require("@react-native-community/geolocation");
 // navigator.geolocation = require("react-native-geolocation-service");
 
 const GettingRideCTOCScreen = () => {
-  //   const requestLocationPermission = async () => {
-  //     try {
-  //       const grant = await PermissionsAndroid.request(
-  //         PermissionsAndroid.PERMISSIONS.LOCATION,
-  //         {
-  //           title: "Car pool Location Permission",
-  //           message: "Car pool needs to access your Location",
-  //           buttonNeutral: "Ask me Later",
-  //           buttonNegative: "Cancel",
-  //           buttonPositive: "OK",
-  //         }
-  //       );
-  //       if (grant === PermissionsAndroid.RESULTS.GRANTED) {
-  //         console.log("You can access location");
-  //       } else {
-  //         console.log("denied");
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+  const [currentLocation, setCurrentLocation] = useState();
 
-  //   useEffect(() => {
-  //     requestLocationPermission();
-  //   }, []);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Access Denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setCurrentLocation(location);
+    })();
+  }, []);
+
+  console.log(currentLocation);
 
   return (
     <View style={{ width: "100%", marginTop: 10 }}>
