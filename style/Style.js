@@ -44,11 +44,6 @@ export const availableRideLocaBox = {
   padding: 10,
   borderRadius: 5,
   backgroundColor: "#ffff",
-  // shadowColor: "black",
-  // shadowOpacity: 0.1,
-  // shadowOffset: { width: 0, height: 0 },
-  // shadowRadius: 3,
-  // elevation: 5,
 };
 
 export const availableRideHeading = {

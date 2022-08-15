@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { btn, btnText, center } from "../style/Style";
 import { useNavigation } from "@react-navigation/native";
@@ -10,10 +10,21 @@ const LandingScreen = () => {
 
   return (
     <SafeAreaView style={{ backgroundColor: lightModColor.themeBackground }}>
-      <View style={[center, { height: "50%" }]}>
-        <Text style={{ color: lightModColor.headerFontColor }}>
-          Sign In and get going!
-        </Text>
+      <View
+        style={[
+          center,
+          {
+            height: "50%",
+            // width: "90%",
+            // justifyContent: "center",
+            // alignItems: "center",
+          },
+        ]}
+      >
+        <Image
+          source={require("../assets/landing.png")}
+          style={{ height: 270, width: 350 }}
+        />
       </View>
       <View
         style={{

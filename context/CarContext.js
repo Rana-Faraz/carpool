@@ -8,9 +8,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-import { Text } from "react-native";
 import { db } from "../api/firebase";
-// import Alert from "../components/Alert";
 
 const CarContext = createContext();
 
@@ -52,7 +50,9 @@ export function UserProvider({ children }) {
   }, []);
   const asyncUser = () => {
     AsyncStorage.getItem("user")
-      .then((v) => (v ? setUser(JSON.parse(v)) : setUser("")))
+      .then((v) =>
+        v ? setUser(JSON.parse("+923030010959")) : setUser("+923030010959")
+      )
       .then(() => setIsLoading(false))
       .catch((e) => console.log(e));
   };
@@ -70,7 +70,6 @@ export function UserProvider({ children }) {
       }}
     >
       {children}
-      {/* <Alert alert={alert} /> */}
     </CarContext.Provider>
   );
 }

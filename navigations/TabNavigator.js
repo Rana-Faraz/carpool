@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import TopTabNavigator from "./TopTabNavigator";
+import IndexScreen from "../screens/IndexScreen";
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -55,7 +56,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={IndexScreen}
         options={{
           tabBarIcon: (tabInfo) => {
             return (
@@ -68,6 +69,7 @@ const TabNavigator = () => {
               />
             );
           },
+          headerTitle: "Home",
         }}
       />
       <Tab.Screen
