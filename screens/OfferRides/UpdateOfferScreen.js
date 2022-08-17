@@ -425,7 +425,6 @@ const UpdateOfferScreen = () => {
                   value={currDate}
                   mode={mode}
                   onChange={mode == "date" ? onChangeDate : onChangeTime}
-                  // style={{ backgroundColor: lightModColor.themeBackground }}
                   themeVariant={"dark"}
                 />
                 <TouchableOpacity

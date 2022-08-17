@@ -138,7 +138,9 @@ const AvailableRideItems = (props) => {
               width: "95%",
             }}
           >
-            {`${props.pickupDetail}, ${props.pickup}`}
+            {typeof props.pickupDetail === "string"
+              ? `${props.pickupDetail}, ${props.pickup}`
+              : props.pickupDetail.main_text}
           </Text>
         </View>
         <View>
@@ -164,7 +166,9 @@ const AvailableRideItems = (props) => {
               width: "95%",
             }}
           >
-            {`${props.dropDetail}, ${props.drop}`}
+            {typeof props.dropDetail === "string"
+              ? `${props.dropDetail}, ${props.drop}`
+              : props.dropDetail.main_text}
           </Text>
         </View>
       </View>
@@ -282,23 +286,39 @@ const AvailableRideItems = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                Navigation.navigate("updateOffer", {
-                  u_id: props.id,
-                  u_carDetails: props.carDetails,
-                  u_price: props.price,
-                  u_pickup: props.pickup,
-                  u_drop: props.drop,
-                  u_pickupDetail: props.pickupDetail,
-                  u_dropDetail: props.dropDetail,
-                  u_seats: props.seats,
-                  u_date: props.date,
-                  u_time: props.time,
-                  u_comments: props.comments,
-                  u_createDate: props.createDate,
-                  u_formatedDate: props.formatedDate,
-                  u_edit: "edit",
-                  u_luggage: props.luggage,
-                })
+                typeof props.pickupDetail === "string"
+                  ? Navigation.navigate("updateOffer", {
+                      u_id: props.id,
+                      u_carDetails: props.carDetails,
+                      u_price: props.price,
+                      u_pickup: props.pickup,
+                      u_drop: props.drop,
+                      u_pickupDetail: props.pickupDetail,
+                      u_dropDetail: props.dropDetail,
+                      u_seats: props.seats,
+                      u_date: props.date,
+                      u_time: props.time,
+                      u_comments: props.comments,
+                      u_createDate: props.createDate,
+                      u_formatedDate: props.formatedDate,
+                      u_edit: "edit",
+                      u_luggage: props.luggage,
+                    })
+                  : Navigation.navigate("updateOfferCToC", {
+                      u_id: props.id,
+                      u_carDetails: props.carDetails,
+                      u_price: props.price,
+                      u_pickupDetail: props.pickupDetail,
+                      u_dropDetail: props.dropDetail,
+                      u_seats: props.seats,
+                      u_date: props.date,
+                      u_time: props.time,
+                      u_comments: props.comments,
+                      u_createDate: props.createDate,
+                      u_formatedDate: props.formatedDate,
+                      u_edit: "edit",
+                      u_luggage: props.luggage,
+                    })
               }
               style={[
                 btn,

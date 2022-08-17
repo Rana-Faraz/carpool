@@ -2,10 +2,13 @@ import {
   AntDesign,
   FontAwesome5,
   Ionicons,
+  MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import React, { useState } from "react";
+import { GOOGLE_API_KEY } from "@env";
+
+import React, { useLayoutEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -28,33 +31,53 @@ import {
   row,
 } from "../../style/Style";
 // import uuid from "react-native-uuid";
-import { GOOGLE_API_KEY } from "@env";
-import { useNavigation } from "@react-navigation/native";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useToast } from "react-native-toast-notifications";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../../api/firebase";
 import { CarState } from "../../context/CarContext";
+import { useToast } from "react-native-toast-notifications";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
-const OfferRideCToCScreen = () => {
+const UpdateOfferCToCScreen = () => {
   const Navigation = useNavigation();
   const toast = useToast();
+
+  // ************ Update Routing ****************
+  const route = useRoute();
+  const {
+    u_id,
+    u_carDetails,
+    u_price,
+    u_pickupDetail,
+    u_dropDetail,
+    u_seats,
+    u_date,
+    u_time,
+    u_comments,
+    u_formatedDate,
+    u_luggage,
+  } = route.params;
+
   let current = new Date();
 
   // ******** Use States for all the input fields ********
-  // const [pickup, setPickup] = useState("");
-  // const [drop, setDrop] = useState("");
-  const [pickupDetail, setPickupDetail] = useState("");
-  const [dropDetail, setDropDetail] = useState("");
+  const [pickupDetail, setPickupDetail] = useState(u_pickupDetail);
+  const [dropDetail, setDropDetail] = useState(u_dropDetail);
   const [currDate, setCurrDate] = useState(current);
-  const [formatedDate, setFormatedDate] = useState(current);
-  const [date, setDate] = useState();
-  const [time, setTime] = useState();
-  const [carDeatails, setCarDeatails] = useState("");
-  const [seats, setSeats] = useState(1);
-  const [luggage, setLuggage] = useState("Hand Bag");
-  const [price, setPrice] = useState(1000);
-  const [comments, setComments] = useState("");
+  const [formatedDate, setFormatedDate] = useState(u_formatedDate);
+  const [date, setDate] = useState(u_date);
+  const [time, setTime] = useState(u_time);
+  const [carDeatails, setCarDeatails] = useState(u_carDetails);
+  const [seats, setSeats] = useState(u_seats);
+  const [luggage, setLuggage] = useState(u_luggage);
+  const [price, setPrice] = useState(u_price);
+  const [comments, setComments] = useState(u_comments ? u_comments : "");
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
@@ -110,10 +133,9 @@ const OfferRideCToCScreen = () => {
     setMode(currentMode);
   };
 
-  // ******* DataBase Logics **********
-
-  const addData = () => {
-    const collectionRef = collection(db, "Rides");
+  // ****************** DataBase Logic ********************
+  const UpdateData = () => {
+    const docRef = doc(db, "Rides", u_id);
 
     const docData = {
       pickupDetail: pickupDetail,
@@ -125,17 +147,14 @@ const OfferRideCToCScreen = () => {
       seats: seats,
       price: price,
       comments: comments,
-      createBy: userDoc,
-      createDate: serverTimestamp(),
+      UpdatedData: serverTimestamp(),
       formatedDate: formatedDate,
       expire: false,
-      type: "Inside City",
     };
 
-    addDoc(collectionRef, docData)
+    setDoc(docRef, docData, { merge: true })
       .then(
-        // showAlert("", "success")
-        toast.show("Offer Posted", {
+        toast.show("Offer updated successfully", {
           type: "success",
           placement: "bottom",
           duration: 3000,
@@ -148,11 +167,11 @@ const OfferRideCToCScreen = () => {
     Navigation.goBack();
   };
 
-  const create = () => {
+  const update = () => {
     if (date === currenDate) {
       if (time.slice(0, 2) === currentTime.slice(0, 2)) {
         // showAlert("", "warn");
-        toast.show("Time should be more than current time", {
+        toast.show("Time should be 1 Hour more than current time", {
           type: "warning",
           placement: "bottom",
           duration: 3000,
@@ -160,10 +179,10 @@ const OfferRideCToCScreen = () => {
           animationType: "slide-in",
         });
       } else {
-        addData();
+        UpdateData();
       }
     } else {
-      addData();
+      UpdateData();
     }
   };
 
@@ -198,7 +217,7 @@ const OfferRideCToCScreen = () => {
           <View>
             <Text>From</Text>
             <GooglePlacesAutocomplete
-              placeholder="Pick up"
+              placeholder={pickupDetail.description}
               onPress={(data, details) => {
                 setPickupDetail({
                   description: data.description,
@@ -237,7 +256,7 @@ const OfferRideCToCScreen = () => {
             <Text>To</Text>
 
             <GooglePlacesAutocomplete
-              placeholder="Drop"
+              placeholder={dropDetail.description}
               onPress={(data, details) => {
                 setDropDetail({
                   description: data.description,
@@ -521,7 +540,7 @@ const OfferRideCToCScreen = () => {
           maxLength={100}
         />
         <TouchableOpacity
-          onPress={create}
+          onPress={UpdateData}
           style={[
             btn,
             {
@@ -557,11 +576,11 @@ const OfferRideCToCScreen = () => {
             price === ""
           }
         >
-          <Text style={[btnText, { fontSize: 18 }]}>Post Offer</Text>
+          <Text style={[btnText, { fontSize: 18 }]}>Update Offer</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </ScrollView>
   );
 };
 
-export default OfferRideCToCScreen;
+export default UpdateOfferCToCScreen;

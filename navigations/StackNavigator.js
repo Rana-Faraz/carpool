@@ -12,12 +12,14 @@ import FemaleGlobalChat from "../screens/FemaleGlobalChat";
 import GetRideScreen from "../screens/GetRideScreen";
 import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
 import GettingRideCTOCScreen from "../screens/GettingRideInterCityScreen/GettingRideCTOCScreen";
+import LocationSelectScreen from "../screens/GettingRideInterCityScreen/LocationSelectScreen";
 import GlobalChatScreen from "../screens/GlobalChatScreen";
 import Home from "../screens/Home";
 import InterCityScreen from "../screens/InterCityScreen";
 import LandingScreen from "../screens/LandingScreen";
 import LoadingScreen from "../screens/LoadingScreen";
 import OfferRideCToCScreen from "../screens/OfferRideCtToC/OfferRideCToCScreen";
+import UpdateOfferCToCScreen from "../screens/OfferRideCtToC/UpdateOfferCToCScreen";
 import UpdateOfferScreen from "../screens/OfferRides/UpdateOfferScreen";
 import OfferRideScreen from "../screens/OfferRideScreen";
 import OneToOneChat from "../screens/OneToOneChat";
@@ -27,6 +29,7 @@ import PrivateChats from "../screens/PrivateChats";
 import SignInScreen from "../screens/SignInScreen";
 import SuggessionScreen from "../screens/SuggessionScreen";
 import UserInfoScreen from "../screens/UserInfoScreen";
+import { lightModColor } from "../style/Color";
 import { headerStyle } from "../style/Style";
 import TabNavigator from "./TabNavigator";
 
@@ -59,8 +62,6 @@ const appStack = () => {
     } else if (userDoc) {
       setIsLoading(false);
     }
-
-    console.log(userDoc);
   }, [userDoc]);
 
   return (
@@ -157,8 +158,22 @@ const appStack = () => {
               component={GettingRideCTOCScreen}
               options={{
                 headerTitle: "Select Route",
-                headerStyle: headerStyle,
+                headerStyle: {
+                  backgroundColor: lightModColor.themeBackground,
+                  shadowOpacity: 0,
+                  elevation: 0,
+                },
                 headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="LocationSelect"
+              component={LocationSelectScreen}
+              options={{
+                headerShown: false,
+                presentation: "modal",
+                gestureEnabled: true,
+                ...TransitionPresets.ModalPresentationIOS,
               }}
             />
             <Stack.Screen
@@ -205,6 +220,16 @@ const appStack = () => {
             <Stack.Screen
               name="updateOffer"
               component={UpdateOfferScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTitle: "Update Offer",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="updateOfferCToC"
+              component={UpdateOfferCToCScreen}
               options={{
                 headerBackTitleVisible: false,
                 headerTitle: "Update Offer",

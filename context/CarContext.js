@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import { db } from "../api/firebase";
+import * as Location from "expo-location";
 
 const CarContext = createContext();
 
@@ -17,17 +18,28 @@ export function UserProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState();
   const [userDoc, setUserDoc] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState();
+  const [pickupCToC, setPickupCToC] = useState();
+  const [dropCToC, setDropCToC] = useState();
 
-  // const [alert, setalert] = useState(null);
-  // const showAlert = (msg, type) => {
-  //   setalert({
-  //     message: msg,
-  //     type: type,
-  //   });
-  //   setTimeout(() => {
-  //     setalert(null);
-  //   }, 3000);
-  // };
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Access Denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setCurrentLocation(location);
+      setPickupCToC({
+        description: "Current Location",
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        main_text: "Current Location",
+      });
+    })();
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -67,6 +79,12 @@ export function UserProvider({ children }) {
         isLoading,
         // alert,
         // setalert,
+        currentLocation,
+        setCurrentLocation,
+        pickupCToC,
+        setPickupCToC,
+        dropCToC,
+        setDropCToC,
       }}
     >
       {children}
