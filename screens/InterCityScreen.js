@@ -5,13 +5,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { btn, btnText } from "../style/Style";
 import { lightModColor } from "../style/Color";
 import { useNavigation } from "@react-navigation/native";
+import { CarState } from "../context/CarContext";
 
 const InterCityScreen = () => {
   const Navigation = useNavigation();
+  const { setPickupCToC, setDropCToC } = CarState();
+
+  useEffect(() => {
+    // setPickupCToC();
+    setDropCToC();
+  }, []);
 
   return (
     <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>

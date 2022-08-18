@@ -476,7 +476,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
             style={[
               row,
               {
-                alignItems: "center",
+                alignItems: "flex-start",
                 marginBottom: Platform.OS === "android" ? 5 : 8,
               },
             ]}
@@ -488,7 +488,13 @@ const RideDetailsScreen = ({ navigation, route }) => {
                   : pickupDetail.description}
               </Text>
             </View>
-            <View style={{ width: "20%", justifyContent: "center" }}>
+            <View
+              style={{
+                width: "20%",
+                justifyContent: "center",
+                alignSelf: "center",
+              }}
+            >
               <MaterialCommunityIcons
                 name="dots-horizontal"
                 size={30}
@@ -639,19 +645,18 @@ const RideDetailsScreen = ({ navigation, route }) => {
             >
               <View
                 style={{
-                  padding: 3,
-                  borderColor: lightModColor.themeBackground,
-                  borderWidth: 3,
-                  borderRadius: 50,
+                  backgroundColor: lightModColor.themeBackground,
+                  borderRadius: 400,
+                  // padding: 10,
+                  height: 50,
+                  width: 50,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                {/* <Image
-                  source={require("../../assets/images.png")}
-                  style={{ height: 50, width: 50, borderRadius: 30 }}
-                /> */}
                 <FontAwesome
-                  name="user-circle"
-                  size={50}
+                  name="user"
+                  size={35}
                   color={lightModColor.secoundColor}
                 />
               </View>

@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { CarState } from "../context/CarContext";
 import ChatCatogery from "../screens/ChatCatogery";
+import SuggestionCToCScreen from "../screens/CityToCIty/SuggestionCToCScreen";
 import FemaleGlobalChat from "../screens/FemaleGlobalChat";
 import GetRideScreen from "../screens/GetRideScreen";
 import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
@@ -179,6 +180,16 @@ const appStack = () => {
             <Stack.Screen
               name="suggession"
               component={SuggessionScreen}
+              options={{
+                headerTitle: "Available Rides",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+                headerTitleAlign: "center",
+              }}
+            />
+            <Stack.Screen
+              name="suggessionCToC"
+              component={SuggestionCToCScreen}
               options={{
                 headerTitle: "Available Rides",
                 headerStyle: headerStyle,

@@ -8,20 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, {
-  Circle,
-  Polygon,
-  Polyline,
-  PROVIDER_GOOGLE,
-} from "react-native-maps";
-import AnimatedPolyline from "react-native-maps-animated-polyline";
+import MapView, { Circle, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 import { CarState } from "../../context/CarContext";
 import { lightModColor } from "../../style/Color";
 import { availableRideLocaBox } from "../../style/Style";
 
 const GettingRideCTOCScreen = () => {
-  const { currentLocation, pickupCToC, setPickupCToC, dropCToC, setDropCToC } =
-    CarState();
+  const { currentLocation, pickupCToC, dropCToC } = CarState();
   const [pickup, setPickup] = useState("Current Location");
   const [drop, setDrop] = useState("Select Drop Location");
   const Navigation = useNavigation();
@@ -38,6 +31,8 @@ const GettingRideCTOCScreen = () => {
             bottom: 70,
             left: 70,
           },
+          animated: true,
+          duration: 5000,
         });
       }, 600);
   }, [dropCToC, pickupCToC]);
@@ -63,7 +58,7 @@ const GettingRideCTOCScreen = () => {
       // currentLocation &&
       currentLocation && currentLocation.coords.longitude,
     latitudeDelta: 0.0022,
-    longitudeDelta: 0.0021,
+    longitudeDelta: 0.0121,
   };
 
   useEffect(() => {
@@ -77,6 +72,35 @@ const GettingRideCTOCScreen = () => {
 
   return (
     <View>
+      {
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            bottom: 38,
+            backgroundColor: lightModColor.themeBackground,
+            borderRadius: 40,
+            width: "50%",
+            marginTop: 10,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+            opacity: !pickupCToC || !dropCToC ? 0.5 : 1,
+            zIndex: 99,
+          }}
+          onPress={() => {
+            Navigation.navigate("suggessionCToC", {
+              pickUpLoca: pickupCToC,
+              dropLoca: dropCToC,
+            });
+          }}
+          disabled={!pickupCToC || !dropCToC}
+        >
+          <Text style={{ color: lightModColor.secoundColor, fontSize: 20 }}>
+            Get Ride
+          </Text>
+        </TouchableOpacity>
+      }
       <View
         style={{
           backgroundColor: lightModColor.themeBackground,
@@ -101,7 +125,7 @@ const GettingRideCTOCScreen = () => {
           >
             <View style={[availableRideLocaBox]}>
               <Text>
-                {pickup.length > 46 ? pickup.slice(0, 45) + "..." : pickup}
+                {pickup.length > 35 ? pickup.slice(0, 35) + "..." : pickup}
               </Text>
             </View>
           </TouchableOpacity>
@@ -123,7 +147,7 @@ const GettingRideCTOCScreen = () => {
             style={{ width: "90%" }}
           >
             <View style={[availableRideLocaBox, { marginTop: 6 }]}>
-              <Text>{drop.length > 46 ? drop.slice(0, 45) + "..." : drop}</Text>
+              <Text>{drop.length > 40 ? drop.slice(0, 40) + "..." : drop}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -134,9 +158,10 @@ const GettingRideCTOCScreen = () => {
           showsUserLocation={true}
           // mapPadding={{ bottom }}
           initialRegion={origin}
+          userLocationUpdateInterval={10000}
           style={{ height: "88%" }}
           ref={mapRef}
-          provider={PROVIDER_GOOGLE}
+          // provider={PROVIDER_GOOGLE}
         >
           {pickupCToC && dropCToC && (
             <>

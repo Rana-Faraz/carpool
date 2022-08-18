@@ -82,11 +82,23 @@ const AvailableRideItems = (props) => {
     >
       <View style={[row]}>
         <View style={[row, { width: "75%", justifyContent: "flex-start" }]}>
-          <FontAwesome
-            name="user-circle"
-            size={50}
-            color={lightModColor.secoundColor}
-          />
+          <View
+            style={{
+              backgroundColor: lightModColor.themeBackground,
+              borderRadius: 400,
+              // padding: 10,
+              height: 50,
+              width: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FontAwesome
+              name="user"
+              size={35}
+              color={lightModColor.secoundColor}
+            />
+          </View>
           <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
             <Text
               style={{
@@ -330,7 +342,9 @@ const AvailableRideItems = (props) => {
                 },
               ]}
             >
-              <Text style={[btnText]}>Edit</Text>
+              <Text style={[btnText, { color: lightModColor.themeBackground }]}>
+                Edit
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={_delete}
