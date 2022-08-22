@@ -413,7 +413,7 @@ const RideDetailsScreen = ({ navigation, route }) => {
               strokeWidth={3}
               strokeColors={[lightModColor.themeBackground]}
               timePrecision="now"
-              mode="driving"
+              mode="DRIVING"
               optimizeWaypoints={true}
               onReady={(result) => {
                 console.log(result.distance + " km");

@@ -19,6 +19,7 @@ const GettingRideCTOCScreen = () => {
   const [drop, setDrop] = useState("Select Drop Location");
   const Navigation = useNavigation();
   const mapRef = useRef(null);
+  console.log(pickupCToC);
 
   useEffect(() => {
     pickupCToC &&
@@ -76,7 +77,7 @@ const GettingRideCTOCScreen = () => {
         <TouchableOpacity
           style={{
             position: "absolute",
-            bottom: 38,
+            bottom: 35,
             backgroundColor: lightModColor.themeBackground,
             borderRadius: 40,
             width: "50%",

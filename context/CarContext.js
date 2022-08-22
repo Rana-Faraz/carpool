@@ -35,6 +35,9 @@ export function UserProvider({ children }) {
       setPickupCToC({
         description: "Current Location",
         latitude: location.coords.latitude,
+        shortLat: Number(String(location.coords.latitude).slice(0, 5)).toFixed(
+          3
+        ),
         longitude: location.coords.longitude,
         main_text: "Current Location",
       });

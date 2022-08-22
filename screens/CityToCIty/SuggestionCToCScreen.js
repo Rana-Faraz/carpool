@@ -1,20 +1,15 @@
-import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   collection,
-  limit,
   onSnapshot,
   orderBy,
   query,
-  queryEqual,
   where,
 } from "firebase/firestore";
 import React, { useLayoutEffect, useState } from "react";
-import { useEffect } from "react";
 import {
   ActivityIndicator,
   Platform,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -23,7 +18,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { db } from "../../api/firebase";
 import AvailableRideItems from "../../components/AvailableRideItems";
 import PickandDropForm from "../../components/PickandDropForm";
-import { CarState } from "../../context/CarContext";
 import { lightModColor } from "../../style/Color";
 import {
   availableRideHeading,
@@ -46,6 +40,7 @@ const SuggestionCToCScreen = () => {
 
   //Data object
   let date = new Date();
+  console.log(pickUpLoca);
 
   // ********************* DataBase Logics **************************
   useLayoutEffect(() => {
@@ -54,8 +49,14 @@ const SuggestionCToCScreen = () => {
       collectionRef,
       // where("pickup", "==", pickUpLoca),
       // where("drop", "==", dropLoca),
-      where("expire", "==", false),
       where("type", "==", "Inside City"),
+      where("expire", "==", false),
+      // where(
+      //   "Number(String(pickupDetail.latitude).slice(0, 5))",
+      //   "==",
+      //   Number(String(pickUpLoca.latitude).slice(0, 5))
+      // ),
+      where("pickupDetail.shortLat", "==", pickUpLoca.shortLat),
       orderBy("formatedDate")
     );
 
@@ -159,5 +160,3 @@ const SuggestionCToCScreen = () => {
 };
 
 export default SuggestionCToCScreen;
-
-const styles = StyleSheet.create({});

@@ -41,17 +41,19 @@ const LocationSelectScreen = () => {
           placeholder={"Search"}
           onPress={(data, details) => {
             if (type === "pickup") {
-              console.log(data, details),
-                setPickupCToC({
-                  description: data.description,
-                  main_text:
-                    details.geometry.location.lat ===
-                    CurrentLocationGet.geometry.location.lat
-                      ? CurrentLocationGet.description
-                      : data.structured_formatting.main_text,
-                  latitude: details.geometry.location.lat,
-                  longitude: details.geometry.location.lng,
-                });
+              setPickupCToC({
+                description: data.description,
+                main_text:
+                  details.geometry.location.lat ===
+                  CurrentLocationGet.geometry.location.lat
+                    ? CurrentLocationGet.description
+                    : data.structured_formatting.main_text,
+                latitude: details.geometry.location.lat,
+                longitude: details.geometry.location.lng,
+                shortLat: Number(
+                  String(details.geometry.location.lat).slice(0, 5)
+                ).toFixed(3),
+              });
               Navigation.goBack();
             } else if (type === "drop") {
               setDropCToC({

@@ -204,6 +204,9 @@ const OfferRideCToCScreen = () => {
                   description: data.description,
                   main_text: data.structured_formatting.main_text,
                   latitude: details.geometry.location.lat,
+                  shortLat: Number(
+                    String(details.geometry.location.lat).slice(0, 5)
+                  ).toFixed(3),
                   longitude: details.geometry.location.lng,
                 });
               }}

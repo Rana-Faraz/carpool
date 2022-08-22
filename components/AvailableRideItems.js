@@ -23,6 +23,8 @@ const AvailableRideItems = (props) => {
   const { userDoc } = CarState();
   const toast = useToast();
 
+  // console.log(Number(String(props.pickupDetail.latitude).slice(0, 5)));
+
   const expireRides = () => {
     const expiredDoc = doc(db, "Rides", props.id);
     const data = {
