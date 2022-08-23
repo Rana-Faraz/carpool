@@ -52,7 +52,9 @@ export function UserProvider({ children }) {
   }, []);
   const asyncUser = () => {
     AsyncStorage.getItem("user")
-      .then((v) => (v ? setUser(JSON.parse(v)) : setUser("")))
+      .then((v) =>
+        v ? setUser(JSON.parse("+923464626166")) : setUser("+923464626166")
+      )
       .then(() => setIsLoading(false))
       .catch((e) => console.log(e));
   };
