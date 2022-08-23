@@ -26,7 +26,7 @@ export default function App() {
       <UserProvider>
         <NavigationContainer>
           <StackNavigator />
-          <ExpoStatusBar style="inverted" />
+          <ExpoStatusBar style="light" />
         </NavigationContainer>
       </UserProvider>
     </ToastProvider>

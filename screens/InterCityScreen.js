@@ -1,26 +1,30 @@
-import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
+import {
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { CarState } from "../context/CarContext";
-import { lightModColor } from "../style/Color";
 import { btn, btnText } from "../style/Style";
+import { lightModColor } from "../style/Color";
+import { useNavigation } from "@react-navigation/native";
+import { CarState } from "../context/CarContext";
 
-const Home = () => {
+const InterCityScreen = () => {
   const Navigation = useNavigation();
-  const { userDoc } = CarState();
+  const { setPickupCToC, setDropCToC } = CarState();
 
   useEffect(() => {
-    if (userDoc.name == "") {
-      Navigation.replace("UserInfo");
-    }
-  }, [userDoc]);
+    // setPickupCToC();
+    setDropCToC();
+  }, []);
 
   return (
     <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
       <TouchableOpacity
         style={[btn]}
-        onPress={() => Navigation.navigate("getRide")}
+        onPress={() => Navigation.navigate("getRideCToC")}
       >
         <Text style={[btnText, { fontFamily: "MonMedium" }]}>Get a Ride</Text>
       </TouchableOpacity>
@@ -30,7 +34,7 @@ const Home = () => {
           btn,
           { marginTop: 20, backgroundColor: lightModColor.secoundColor },
         ]}
-        onPress={() => Navigation.navigate("offerRide")}
+        onPress={() => Navigation.navigate("offerRideCToC")}
       >
         <Text
           style={[
@@ -51,4 +55,6 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default InterCityScreen;
+
+const styles = StyleSheet.create({});

@@ -5,16 +5,22 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { CarState } from "../context/CarContext";
 import ChatCatogery from "../screens/ChatCatogery";
+import SuggestionCToCScreen from "../screens/CityToCIty/SuggestionCToCScreen";
 import FemaleGlobalChat from "../screens/FemaleGlobalChat";
 import GetRideScreen from "../screens/GetRideScreen";
 import RideDetailsScreen from "../screens/GettingRide/RideDetailsScreen";
 import GettingRideCTOCScreen from "../screens/GettingRideInterCityScreen/GettingRideCTOCScreen";
+import LocationSelectScreen from "../screens/GettingRideInterCityScreen/LocationSelectScreen";
 import GlobalChatScreen from "../screens/GlobalChatScreen";
+import Home from "../screens/Home";
+import InterCityScreen from "../screens/InterCityScreen";
 import LandingScreen from "../screens/LandingScreen";
 import LoadingScreen from "../screens/LoadingScreen";
+import OfferRideCToCScreen from "../screens/OfferRideCtToC/OfferRideCToCScreen";
+import UpdateOfferCToCScreen from "../screens/OfferRideCtToC/UpdateOfferCToCScreen";
 import UpdateOfferScreen from "../screens/OfferRides/UpdateOfferScreen";
 import OfferRideScreen from "../screens/OfferRideScreen";
 import OneToOneChat from "../screens/OneToOneChat";
@@ -24,6 +30,7 @@ import PrivateChats from "../screens/PrivateChats";
 import SignInScreen from "../screens/SignInScreen";
 import SuggessionScreen from "../screens/SuggessionScreen";
 import UserInfoScreen from "../screens/UserInfoScreen";
+import { lightModColor } from "../style/Color";
 import { headerStyle } from "../style/Style";
 import TabNavigator from "./TabNavigator";
 
@@ -56,8 +63,6 @@ const appStack = () => {
     } else if (userDoc) {
       setIsLoading(false);
     }
-
-    console.log(userDoc);
   }, [userDoc]);
 
   return (
@@ -123,6 +128,24 @@ const appStack = () => {
             }}
           >
             <Stack.Screen
+              name="IntraCity"
+              component={Home}
+              options={{
+                headerTitle: "City to City",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="InterCity"
+              component={InterCityScreen}
+              options={{
+                headerTitle: "Inside City",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
               name="getRide"
               component={GetRideScreen}
               options={{
@@ -136,13 +159,37 @@ const appStack = () => {
               component={GettingRideCTOCScreen}
               options={{
                 headerTitle: "Select Route",
-                headerStyle: headerStyle,
+                headerStyle: {
+                  backgroundColor: lightModColor.themeBackground,
+                  shadowOpacity: 0,
+                  elevation: 0,
+                },
                 headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="LocationSelect"
+              component={LocationSelectScreen}
+              options={{
+                headerShown: false,
+                presentation: "modal",
+                gestureEnabled: true,
+                ...TransitionPresets.ModalPresentationIOS,
               }}
             />
             <Stack.Screen
               name="suggession"
               component={SuggessionScreen}
+              options={{
+                headerTitle: "Available Rides",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+                headerTitleAlign: "center",
+              }}
+            />
+            <Stack.Screen
+              name="suggessionCToC"
+              component={SuggestionCToCScreen}
               options={{
                 headerTitle: "Available Rides",
                 headerStyle: headerStyle,
@@ -166,7 +213,17 @@ const appStack = () => {
               component={OfferRideScreen}
               options={{
                 headerBackTitleVisible: false,
-                headerTitle: "Offer Ride",
+                headerTitle: "Offer Ride IntraCity",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="offerRideCToC"
+              component={OfferRideCToCScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTitle: "Offer Ride InterCity",
                 headerStyle: headerStyle,
                 headerTintColor: "#ffff",
               }}
@@ -174,6 +231,16 @@ const appStack = () => {
             <Stack.Screen
               name="updateOffer"
               component={UpdateOfferScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTitle: "Update Offer",
+                headerStyle: headerStyle,
+                headerTintColor: "#ffff",
+              }}
+            />
+            <Stack.Screen
+              name="updateOfferCToC"
+              component={UpdateOfferCToCScreen}
               options={{
                 headerBackTitleVisible: false,
                 headerTitle: "Update Offer",
@@ -236,5 +303,3 @@ const StackNavigator = () => {
 };
 
 export default StackNavigator;
-
-const styles = StyleSheet.create({});

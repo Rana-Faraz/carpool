@@ -12,11 +12,7 @@ const PickandDropForm = ({ pickUpLoca, dropLoca, route }) => {
     <>
       <TouchableOpacity
         style={[row, availableRideLocaBox, { marginVertical: 5 }]}
-        onPress={() =>
-          Navigation.navigate("getRide", {
-            id: route,
-          })
-        }
+        onPress={() => Navigation.goBack()}
       >
         <MaterialIcons
           name="my-location"
@@ -29,11 +25,7 @@ const PickandDropForm = ({ pickUpLoca, dropLoca, route }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[row, availableRideLocaBox]}
-        onPress={() =>
-          Navigation.navigate("getRide", {
-            id: route,
-          })
-        }
+        onPress={() => Navigation.goBack()}
       >
         <MaterialIcons
           name="location-on"

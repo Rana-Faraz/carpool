@@ -3,6 +3,6 @@ export const lightModColor = {
   fontColor: "#000",
   headerFontColor: "#ffff",
   headerBackground: "#F74236",
-  themeBackground: "#00539cff",
-  secoundColor: "#eea47fff",
+  themeBackground: "#326789",
+  secoundColor: "#e9eef2",
 };

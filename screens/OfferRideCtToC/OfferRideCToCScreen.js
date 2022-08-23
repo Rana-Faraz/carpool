@@ -2,11 +2,10 @@ import {
   AntDesign,
   FontAwesome5,
   Ionicons,
-  MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -29,62 +28,33 @@ import {
   row,
 } from "../../style/Style";
 // import uuid from "react-native-uuid";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
+import { GOOGLE_API_KEY } from "@env";
+import { useNavigation } from "@react-navigation/native";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { useToast } from "react-native-toast-notifications";
 import { db } from "../../api/firebase";
 import { CarState } from "../../context/CarContext";
-import { useToast } from "react-native-toast-notifications";
 
-const UpdateOfferScreen = () => {
+const OfferRideCToCScreen = () => {
   const Navigation = useNavigation();
   const toast = useToast();
-
-  // ************ Update Routing ****************
-  const route = useRoute();
-  const {
-    u_id,
-    u_carDetails,
-    u_price,
-    u_pickup,
-    u_drop,
-    u_pickupDetail,
-    u_dropDetail,
-    u_seats,
-    u_date,
-    u_time,
-    u_comments,
-    u_createDate,
-    u_formatedDate,
-    u_edit,
-    u_luggage,
-  } = route.params;
-
   let current = new Date();
 
   // ******** Use States for all the input fields ********
-  const [pickup, setPickup] = useState(u_pickup ? u_pickup : "");
-  const [drop, setDrop] = useState(u_drop ? u_drop : "");
-  const [pickupDetail, setPickupDetail] = useState(
-    u_pickupDetail ? u_pickupDetail : ""
-  );
-  const [dropDetail, setDropDetail] = useState(
-    u_dropDetail ? u_dropDetail : ""
-  );
+  // const [pickup, setPickup] = useState("");
+  // const [drop, setDrop] = useState("");
+  const [pickupDetail, setPickupDetail] = useState("");
+  const [dropDetail, setDropDetail] = useState("");
   const [currDate, setCurrDate] = useState(current);
-  const [formatedDate, setFormatedDate] = useState(u_formatedDate);
-  const [date, setDate] = useState(u_date);
-  const [time, setTime] = useState(u_time);
-  const [carDeatails, setCarDeatails] = useState(u_carDetails);
-  const [seats, setSeats] = useState(u_seats);
-  const [luggage, setLuggage] = useState(u_luggage);
-  const [price, setPrice] = useState(u_price);
-  const [comments, setComments] = useState(u_comments ? u_comments : "");
+  const [formatedDate, setFormatedDate] = useState(current);
+  const [date, setDate] = useState();
+  const [time, setTime] = useState();
+  const [carDeatails, setCarDeatails] = useState("");
+  const [seats, setSeats] = useState(1);
+  const [luggage, setLuggage] = useState("Hand Bag");
+  const [price, setPrice] = useState(1000);
+  const [comments, setComments] = useState("");
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
@@ -140,111 +110,12 @@ const UpdateOfferScreen = () => {
     setMode(currentMode);
   };
 
-  // ************** Casecading Drop Down Logic ***************
+  // ******* DataBase Logics **********
 
-  const pickupDropDown = [
-    "Attock",
-    "Bahawalnagar",
-    "Bahawalpur",
-    "Bhakkar",
-    "Chakwal",
-    "Chiniot",
-    "DG Khan",
-    "Faisalabad",
-    "Gujranwala",
-    "Gujrat",
-    "Hafizabad",
-    "Islamabad",
-    "Jhang",
-    "Jhelum",
-    "Khanewal",
-    "Khushab",
-    "Lahore",
-    "Layyah",
-    "Lodhran",
-    "Mandi Bahauddin",
-    "Mianwali",
-    "Multan",
-    "Muzaffargarh",
-    "Nankana Sahib",
-    "Narowal",
-    "Okara",
-    "Pakpattan",
-    "Kasur",
-    "Rahim Yar Khan",
-    "Rajanpur",
-    "Rawalpindi",
-    "Sahiwal",
-    "Sargodha",
-    "Sheikhupura",
-    "Sialkot",
-    "Toba Tek Singh",
-    "Vehari",
-  ];
-  const dropinDropDown = [
-    "Attock",
-    "Bahawalnagar",
-    "Bahawalpur",
-    "Bhakkar",
-    "Chakwal",
-    "Chiniot",
-    "DG Khan",
-    "Faisalabad",
-    "Gujranwala",
-    "Gujrat",
-    "Hafizabad",
-    "Islamabad",
-    "Jhang",
-    "Jhelum",
-    "Khanewal",
-    "Khushab",
-    "Lahore",
-    "Layyah",
-    "Lodhran",
-    "Mandi Bahauddin",
-    "Mianwali",
-    "Multan",
-    "Muzaffargarh",
-    "Nankana Sahib",
-    "Narowal",
-    "Okara",
-    "Pakpattan",
-    "Kasur",
-    "Rahim Yar Khan",
-    "Rajanpur",
-    "Rawalpindi",
-    "Sahiwal",
-    "Sargodha",
-    "Sheikhupura",
-    "Sialkot",
-    "Toba Tek Singh",
-    "Vehari",
-  ];
-  const [pickDropValue, setPickDropValue] = useState(pickupDropDown);
-  const [dropDropValue, setDropDropValue] = useState(dropinDropDown);
-
-  const handlePickup = () => {
-    return pickupDropDown.filter((loc) => loc !== drop);
-  };
-  const handleDropin = () => {
-    return dropinDropDown.filter((loc) => loc !== pickup);
-  };
-
-  useLayoutEffect(() => {
-    setPickDropValue(handlePickup);
-  }, [drop]);
-
-  useLayoutEffect(() => {
-    setDropDropValue(handleDropin);
-  }, [pickup]);
-
-  // ****************** DataBase Logic ********************
-  const UpdateData = () => {
-    const docRef = doc(db, "Rides", u_id);
+  const addData = () => {
+    const collectionRef = collection(db, "Rides");
 
     const docData = {
-      pickup: pickup.replace(/\s/g, ""),
-      drop: drop.replace(/\s/g, ""),
       pickupDetail: pickupDetail,
       dropDetail: dropDetail,
       date: date,
@@ -254,15 +125,17 @@ const UpdateOfferScreen = () => {
       seats: seats,
       price: price,
       comments: comments,
-      updatedBy: userDoc,
-      UpdatedData: serverTimestamp(),
+      createBy: userDoc,
+      createDate: serverTimestamp(),
       formatedDate: formatedDate,
       expire: false,
+      type: "Inside City",
     };
 
-    setDoc(docRef, docData, { merge: true })
+    addDoc(collectionRef, docData)
       .then(
-        toast.show("Offer updated successfully", {
+        // showAlert("", "success")
+        toast.show("Offer Posted", {
           type: "success",
           placement: "bottom",
           duration: 3000,
@@ -275,11 +148,11 @@ const UpdateOfferScreen = () => {
     Navigation.goBack();
   };
 
-  const update = () => {
+  const create = () => {
     if (date === currenDate) {
       if (time.slice(0, 2) === currentTime.slice(0, 2)) {
         // showAlert("", "warn");
-        toast.show("Time should be 1 Hour more than current time", {
+        toast.show("Time should be more than current time", {
           type: "warning",
           placement: "bottom",
           duration: 3000,
@@ -287,10 +160,10 @@ const UpdateOfferScreen = () => {
           animationType: "slide-in",
         });
       } else {
-        UpdateData();
+        addData();
       }
     } else {
-      UpdateData();
+      addData();
     }
   };
 
@@ -308,48 +181,10 @@ const UpdateOfferScreen = () => {
         <Text
           style={[availableRideHeading, { textAlign: "left", marginBottom: 5 }]}
         >
-          Select City
+          City
         </Text>
-        <View>
-          <SelectDropdown
-            defaultValue={pickup}
-            data={pickDropValue}
-            buttonStyle={dropDownStyle}
-            buttonTextStyle={{ fontSize: 15 }}
-            dropdownStyle={{ height: "70%" }}
-            dropdownIconPosition="left"
-            renderDropdownIcon={() => (
-              <MaterialIcons
-                name="my-location"
-                size={20}
-                color={lightModColor.themeBackground}
-              />
-            )}
-            onSelect={(text) => setPickup(text)}
-          />
-        </View>
-        <View
-          style={{
-            marginTop: 5,
-          }}
-        >
-          <SelectDropdown
-            data={dropDropValue}
-            buttonStyle={dropDownStyle}
-            defaultValue={drop}
-            buttonTextStyle={{ fontSize: 15 }}
-            dropdownIconPosition="left"
-            dropdownStyle={{ height: "70%" }}
-            // defaultValue={drop}
-            renderDropdownIcon={() => (
-              <MaterialIcons
-                name="location-on"
-                size={20}
-                color={lightModColor.themeBackground}
-              />
-            )}
-            onSelect={(text) => setDrop(text)}
-          />
+        <View style={[availableRideLocaBox]}>
+          <Text>Lahore</Text>
         </View>
         <Text
           style={[
@@ -362,20 +197,83 @@ const UpdateOfferScreen = () => {
         <View>
           <View>
             <Text>From</Text>
-            <TextInput
-              style={[availableRideLocaBox, { marginBottom: 5, height: 43 }]}
-              placeholder="Detailed Pickup Location"
-              onChangeText={(value) => setPickupDetail(value)}
-              value={pickupDetail}
-              maxLength={60}
+            <GooglePlacesAutocomplete
+              placeholder="Pick up"
+              onPress={(data, details) => {
+                setPickupDetail({
+                  description: data.description,
+                  main_text: data.structured_formatting.main_text,
+                  latitude: details.geometry.location.lat,
+                  shortLat: Number(
+                    String(details.geometry.location.lat).slice(0, 5)
+                  ).toFixed(3),
+                  longitude: details.geometry.location.lng,
+                });
+              }}
+              styles={{
+                container: {
+                  flex: 0,
+                },
+
+                textInput: availableRideLocaBox,
+              }}
+              minLength={2}
+              enablePoweredByContainer={false}
+              // GooglePlacesSearchQuery={{
+              //   rankby: "distance",
+              //   type: "restaurant",
+              // }}
+              keepResultsAfterBlur={true}
+              fetchDetails={true}
+              query={{
+                key: GOOGLE_API_KEY,
+                language: "en",
+                components: "country:pak",
+                location: "31.5204, 74.3587",
+                radius: "30000",
+                strictbounds: true,
+              }}
+              nearbyPlacesAPI="GooglePlacesSearch"
+              debounce={400}
             />
+
             <Text>To</Text>
-            <TextInput
-              style={[availableRideLocaBox, { height: 43 }]}
-              placeholder="Detailed Drop Location"
-              onChangeText={(value) => setDropDetail(value)}
-              value={dropDetail}
-              maxLength={60}
+
+            <GooglePlacesAutocomplete
+              placeholder="Drop"
+              onPress={(data, details) => {
+                setDropDetail({
+                  description: data.description,
+                  main_text: data.structured_formatting.main_text,
+                  latitude: details.geometry.location.lat,
+                  longitude: details.geometry.location.lng,
+                });
+              }}
+              styles={{
+                container: {
+                  flex: 0,
+                },
+
+                textInput: availableRideLocaBox,
+              }}
+              minLength={2}
+              enablePoweredByContainer={false}
+              // GooglePlacesSearchQuery={{
+              //   rankby: "distance",
+              //   type: "restaurant",
+              // }}
+              keepResultsAfterBlur={true}
+              fetchDetails={true}
+              query={{
+                key: GOOGLE_API_KEY,
+                language: "en",
+                components: "country:pak",
+                location: "31.5204, 74.3587",
+                radius: "30000",
+                strictbounds: true,
+              }}
+              nearbyPlacesAPI="GooglePlacesSearch"
+              debounce={400}
             />
           </View>
         </View>
@@ -425,6 +323,7 @@ const UpdateOfferScreen = () => {
                   value={currDate}
                   mode={mode}
                   onChange={mode == "date" ? onChangeDate : onChangeTime}
+                  // style={{ backgroundColor: lightModColor.themeBackground }}
                   themeVariant={"dark"}
                 />
                 <TouchableOpacity
@@ -534,6 +433,7 @@ const UpdateOfferScreen = () => {
             color={lightModColor.themeBackground}
             style={{ paddingHorizontal: 5 }}
           />
+
           <View style={[availableRideLocaBox, row, { width: "41%" }]}>
             <TouchableOpacity
               onPress={() => seats > 1 && setSeats(seats - 1)}
@@ -548,9 +448,9 @@ const UpdateOfferScreen = () => {
             </TouchableOpacity>
             <Text style={{ paddingHorizontal: 5 }}>{seats}</Text>
             <TouchableOpacity
-              onPress={() => seats < 3 && setSeats(seats + 1)}
-              disabled={seats === 3}
-              style={{ opacity: seats === 3 ? 0.5 : 1 }}
+              onPress={() => seats < 25 && setSeats(seats + 1)}
+              disabled={seats === 25}
+              style={{ opacity: seats === 25 ? 0.5 : 1 }}
             >
               <AntDesign
                 name="pluscircle"
@@ -591,7 +491,6 @@ const UpdateOfferScreen = () => {
                 width: "74%",
                 height: "100%",
                 alignItems: "center",
-                // justifyContent: "center",
               },
             ]}
           >
@@ -625,7 +524,7 @@ const UpdateOfferScreen = () => {
           maxLength={100}
         />
         <TouchableOpacity
-          onPress={update}
+          onPress={create}
           style={[
             btn,
             {
@@ -634,8 +533,8 @@ const UpdateOfferScreen = () => {
               padding: 10,
               marginTop: 15,
               opacity:
-                pickup === "" ||
-                drop === "" ||
+                // pickup === "" ||
+                // drop === "" ||
                 pickupDetail === "" ||
                 dropDetail === "" ||
                 date === "" ||
@@ -649,8 +548,8 @@ const UpdateOfferScreen = () => {
             },
           ]}
           disabled={
-            pickup === "" ||
-            drop === "" ||
+            // pickup === "" ||
+            // drop === "" ||
             pickupDetail === "" ||
             dropDetail === "" ||
             date === "" ||
@@ -661,11 +560,11 @@ const UpdateOfferScreen = () => {
             price === ""
           }
         >
-          <Text style={[btnText, { fontSize: 18 }]}>Update Offer</Text>
+          <Text style={[btnText, { fontSize: 18 }]}>Post Offer</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </ScrollView>
   );
 };
 
-export default UpdateOfferScreen;
+export default OfferRideCToCScreen;

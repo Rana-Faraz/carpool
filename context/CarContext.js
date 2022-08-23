@@ -8,9 +8,8 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-import { Text } from "react-native";
 import { db } from "../api/firebase";
-// import Alert from "../components/Alert";
+import * as Location from "expo-location";
 
 const CarContext = createContext();
 
@@ -19,17 +18,31 @@ export function UserProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState();
   const [userDoc, setUserDoc] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState();
+  const [pickupCToC, setPickupCToC] = useState();
+  const [dropCToC, setDropCToC] = useState();
 
-  // const [alert, setalert] = useState(null);
-  // const showAlert = (msg, type) => {
-  //   setalert({
-  //     message: msg,
-  //     type: type,
-  //   });
-  //   setTimeout(() => {
-  //     setalert(null);
-  //   }, 3000);
-  // };
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Access Denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setCurrentLocation(location);
+      setPickupCToC({
+        description: "Current Location",
+        latitude: location.coords.latitude,
+        shortLat: Number(String(location.coords.latitude).slice(0, 5)).toFixed(
+          3
+        ),
+        longitude: location.coords.longitude,
+        main_text: "Current Location",
+      });
+    })();
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -52,9 +65,7 @@ export function UserProvider({ children }) {
   }, []);
   const asyncUser = () => {
     AsyncStorage.getItem("user")
-      .then((v) =>
-        v ? setUser(JSON.parse("+923464626166")) : setUser("+923464626166")
-      )
+      .then((v) => (v ? setUser(JSON.parse(v)) : setUser("")))
       .then(() => setIsLoading(false))
       .catch((e) => console.log(e));
   };
@@ -69,10 +80,15 @@ export function UserProvider({ children }) {
         isLoading,
         // alert,
         // setalert,
+        currentLocation,
+        setCurrentLocation,
+        pickupCToC,
+        setPickupCToC,
+        dropCToC,
+        setDropCToC,
       }}
     >
       {children}
-      {/* <Alert alert={alert} /> */}
     </CarContext.Provider>
   );
 }

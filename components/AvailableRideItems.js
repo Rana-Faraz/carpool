@@ -23,6 +23,8 @@ const AvailableRideItems = (props) => {
   const { userDoc } = CarState();
   const toast = useToast();
 
+  // console.log(Number(String(props.pickupDetail.latitude).slice(0, 5)));
+
   const expireRides = () => {
     const expiredDoc = doc(db, "Rides", props.id);
     const data = {
@@ -82,11 +84,23 @@ const AvailableRideItems = (props) => {
     >
       <View style={[row]}>
         <View style={[row, { width: "75%", justifyContent: "flex-start" }]}>
-          <FontAwesome
-            name="user-circle"
-            size={50}
-            color={lightModColor.secoundColor}
-          />
+          <View
+            style={{
+              backgroundColor: lightModColor.themeBackground,
+              borderRadius: 400,
+              // padding: 10,
+              height: 50,
+              width: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FontAwesome
+              name="user"
+              size={35}
+              color={lightModColor.secoundColor}
+            />
+          </View>
           <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
             <Text
               style={{
@@ -138,7 +152,9 @@ const AvailableRideItems = (props) => {
               width: "95%",
             }}
           >
-            {`${props.pickupDetail}, ${props.pickup}`}
+            {typeof props.pickupDetail === "string"
+              ? `${props.pickupDetail}, ${props.pickup}`
+              : props.pickupDetail.main_text}
           </Text>
         </View>
         <View>
@@ -164,7 +180,9 @@ const AvailableRideItems = (props) => {
               width: "95%",
             }}
           >
-            {`${props.dropDetail}, ${props.drop}`}
+            {typeof props.dropDetail === "string"
+              ? `${props.dropDetail}, ${props.drop}`
+              : props.dropDetail.main_text}
           </Text>
         </View>
       </View>
@@ -282,23 +300,39 @@ const AvailableRideItems = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                Navigation.navigate("updateOffer", {
-                  u_id: props.id,
-                  u_carDetails: props.carDetails,
-                  u_price: props.price,
-                  u_pickup: props.pickup,
-                  u_drop: props.drop,
-                  u_pickupDetail: props.pickupDetail,
-                  u_dropDetail: props.dropDetail,
-                  u_seats: props.seats,
-                  u_date: props.date,
-                  u_time: props.time,
-                  u_comments: props.comments,
-                  u_createDate: props.createDate,
-                  u_formatedDate: props.formatedDate,
-                  u_edit: "edit",
-                  u_luggage: props.luggage,
-                })
+                typeof props.pickupDetail === "string"
+                  ? Navigation.navigate("updateOffer", {
+                      u_id: props.id,
+                      u_carDetails: props.carDetails,
+                      u_price: props.price,
+                      u_pickup: props.pickup,
+                      u_drop: props.drop,
+                      u_pickupDetail: props.pickupDetail,
+                      u_dropDetail: props.dropDetail,
+                      u_seats: props.seats,
+                      u_date: props.date,
+                      u_time: props.time,
+                      u_comments: props.comments,
+                      u_createDate: props.createDate,
+                      u_formatedDate: props.formatedDate,
+                      u_edit: "edit",
+                      u_luggage: props.luggage,
+                    })
+                  : Navigation.navigate("updateOfferCToC", {
+                      u_id: props.id,
+                      u_carDetails: props.carDetails,
+                      u_price: props.price,
+                      u_pickupDetail: props.pickupDetail,
+                      u_dropDetail: props.dropDetail,
+                      u_seats: props.seats,
+                      u_date: props.date,
+                      u_time: props.time,
+                      u_comments: props.comments,
+                      u_createDate: props.createDate,
+                      u_formatedDate: props.formatedDate,
+                      u_edit: "edit",
+                      u_luggage: props.luggage,
+                    })
               }
               style={[
                 btn,
@@ -310,7 +344,9 @@ const AvailableRideItems = (props) => {
                 },
               ]}
             >
-              <Text style={[btnText]}>Edit</Text>
+              <Text style={[btnText, { color: lightModColor.themeBackground }]}>
+                Edit
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={_delete}
